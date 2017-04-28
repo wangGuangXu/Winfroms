@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace WinForm.双缓冲实例
 {
+    /// <summary>
+    /// 此示例只是提供一个双缓冲思路的应用，不一定很严谨
+    /// </summary>
     public partial class Form1 : Form
     {
         public Form1()
@@ -17,8 +20,10 @@ namespace WinForm.双缓冲实例
             InitializeComponent();
         }
 
+        #region 正常绘图方式
         private void btnNormal_Click(object sender, EventArgs e)
         {
+            timer1.Interval = 10;
             timer1.Start();
         }
 
@@ -30,7 +35,8 @@ namespace WinForm.双缓冲实例
         private void btnCloseNormal_Click(object sender, EventArgs e)
         {
             timer1.Stop();
-        }
+        } 
+        #endregion
 
         #region 正常绘图
         /// <summary>
@@ -110,8 +116,10 @@ namespace WinForm.双缓冲实例
         }
         #endregion
 
+        #region 双缓冲绘图
         private void btnDoubleBuffering_Click(object sender, EventArgs e)
         {
+            timer2.Interval = 10;
             timer2.Start();
         }
 
@@ -123,7 +131,8 @@ namespace WinForm.双缓冲实例
         private void btnCloseDoubleBuffering_Click(object sender, EventArgs e)
         {
             timer2.Stop();
-        }
+        } 
+        #endregion
 
     }
 }
