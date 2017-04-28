@@ -91,9 +91,9 @@ namespace WinForm.双缓冲实例
                 brush = new LinearGradientBrush(new PointF(0.0f, 0.0f), new PointF(700.0f, 300.0f), Color.Blue, Color.Red);
                 flag = true;
             }
-            for (int j = 0; j < 600; j++)
+            for (int j = 0; j < 60; j++)
             {
-                for (int i = 0; i < 600; i++)
+                for (int i = 0; i < 60; i++)
                 {
                     //在这块内存画布上绘图
                     g.FillEllipse(brush, i * 10, j * 10, 10, 10);
@@ -108,7 +108,6 @@ namespace WinForm.双缓冲实例
             float per = 1000 / (sp.Milliseconds == 0 ? 1 : sp.Milliseconds);
             this.label1.Text = "速度：" + per.ToString() + "帧/秒";
         }
-
         #endregion
 
         private void btnDoubleBuffering_Click(object sender, EventArgs e)
