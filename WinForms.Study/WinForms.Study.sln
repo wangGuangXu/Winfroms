@@ -5,6 +5,13 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm.双缓冲实例", "WinForm.双缓冲实例\WinForm.双缓冲实例.csproj", "{A364D028-EF58-4B2E-A165-A69237D21D15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm.房态图", "WinForm.房态图\WinForm.房态图.csproj", "{28838DF6-358F-4149-A6D3-37E5287E60C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6EE338F-5AE5-4A7D-90C9-E8185917C497}"
+	ProjectSection(SolutionItems) = preProject
+		资料.txt = 资料.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{A364D028-EF58-4B2E-A165-A69237D21D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A364D028-EF58-4B2E-A165-A69237D21D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A364D028-EF58-4B2E-A165-A69237D21D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
