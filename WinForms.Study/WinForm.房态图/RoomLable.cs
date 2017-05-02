@@ -42,6 +42,8 @@ namespace WinForm.房态图
             //启用双缓冲绘图
             //this.SetStyle(ControlStyles.UserPaint, true);
             //this.SetStyle(ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);      //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
 
             this.formMain = formMain;
             this.Height = height;

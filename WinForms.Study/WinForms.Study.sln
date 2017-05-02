@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm.双缓冲实例", "WinForm.双缓冲实例\WinForm.双缓冲实例.csproj", "{A364D028-EF58-4B2E-A165-A69237D21D15}"
 EndProject
@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		资料.txt = 资料.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDIPlusDemo", "GDIPlusDemo\GDIPlusDemo.csproj", "{5E269AEC-67D5-4FE5-B533-5182C4E6B772}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28838DF6-358F-4149-A6D3-37E5287E60C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

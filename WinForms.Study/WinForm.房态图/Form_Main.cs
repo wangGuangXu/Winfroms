@@ -40,6 +40,9 @@ namespace WinForm.房态图
 
         private void Form_Main_Load(object sender, EventArgs e)
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
+
             //SetStyle(ControlStyles.UserPaint, true);                //自行绘制控件
             //SetStyle(ControlStyles.AllPaintingInWmPaint, true);     //禁止擦除背景
             //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);    //启用双缓冲绘图
@@ -127,9 +130,9 @@ namespace WinForm.房态图
         /// </summary>
         private void CreateRoomLable()
         {
-            RoomLables = new List<RoomLable>(50);
+            RoomLables = new List<RoomLable>(500);
             //string state = string.Empty;
-            for (int i = 1; i <= 50; i++)
+            for (int i = 1; i <= 500; i++)
             {
                 var my = new RoomLable(this, 100, 120, i.ToString("10000"));
                 //int s = GetState(ref state, i);
