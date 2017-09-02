@@ -1,0 +1,693 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6816DAB0-460F-4A1F-9A78-9438B03040D7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EasyPhoto</RootNamespace>
+    <AssemblyName>EasyPhoto</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttributeForm\BrushAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\BrushAttribute.Designer.cs">
+      <DependentUpon>BrushAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\FontAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\FontAttribute.Designer.cs">
+      <DependentUpon>FontAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\LayerMoveAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\LayerMoveAttribute.Designer.cs">
+      <DependentUpon>LayerMoveAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\MoveFont.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\MoveFont.Designer.cs">
+      <DependentUpon>MoveFont.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\MoveImage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\MoveImage.Designer.cs">
+      <DependentUpon>MoveImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\MoveLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\MoveLine.Designer.cs">
+      <DependentUpon>MoveLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\MoveRectangle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\MoveRectangle.Designer.cs">
+      <DependentUpon>MoveRectangle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\MoveRectangleSelect.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\MoveRectangleSelect.Designer.cs">
+      <DependentUpon>MoveRectangleSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\RectangleAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\RectangleAttribute.Designer.cs">
+      <DependentUpon>RectangleAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\RectangleSelectAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\RectangleSelectAttribute.Designer.cs">
+      <DependentUpon>RectangleSelectAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AttributeForm\StageMoveAttribute.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AttributeForm\StageMoveAttribute.Designer.cs">
+      <DependentUpon>StageMoveAttribute.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\AngleDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\AngleDialog.designer.cs">
+      <DependentUpon>AngleDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\ColorBalanceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\ColorBalanceDialog.designer.cs">
+      <DependentUpon>ColorBalanceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\DegreeDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\DegreeDialog.designer.cs">
+      <DependentUpon>DegreeDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\DirectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\DirectionDialog.designer.cs">
+      <DependentUpon>DirectionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\GammaCorrectDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\GammaCorrectDialog.designer.cs">
+      <DependentUpon>GammaCorrectDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\GrayDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\GrayDialog.designer.cs">
+      <DependentUpon>GrayDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\HistogramDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\HistogramDialog.designer.cs">
+      <DependentUpon>HistogramDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\HslDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\HslDialog.designer.cs">
+      <DependentUpon>HslDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\MappingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\MappingDialog.designer.cs">
+      <DependentUpon>MappingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\MotionBlurDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\MotionBlurDialog.designer.cs">
+      <DependentUpon>MotionBlurDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\OilPaintingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\OilPaintingDialog.designer.cs">
+      <DependentUpon>OilPaintingDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\PaperCutDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\PaperCutDialog.designer.cs">
+      <DependentUpon>PaperCutDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\PseudoColorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\PseudoColorDialog.designer.cs">
+      <DependentUpon>PseudoColorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorProcess\SketchDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColorProcess\SketchDialog.designer.cs">
+      <DependentUpon>SketchDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColorSpace\CMYK.cs" />
+    <Compile Include="ColorSpace\HSI.cs" />
+    <Compile Include="ColorSpace\HSL.cs" />
+    <Compile Include="ColorSpace\HSV.cs" />
+    <Compile Include="ColorSpace\YUV.cs" />
+    <Compile Include="CustomClass\Cell.cs" />
+    <Compile Include="Dialog\BuildStageDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\BuildStageDlg.Designer.cs">
+      <DependentUpon>BuildStageDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\ImportImageDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\ImportImageDlg.Designer.cs">
+      <DependentUpon>ImportImageDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\Preview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\Preview.Designer.cs">
+      <DependentUpon>Preview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\PreviewEffect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\PreviewEffect.Designer.cs">
+      <DependentUpon>PreviewEffect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\RGBSelectDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\RGBSelectDlg.Designer.cs">
+      <DependentUpon>RGBSelectDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialog\ScreenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialog\ScreenForm.Designer.cs">
+      <DependentUpon>ScreenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EPControl\AngleChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EPControl\AngleChooser.designer.cs">
+      <DependentUpon>AngleChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EPControl\Layer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EPControl\Layer.Designer.cs">
+      <DependentUpon>Layer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EPControl\Paper.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EPControl\Paper.Designer.cs">
+      <DependentUpon>Paper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EPControl\Stage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileTypeRegister.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcess\Adjustment.cs" />
+    <Compile Include="ImageProcess\Algebra.cs" />
+    <Compile Include="ImageProcess\ColorChange.cs" />
+    <Compile Include="ImageProcess\EdgeDetect.cs" />
+    <Compile Include="ImageProcess\Effect.Common.cs" />
+    <Compile Include="ImageProcess\Effect.Extend.cs" />
+    <Compile Include="ImageProcess\Filter.cs" />
+    <Compile Include="ImageProcess\Function.cs" />
+    <Compile Include="ImageProcess\GrayProcessing.cs" />
+    <Compile Include="ImageProcess\Histogram.cs" />
+    <Compile Include="ImageProcess\ImageInfo.cs" />
+    <Compile Include="ImageProcess\ImageTransform.cs" />
+    <Compile Include="ImageProcess\Logic.cs" />
+    <Compile Include="ImageProcess\Matrix3x3.cs" />
+    <Compile Include="ImageProcess\MatrixNxN.cs" />
+    <Compile Include="ImageProcess\Morphologic.Bitmap.cs" />
+    <Compile Include="ImageProcess\Morphologic.cs" />
+    <Compile Include="ImageProcess\RegionClip.cs" />
+    <Compile Include="ImageProcess\Segmentation.Bitmap.cs" />
+    <Compile Include="ImageProcess\Segmentation.cs" />
+    <Compile Include="ImageProcess\Statistics.cs" />
+    <Compile Include="ImageProcess\Watermark.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Customer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.MainMenuStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.MainToolStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.TabControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialClass.cs" />
+    <Compile Include="Type.cs" />
+    <EmbeddedResource Include="AttributeForm\BrushAttribute.resx">
+      <DependentUpon>BrushAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\FontAttribute.resx">
+      <DependentUpon>FontAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\LayerMoveAttribute.resx">
+      <DependentUpon>LayerMoveAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\MoveFont.resx">
+      <DependentUpon>MoveFont.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\MoveImage.resx">
+      <DependentUpon>MoveImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\MoveLine.resx">
+      <DependentUpon>MoveLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\MoveRectangle.resx">
+      <DependentUpon>MoveRectangle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\MoveRectangleSelect.resx">
+      <DependentUpon>MoveRectangleSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\RectangleAttribute.resx">
+      <DependentUpon>RectangleAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\RectangleSelectAttribute.resx">
+      <DependentUpon>RectangleSelectAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AttributeForm\StageMoveAttribute.resx">
+      <DependentUpon>StageMoveAttribute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\AngleDialog.resx">
+      <DependentUpon>AngleDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\ColorBalanceDialog.resx">
+      <DependentUpon>ColorBalanceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\DegreeDialog.resx">
+      <DependentUpon>DegreeDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\DirectionDialog.resx">
+      <DependentUpon>DirectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\GammaCorrectDialog.resx">
+      <DependentUpon>GammaCorrectDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\GrayDialog.resx">
+      <DependentUpon>GrayDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\HistogramDialog.resx">
+      <DependentUpon>HistogramDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\HslDialog.resx">
+      <DependentUpon>HslDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\MappingDialog.resx">
+      <DependentUpon>MappingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\MotionBlurDialog.resx">
+      <DependentUpon>MotionBlurDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\OilPaintingDialog.resx">
+      <DependentUpon>OilPaintingDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\PaperCutDialog.resx">
+      <DependentUpon>PaperCutDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\PseudoColorDialog.resx">
+      <DependentUpon>PseudoColorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColorProcess\SketchDialog.resx">
+      <DependentUpon>SketchDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\BuildStageDlg.resx">
+      <DependentUpon>BuildStageDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\ImportImageDlg.resx">
+      <DependentUpon>ImportImageDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\Preview.resx">
+      <DependentUpon>Preview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\PreviewEffect.resx">
+      <DependentUpon>PreviewEffect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\RGBSelectDlg.resx">
+      <DependentUpon>RGBSelectDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialog\ScreenForm.resx">
+      <DependentUpon>ScreenForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EPControl\AngleChooser.resx">
+      <DependentUpon>AngleChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EPControl\Layer.resx">
+      <DependentUpon>Layer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EPControl\Paper.resx">
+      <DependentUpon>Paper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Manual.doc" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddNoise.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArtString.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Blur.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bold.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Brightness.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Brush.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Channel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorBalance.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorPicker.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Contrast.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Crop.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Curves.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Diffuse.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Down.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EdgeDetect.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EllipseSelect.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Emboss.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Equalizer.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Eraser.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exist.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FindEdge.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FlipH.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FlipV.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GlowingEdge.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gou.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gray.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hand.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Help.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Histogram.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Hue.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ice.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IE.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Inosculate.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Invert.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Italic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LassoSelect.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Line.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MagicWand.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Molten.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Mosaic.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MotionBlur.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Move.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\New.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OilPainting.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PaintBucket.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PaperCut.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pencil.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Photoshop.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pinch.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Preview.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Print.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rectangle.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RectangleSelect.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedEye.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Redo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Relief.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Resize.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RotateAll.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RotateCCW.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RotateCW.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sepia.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sharpen.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sketch.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sprinkle.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Text.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Threshold.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Translation.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Transpose.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Trim.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Underline.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Undo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Up.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WaterText.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Whim.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Zoom.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\外黑圈内白.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\圆形内空21.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\正方形1.GIF" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\正方形副本1.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

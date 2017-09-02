@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm.双缓冲实例", "WinForm.双缓冲实例\WinForm.双缓冲实例.csproj", "{A364D028-EF58-4B2E-A165-A69237D21D15}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDIPlusDemo", "GDIPlusDemo\GDIPlusDemo.csproj", "{5E269AEC-67D5-4FE5-B533-5182C4E6B772}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyPhoto", "EasyPhoto\EasyPhoto.csproj", "{6816DAB0-460F-4A1F-9A78-9438B03040D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E269AEC-67D5-4FE5-B533-5182C4E6B772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6816DAB0-460F-4A1F-9A78-9438B03040D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6816DAB0-460F-4A1F-9A78-9438B03040D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6816DAB0-460F-4A1F-9A78-9438B03040D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6816DAB0-460F-4A1F-9A78-9438B03040D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
