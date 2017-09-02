@@ -35,35 +35,18 @@ namespace WinForm.房态图
         #region 构造函数
         public Form_Main()
         {
+            DoubleBuffered = true;
             InitializeComponent();
         }
 
         private void Form_Main_Load(object sender, EventArgs e)
         {
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-            UpdateStyles();
+            //SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 
-            //SetStyle(ControlStyles.UserPaint, true);                //自行绘制控件
-            //SetStyle(ControlStyles.AllPaintingInWmPaint, true);     //禁止擦除背景
-            //SetStyle(ControlStyles.OptimizedDoubleBuffer, true);    //启用双缓冲绘图
-            //SetStyle(ControlStyles.ResizeRedraw |ControlStyles.UserPaint| ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
-            //this.UpdateStyles();
-
-            //Type type = flowLayoutPanel1.GetType();
-            //PropertyInfo pi = type.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);//
-            //pi.SetValue(flowLayoutPanel1, true, null);
-
-            //临时挂起控件布局逻辑
-            this.flowLayoutPanel1.SuspendLayout();
             //移除所有控件
             this.flowLayoutPanel1.Controls.Clear();
-            //启用双缓冲绘制控件
-            DoubleBuffered = true;
             //动态创建控件
             this.BeginInvoke(new CreateDelegate(ShowRoom));
-
-            //恢复正常布局逻辑
-            this.flowLayoutPanel1.ResumeLayout();
 
             btnAll.Click += BtnAll_Click;
             btnVacantHousingUnit.Click += BtnVacantHousingUnit_Click;
@@ -120,8 +103,7 @@ namespace WinForm.房态图
                 flowLayoutPanel1.Controls.Clear();
             }
             CreateRoomLable();
-            flowLayoutPanel1.Controls.AddRange(RoomLables.ToArray());
-        } 
+        }
         #endregion
 
         #region 动态生成房源控件
@@ -130,7 +112,6 @@ namespace WinForm.房态图
         /// </summary>
         private void CreateRoomLable()
         {
-            RoomLables = new List<RoomLable>(500);
             //string state = string.Empty;
             for (int i = 1; i <= 500; i++)
             {
@@ -138,7 +119,8 @@ namespace WinForm.房态图
                 //int s = GetState(ref state, i);
                 //my.SetRoomInfo(brushstr[s], state, "20.00");
 
-                RoomLables.Add(my);
+                flowLayoutPanel1.Controls.Add(my);
+                //Application.DoEvents();
             }
         } 
         #endregion

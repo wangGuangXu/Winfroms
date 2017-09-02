@@ -108,7 +108,7 @@ namespace WinForm.双缓冲实例
         {
             DateTime t1 = DateTime.Now;
 
-            Bitmap bmp = new Bitmap(6000, 6000);    //在内存中建立一块画布
+            Bitmap bmp = new Bitmap(this.Width, this.Height);    //在内存中建立一块画布
             Graphics g = Graphics.FromImage(bmp);   //获取这块内存画布的Graphics引用：
             Brush brush = null;
 
@@ -152,7 +152,7 @@ namespace WinForm.双缓冲实例
             DateTime t1 = DateTime.Now;
 
             //在内存中建立一块画布,使用using 语法及时释放资源，避免画图对象没有及时回收导致内存飙升
-            using (Bitmap bmp = new Bitmap(6000, 6000))
+            using (Bitmap bmp = new Bitmap(this.Width, this.Height))
             {
                 //获取这块内存画布的Graphics引用,对画布也要及时回收资源，
                 using (Graphics g = Graphics.FromImage(bmp))
@@ -170,9 +170,9 @@ namespace WinForm.双缓冲实例
                         brush = new LinearGradientBrush(new PointF(0.0f, 0.0f), new PointF(700.0f, 300.0f), Color.Blue, Color.Red);
                         flag = true;
                     }
-                    for (int j = 0; j < 600; j++)
+                    for (int j = 0; j < 60; j++)
                     {
-                        for (int i = 0; i < 600; i++)
+                        for (int i = 0; i < 60; i++)
                         {
                             //在这块内存画布上绘图
                             g.FillEllipse(brush, i * 10, j * 10, 10, 10);
