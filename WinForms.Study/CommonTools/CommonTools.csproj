@@ -128,9 +128,11 @@
     <None Include="ColorPickerCtrl\ColorPickerTest.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ColorPickerCtrl\Resources\colorbarIndicators.bmp" />
-    <Content Include="ColorPickerCtrl\Resources\eyedropper.bmp" />
-    <Content Include="ColorPickerCtrl\Resources\popupcontainerbuttons.bmp" />
+    <EmbeddedResource Include="ColorPickerCtrl\Resources\eyedropper.bmp" />
+    <EmbeddedResource Include="ColorPickerCtrl\Resources\popupcontainerbuttons.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ColorPickerCtrl\Resources\colorbarIndicators.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
