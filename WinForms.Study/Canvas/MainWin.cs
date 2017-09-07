@@ -187,7 +187,9 @@ namespace Canvas
 		{
 			DocumentForm doc = this.ActiveMdiChild as DocumentForm;
 			if (doc != null)
-				doc.SaveAs();
+            {
+                doc.SaveAs();
+            }
 		}
 		private void OnFileExit(object sender, EventArgs e)
 		{
@@ -195,7 +197,6 @@ namespace Canvas
 		}
 		private void OnUpdateMenuUI(object sender, EventArgs e)
 		{
-
 
 		}
 
@@ -205,38 +206,49 @@ namespace Canvas
 			dlg.ShowDialog(this);
 		}
 
-		private void OnOptions(object sender, EventArgs e)
-		{
-			DocumentForm doc = this.ActiveMdiChild as DocumentForm;
-			if (doc == null)
-				return;
+        #region 绑定选项
+        /// <summary>
+        /// 绑定选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOptions(object sender, EventArgs e)
+        {
+            DocumentForm doc = this.ActiveMdiChild as DocumentForm;
+            if (doc == null) return;
 
-			Options.OptionsDlg dlg = new Canvas.Options.OptionsDlg();
-			dlg.Config.Grid.CopyFromLayer(doc.Model.GridLayer as GridLayer);
-			dlg.Config.Background.CopyFromLayer(doc.Model.BackgroundLayer as BackgroundLayer);
-			foreach (DrawingLayer layer in doc.Model.Layers)
-				dlg.Config.Layers.Add(new Options.OptionsLayer(layer));
-			
-			ToolStripItem item = sender as ToolStripItem;
-			dlg.SelectPage(item.Tag);
+            Options.OptionsDlg dlg = new Canvas.Options.OptionsDlg();
+            dlg.Config.Grid.CopyFromLayer(doc.Model.GridLayer as GridLayer);
+            dlg.Config.Background.CopyFromLayer(doc.Model.BackgroundLayer as BackgroundLayer);
 
-			if (dlg.ShowDialog(this) == DialogResult.OK)
-			{
-				dlg.Config.Grid.CopyToLayer((GridLayer)doc.Model.GridLayer);
-				dlg.Config.Background.CopyToLayer((BackgroundLayer)doc.Model.BackgroundLayer);
-				foreach (Options.OptionsLayer optionslayer in dlg.Config.Layers)
-				{
-					DrawingLayer layer = (DrawingLayer)doc.Model.GetLayer(optionslayer.Layer.Id);
-					if (layer != null)
-						optionslayer.CopyToLayer(layer);
-					else
-					{
-						// delete layer
-					}
-				}
+            foreach (DrawingLayer layer in doc.Model.Layers)
+            {
+                dlg.Config.Layers.Add(new Options.OptionsLayer(layer));
+            }
 
-				doc.Canvas.DoInvalidate(true);
-			}
-		}
-	}
+            ToolStripItem item = sender as ToolStripItem;
+            dlg.SelectPage(item.Tag);
+
+            if (dlg.ShowDialog(this) != DialogResult.OK) return;
+
+            dlg.Config.Grid.CopyToLayer((GridLayer)doc.Model.GridLayer);
+            dlg.Config.Background.CopyToLayer((BackgroundLayer)doc.Model.BackgroundLayer);
+
+            foreach (Options.OptionsLayer optionslayer in dlg.Config.Layers)
+            {
+                DrawingLayer layer = (DrawingLayer)doc.Model.GetLayer(optionslayer.Layer.Id);
+                if (layer != null)
+                {
+                    optionslayer.CopyToLayer(layer);
+                }
+                else
+                {
+                    // delete layer
+                }
+            }
+
+            doc.Canvas.DoInvalidate(true);
+        } 
+        #endregion
+    }
 }

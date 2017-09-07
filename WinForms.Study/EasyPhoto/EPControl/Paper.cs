@@ -9,6 +9,9 @@ using System.Windows.Forms;
 
 namespace EasyPhoto.EPControl
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public partial class Paper : UserControl
     {

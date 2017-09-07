@@ -10,6 +10,9 @@ using System.Reflection;
 
 namespace Canvas
 {
+    /// <summary>
+    /// 数据模型
+    /// </summary>
 	public class DataModel : IModel
 	{
 		static Dictionary<string, Type> m_toolTypes = new Dictionary<string,Type>();

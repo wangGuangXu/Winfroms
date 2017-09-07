@@ -30,62 +30,80 @@ namespace Canvas
 		void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2);
 		void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float beginangle, float angle);
 	}
-	public interface IModel
-	{
-		float Zoom { get; set; }
-		ICanvasLayer BackgroundLayer { get; }
-		ICanvasLayer GridLayer { get; }
-		ICanvasLayer[] Layers { get; }
-		ICanvasLayer ActiveLayer { get; set; }
-		ICanvasLayer GetLayer(string id);
-		IDrawObject CreateObject(string type, UnitPoint point, ISnapPoint snappoint);
-		void AddObject(ICanvasLayer layer, IDrawObject drawobject);
-		void DeleteObjects(IEnumerable<IDrawObject> objects);
-		void MoveObjects(UnitPoint offset, IEnumerable<IDrawObject> objects);
-		void CopyObjects(UnitPoint offset, IEnumerable<IDrawObject> objects);
-		void MoveNodes(UnitPoint position, IEnumerable<INodePoint> nodes);
 
-		IEditTool GetEditTool(string id);
-		void AfterEditObjects(IEditTool edittool);
+    #region 模型接口
+    /// <summary>
+    /// 模型接口
+    /// </summary>
+    public interface IModel
+    {
+        float Zoom { get; set; }
+        ICanvasLayer BackgroundLayer { get; }
+        ICanvasLayer GridLayer { get; }
+        ICanvasLayer[] Layers { get; }
+        ICanvasLayer ActiveLayer { get; set; }
+        ICanvasLayer GetLayer(string id);
+        IDrawObject CreateObject(string type, UnitPoint point, ISnapPoint snappoint);
+        void AddObject(ICanvasLayer layer, IDrawObject drawobject);
+        void DeleteObjects(IEnumerable<IDrawObject> objects);
+        void MoveObjects(UnitPoint offset, IEnumerable<IDrawObject> objects);
+        void CopyObjects(UnitPoint offset, IEnumerable<IDrawObject> objects);
+        void MoveNodes(UnitPoint position, IEnumerable<INodePoint> nodes);
 
-		List<IDrawObject> GetHitObjects(ICanvas canvas, RectangleF selection, bool anyPoint);
-		List<IDrawObject> GetHitObjects(ICanvas canvas, UnitPoint point);
-		bool IsSelected(IDrawObject drawobject);
-		void AddSelectedObject(IDrawObject drawobject);
-		void RemoveSelectedObject(IDrawObject drawobject);
-		IEnumerable<IDrawObject> SelectedObjects { get; }
-		int SelectedCount { get; }
-		void ClearSelectedObjects();
+        IEditTool GetEditTool(string id);
+        void AfterEditObjects(IEditTool edittool);
 
-		ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, Type[] runningsnaptypes, Type usersnaptype);
+        List<IDrawObject> GetHitObjects(ICanvas canvas, RectangleF selection, bool anyPoint);
+        List<IDrawObject> GetHitObjects(ICanvas canvas, UnitPoint point);
+        bool IsSelected(IDrawObject drawobject);
+        void AddSelectedObject(IDrawObject drawobject);
+        void RemoveSelectedObject(IDrawObject drawobject);
+        IEnumerable<IDrawObject> SelectedObjects { get; }
+        int SelectedCount { get; }
+        void ClearSelectedObjects();
 
-		bool CanUndo();
-		bool DoUndo();
-		bool CanRedo();
-		bool DoRedo();
-	}
-	public interface ICanvasLayer
-	{
-		string Id { get; }
-		void Draw(ICanvas canvas, RectangleF unitrect);
-		ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj);
-		IEnumerable<IDrawObject> Objects { get; }
-		bool Enabled { get; set; }
-		bool Visible { get; }
-	}
-	public interface ISnapPoint
+        ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, Type[] runningsnaptypes, Type usersnaptype);
+
+        bool CanUndo();
+        bool DoUndo();
+        bool CanRedo();
+        bool DoRedo();
+    }
+    #endregion
+
+    #region 图层接口
+    /// <summary>
+    /// 图层接口
+    /// </summary>
+    public interface ICanvasLayer
+    {
+        string Id { get; }
+        void Draw(ICanvas canvas, RectangleF unitrect);
+        ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj);
+        IEnumerable<IDrawObject> Objects { get; }
+        bool Enabled { get; set; }
+        bool Visible { get; }
+    } 
+    #endregion
+
+    /// <summary>
+    /// 捕捉点接口
+    /// </summary>
+    public interface ISnapPoint
 	{
 		IDrawObject	Owner			{ get; }
 		UnitPoint	SnapPoint		{ get; }
 		RectangleF	BoundingRect	{ get; }
 		void Draw(ICanvas canvas);
 	}
+
 	public enum eDrawObjectMouseDown
 	{
 		Done,		// this draw object is complete
 		DoneRepeat,	// this object is complete, but create new object of same type
 		Continue,	// this object requires additional mouse inputs
 	}
+
 	public interface INodePoint
 	{
 		IDrawObject GetClone();
@@ -97,6 +115,8 @@ namespace Canvas
 		void Redo();
 		void OnKeyDown(ICanvas canvas, KeyEventArgs e);
 	}
+
+
 	public interface IDrawObject
 	{
 		string Id { get; }
@@ -116,7 +136,11 @@ namespace Canvas
 
 		string GetInfoAsString();
 	}
-	public interface IEditTool
+
+    /// <summary>
+    /// 工具编辑接口
+    /// </summary>
+    public interface IEditTool
 	{
 		IEditTool Clone();
 
@@ -131,6 +155,10 @@ namespace Canvas
 		void Undo();
 		void Redo();
 	}
+
+    /// <summary>
+    /// 
+    /// </summary>
 	public interface IEditToolOwner
 	{
 		void SetHint(string text);
