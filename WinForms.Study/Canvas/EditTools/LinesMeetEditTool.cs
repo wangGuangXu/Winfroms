@@ -5,6 +5,9 @@ using System.Windows.Forms;
 
 namespace Canvas.EditTools
 {
+    /// <summary>
+    /// 
+    /// </summary>
 	class LinePoints
 	{
 		DrawTools.Line	m_line;

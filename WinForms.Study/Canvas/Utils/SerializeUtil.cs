@@ -46,34 +46,40 @@ namespace Canvas
 				return;
 
 			PropertyInfo info = CommonTools.PropertyUtil.GetProperty(dataobject, fieldname);
-			if (info == null || info.CanWrite == false)
-				return;
+            if (info == null || info.CanWrite == false) return;
+
 			try
 			{
 				object value = PropertyUtil.ChangeType(svalue, info.PropertyType);
 				if (value != null)
-					info.SetValue(dataobject, value, null);
+                {
+                    info.SetValue(dataobject, value, null);
+                }
 			}
 			catch {};
 		}
 		public static void ParseProperties(XmlElement itemnode, object dataobject)
 		{
 			foreach (XmlElement propertynode in itemnode.ChildNodes)
-				XmlUtil.ParseProperty(propertynode, dataobject);
+            {
+                XmlUtil.ParseProperty(propertynode, dataobject);
+            }
 		}
+
 		public static void WriteProperties(object dataobject, XmlWriter wr)
 		{
 			foreach (PropertyInfo propertyInfo in dataobject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
 				XmlSerializable attr = (XmlSerializable)Attribute.GetCustomAttribute(propertyInfo, typeof(XmlSerializable));
-				if (attr != null)
-				{
-					string name	= propertyInfo.Name;
-					object value = propertyInfo.GetValue(dataobject, null);
-					if (value != null)
-						AddProperty(name, value, wr);
-				}
-			}
+                if (attr == null) continue;
+
+                string name = propertyInfo.Name;
+                object value = propertyInfo.GetValue(dataobject, null);
+                if (value != null)
+                {
+                    AddProperty(name, value, wr);
+                }
+            }
 		}
 	}
 

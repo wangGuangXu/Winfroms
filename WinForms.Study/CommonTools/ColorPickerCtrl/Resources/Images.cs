@@ -36,7 +36,9 @@ namespace CommonTools
 		{
 			Type t = typeof(SelectorImages);
 			if (m_imageList == null)
-				m_imageList = ImagesUtil.GetToolbarImageList(t, "ColorPickerCtrl.Resources.colorbarIndicators.bmp", new Size(12, 12), Color.Magenta);
+            {
+                m_imageList = ImagesUtil.GetToolbarImageList(t, "ColorPickerCtrl.Resources.colorbarIndicators.bmp", new Size(12, 12), Color.Magenta);
+            }
 			return m_imageList;
 		}
 		static public Image Image(eIndexes index)
