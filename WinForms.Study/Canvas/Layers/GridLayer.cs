@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace Canvas
 {
+    /// <summary>
+    /// Íø¸ñ²ã
+    /// </summary>
 	public class GridLayer : ICanvasLayer, ISerialize
 	{
 		public enum eStyle
@@ -53,6 +56,7 @@ namespace Canvas
 			m_gridStyle = acopy.m_gridStyle;
 			m_color = acopy.m_color;
 		}
+
 		#region ICanvasLayer Members
 		public void Draw(ICanvas canvas, RectangleF unitrect)
 		{
@@ -150,6 +154,7 @@ namespace Canvas
 			get { return true; }
 		}
 		#endregion
+
 		#region ISerialize
 		public void GetObjectData(XmlWriter wr)
 		{

@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace CommonTools
 {
+    /// <summary>
+    /// в╥вы
+    /// </summary>
 	public class Tracing
 	{
 		static Tracing m_instance = new Tracing();
