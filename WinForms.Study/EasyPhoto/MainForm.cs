@@ -41,9 +41,6 @@ namespace EasyPhoto
         public bool IsCopyLayer = false;
         //是否复制元件
         public bool IsCopyCell = false;
-        
-        
-        
 
         #region 工具栏所要使用的成员
         /// <summary>
@@ -183,8 +180,6 @@ namespace EasyPhoto
 
 
         #endregion
-
-
 
         public MainForm()
         {
@@ -455,19 +450,18 @@ namespace EasyPhoto
 
             for (int i = 0; i < this.LayerArrayList.Count; i++)
             {
-                if (e.Node.Name == ((EPControl.Layer)this.LayerArrayList[i]).PaperName)
-                {
-                    EPControl.Layer temp;
-                    temp = (EPControl.Layer)this.LayerArrayList[i];
-                    System.Windows.Forms.TabPage newtabpage = new System.Windows.Forms.TabPage();
-                    newtabpage.Text = temp.PaperName;
-                    newtabpage.Name = temp.PaperName;
-                    this.mainTabControl.Controls.Add(newtabpage);
-                    newtabpage.Controls.Add(temp);
-                    this.currentPaper = temp;
-                    this.mainTabControl.SelectedTab = newtabpage;
-                    break;
-                }
+                if (e.Node.Name != ((EPControl.Layer)this.LayerArrayList[i]).PaperName) continue;
+
+                EPControl.Layer temp;
+                temp = (EPControl.Layer)this.LayerArrayList[i];
+                System.Windows.Forms.TabPage newtabpage = new System.Windows.Forms.TabPage();
+                newtabpage.Text = temp.PaperName;
+                newtabpage.Name = temp.PaperName;
+                this.mainTabControl.Controls.Add(newtabpage);
+                newtabpage.Controls.Add(temp);
+                this.currentPaper = temp;
+                this.mainTabControl.SelectedTab = newtabpage;
+                break;
             }
         }
 
@@ -479,8 +473,6 @@ namespace EasyPhoto
                 this.currentPaper.Invalidate();
             }
         }
-
-        
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -529,7 +521,6 @@ namespace EasyPhoto
 
         private void 帮助ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             try
             {
                 System.Diagnostics.Process.Start(Application.StartupPath + @"\Manual.doc");
@@ -538,7 +529,6 @@ namespace EasyPhoto
             {
                 MessageBox.Show("打开用户手册失败，请检查以下原因：\n1、是否安装Microsoft Office Word，帮助文档需要此打开。\n2、请确保同目录下的Manual文件是否存在或损坏。", "加载失败");
             }
-            
         }
     }
 }

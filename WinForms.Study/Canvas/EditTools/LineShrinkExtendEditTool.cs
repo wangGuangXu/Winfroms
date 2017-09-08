@@ -13,20 +13,27 @@ namespace Canvas.EditTools
 			m_owner = owner;
 			SetHint("Select line to extend");
 		}
+
 		void SetHint(string text)
 		{
-			if (m_owner != null)
-				if (text.Length > 0)
-					m_owner.SetHint("Extend Lines: " + text);
-				else
-					m_owner.SetHint("");
+            if (m_owner == null) return;
+
+			if (text.Length > 0){
+                m_owner.SetHint("Extend Lines: " + text);
+            }
+			else
+            {
+                m_owner.SetHint("");
+            }
 		}
+
 		public IEditTool Clone()
 		{
 			LineShrinkExtendEditTool t = new LineShrinkExtendEditTool(m_owner);
 			// nothing that needs to be cloned
 			return t;
 		}
+
 		Dictionary<DrawTools.Line, LinePoints> m_originalLines = new Dictionary<DrawTools.Line, LinePoints>();
 		Dictionary<DrawTools.Line, LinePoints> m_modifiedLines = new Dictionary<DrawTools.Line, LinePoints>();
 
@@ -45,6 +52,7 @@ namespace Canvas.EditTools
 				p.Line.Highlighted = false;
 			m_originalLines.Clear();
 		}
+
 		void AddLine(UnitPoint point, DrawTools.Line line)
 		{
 			if (m_originalLines.ContainsKey(line) == false)
@@ -56,6 +64,7 @@ namespace Canvas.EditTools
 				m_originalLines.Add(line, lp);
 			}
 		}
+
 		void RemoveLine(DrawTools.Line line)
 		{
 			if (m_originalLines.ContainsKey(line))
@@ -64,6 +73,7 @@ namespace Canvas.EditTools
 				m_originalLines.Remove(line);
 			}
 		}
+
 		public void SetHitObjects(UnitPoint point, List<IDrawObject> list)
 		{
 			// called when obj are selected from selection rectangle
@@ -100,13 +110,18 @@ namespace Canvas.EditTools
 			}
 			SetSelectHint();
 		}
+
 		void SetSelectHint()
 		{
-			if (m_originalLines.Count == 0)
-				SetHint("Select line to extend");
+			if (m_originalLines.Count == 0){
+                SetHint("Select line to extend");
+            }
 			else
-				SetHint("Select Line to extend line(s) to, or [Ctrl+click] to extend more lines");
+            {
+                SetHint("Select Line to extend line(s) to, or [Ctrl+click] to extend more lines");
+            }
 		}
+
 		List<DrawTools.Line> GetLines(List<IDrawObject> objs)
 		{
 			List<DrawTools.Line> lines = new List<Canvas.DrawTools.Line>();
@@ -117,6 +132,14 @@ namespace Canvas.EditTools
 			}
 			return lines;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
+        /// <returns></returns>
 		public eDrawObjectMouseDown OnMouseDown(ICanvas canvas, UnitPoint point, ISnapPoint snappoint)
 		{
 			List<IDrawObject> drawitems = canvas.DataModel.GetHitObjects(canvas, point);
@@ -130,6 +153,7 @@ namespace Canvas.EditTools
 				SetSelectHint();
 				return eDrawObjectMouseDown.Continue;
 			}
+
 			if (m_originalLines.Count == 0 || Control.ModifierKeys == Keys.Control)
 			{
 				foreach (DrawTools.Line line in lines)
@@ -143,8 +167,7 @@ namespace Canvas.EditTools
 				return eDrawObjectMouseDown.Continue;
 			}
 
-			if (drawitems.Count == 0)
-				return eDrawObjectMouseDown.Continue;
+            if (drawitems.Count == 0) return eDrawObjectMouseDown.Continue;
 
 			// all lines have been added, now find edge to where to extend
 			if (drawitems[0] is DrawTools.Line)
@@ -191,6 +214,7 @@ namespace Canvas.EditTools
 					canvas.DataModel.AfterEditObjects(this);
 				return eDrawObjectMouseDown.Done;
 			}
+
 			if (drawitems[0] is DrawTools.Arc)
 			{
 				DrawTools.Arc edge = (DrawTools.Arc)drawitems[0];
@@ -201,27 +225,50 @@ namespace Canvas.EditTools
 			}
 			return eDrawObjectMouseDown.Done;
 		}
+
 		public void OnMouseUp(ICanvas canvas, UnitPoint point, ISnapPoint snappoint)
 		{
+
 		}
+
 		public void OnKeyDown(ICanvas canvas, KeyEventArgs e)
 		{
+
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public void Finished()
 		{
 			SetHint("");
-			foreach (LinePoints originalLp in m_originalLines.Values)
-				originalLp.Line.Highlighted = false;
+            foreach (LinePoints originalLp in m_originalLines.Values)
+            {
+                originalLp.Line.Highlighted = false;
+            }
 		}
+
+        /// <summary>
+        /// ³·Ïú
+        /// </summary>
 		public void Undo()
 		{
-			foreach (LinePoints lp in m_originalLines.Values)
-				lp.ResetLine();
+            foreach (LinePoints lp in m_originalLines.Values)
+            {
+                lp.ResetLine();
+            }
 		}
+
+        /// <summary>
+        /// ÖØ×ö
+        /// </summary>
 		public void Redo()
 		{
-			foreach (LinePoints lp in m_modifiedLines.Values)
-				lp.ResetLine();
+            foreach (LinePoints lp in m_modifiedLines.Values)
+            {
+                lp.ResetLine();
+            }
 		}
+
 	}
 }
