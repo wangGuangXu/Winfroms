@@ -5,6 +5,9 @@ using System.Drawing;
 
 namespace Canvas
 {
+    /// <summary>
+    /// ±‡º≠√¸¡Óª˘¿‡
+    /// </summary>
 	class EditCommandBase
 	{
 		public virtual bool DoUndo(IModel data)
@@ -16,6 +19,10 @@ namespace Canvas
 			return false;
 		}
 	}
+
+    /// <summary>
+    /// ÃÌº”√¸¡Ó
+    /// </summary>
 	class EditCommandAdd : EditCommandBase
 	{
 		List<IDrawObject> m_objects = null;
@@ -51,7 +58,11 @@ namespace Canvas
 			return true;
 		}
 	}
-	class EditCommandRemove : EditCommandBase
+	
+    /// <summary>
+    /// “∆≥˝√¸¡Ó
+    /// </summary>
+    class EditCommandRemove : EditCommandBase
 	{
 		Dictionary<ICanvasLayer, List<IDrawObject>> m_objects = new Dictionary<ICanvasLayer, List<IDrawObject>>();
 		public EditCommandRemove()
@@ -77,7 +88,11 @@ namespace Canvas
 			return true;
 		}
 	}
-	class EditCommandMove : EditCommandBase
+	
+    /// <summary>
+    /// “∆∂Ø√¸¡Ó
+    /// </summary>
+    class EditCommandMove : EditCommandBase
 	{
 		List<IDrawObject> m_objects = new List<IDrawObject>();
 		UnitPoint m_offset;
@@ -102,7 +117,11 @@ namespace Canvas
 			return true;
 		}
 	}
-	class EditCommandNodeMove : EditCommandBase
+	
+    /// <summary>
+    /// Ω⁄µ„“∆≥˝√¸¡Ó
+    /// </summary>
+    class EditCommandNodeMove : EditCommandBase
 	{
 		List<INodePoint> m_objects = new List<INodePoint>();
 		public EditCommandNodeMove(IEnumerable<INodePoint> objects)
@@ -122,7 +141,11 @@ namespace Canvas
 			return true;
 		}
 	}
-	class EditCommandEditTool : EditCommandBase
+	
+    /// <summary>
+    /// ±‡º≠π§æﬂÃı
+    /// </summary>
+    class EditCommandEditTool : EditCommandBase
 	{
 		IEditTool m_tool;
 		public EditCommandEditTool(IEditTool tool)
@@ -140,7 +163,11 @@ namespace Canvas
 			return true;
 		}
 	}
-	class UndoRedoBuffer
+	
+    /// <summary>
+    /// 
+    /// </summary>
+    class UndoRedoBuffer
 	{
 		List<EditCommandBase> m_undoBuffer = new List<EditCommandBase>();
 		List<EditCommandBase> m_redoBuffer = new List<EditCommandBase>();
@@ -207,4 +234,5 @@ namespace Canvas
 			return result;
 		}
 	}
+
 }
