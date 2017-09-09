@@ -199,7 +199,7 @@
             this.帮助ToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(1065, 25);
+            this.mainMenuStrip.Size = new System.Drawing.Size(869, 25);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "mainMenuStrip";
             // 
@@ -1068,9 +1068,9 @@
             // 
             // mainStatusStrip
             // 
-            this.mainStatusStrip.Location = new System.Drawing.Point(0, 415);
+            this.mainStatusStrip.Location = new System.Drawing.Point(0, 389);
             this.mainStatusStrip.Name = "mainStatusStrip";
-            this.mainStatusStrip.Size = new System.Drawing.Size(1065, 22);
+            this.mainStatusStrip.Size = new System.Drawing.Size(869, 22);
             this.mainStatusStrip.TabIndex = 1;
             this.mainStatusStrip.Text = "mainStatusStrip";
             // 
@@ -1098,7 +1098,7 @@
             this.magnifierToolStrip});
             this.mainToolStrip.Location = new System.Drawing.Point(0, 25);
             this.mainToolStrip.Name = "mainToolStrip";
-            this.mainToolStrip.Size = new System.Drawing.Size(24, 390);
+            this.mainToolStrip.Size = new System.Drawing.Size(24, 364);
             this.mainToolStrip.Stretch = true;
             this.mainToolStrip.TabIndex = 3;
             this.mainToolStrip.Text = "工具箱";
@@ -1272,7 +1272,7 @@
             this.infoTabControl.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.infoTabControl.Controls.Add(this.layerInfoTab);
             this.infoTabControl.ItemSize = new System.Drawing.Size(240, 20);
-            this.infoTabControl.Location = new System.Drawing.Point(824, 74);
+            this.infoTabControl.Location = new System.Drawing.Point(628, 61);
             this.infoTabControl.Name = "infoTabControl";
             this.infoTabControl.SelectedIndex = 0;
             this.infoTabControl.Size = new System.Drawing.Size(241, 233);
@@ -1362,7 +1362,7 @@
             this.imageTabControl.Controls.Add(this.AbbreviateInfoTab);
             this.imageTabControl.Controls.Add(this.diagramInfoTab);
             this.imageTabControl.ItemSize = new System.Drawing.Size(119, 20);
-            this.imageTabControl.Location = new System.Drawing.Point(824, 24);
+            this.imageTabControl.Location = new System.Drawing.Point(628, 24);
             this.imageTabControl.Name = "imageTabControl";
             this.imageTabControl.SelectedIndex = 0;
             this.imageTabControl.Size = new System.Drawing.Size(241, 190);
@@ -1466,7 +1466,7 @@
             this.attributeTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.attributeTabControl.Controls.Add(this.attributeInfoTab);
             this.attributeTabControl.ItemSize = new System.Drawing.Size(240, 20);
-            this.attributeTabControl.Location = new System.Drawing.Point(824, 171);
+            this.attributeTabControl.Location = new System.Drawing.Point(628, 145);
             this.attributeTabControl.Name = "attributeTabControl";
             this.attributeTabControl.SelectedIndex = 0;
             this.attributeTabControl.Size = new System.Drawing.Size(241, 258);
@@ -1510,7 +1510,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.ClientSize = new System.Drawing.Size(1065, 437);
+            this.ClientSize = new System.Drawing.Size(869, 411);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.attributeTabControl);
             this.Controls.Add(this.imageTabControl);
