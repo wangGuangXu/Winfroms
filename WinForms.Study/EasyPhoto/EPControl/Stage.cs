@@ -122,5 +122,27 @@ namespace EasyPhoto.EPControl
             this.OnPaint(null);
             this.Parent.Refresh();
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 213);
+            this.hScrollBar1.Size = new System.Drawing.Size(509, 17);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(492, 0);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 213);
+            // 
+            // Stage
+            // 
+            this.Name = "Stage";
+            this.Size = new System.Drawing.Size(509, 230);
+            this.ResumeLayout(false);
+
+        }
     }
 }

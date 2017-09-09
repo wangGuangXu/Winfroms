@@ -122,7 +122,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(101, 21);
             this.numericUpDown1.TabIndex = 6;
             this.numericUpDown1.Value = new decimal(new int[] {
-            800,
+            1000,
             0,
             0,
             0});

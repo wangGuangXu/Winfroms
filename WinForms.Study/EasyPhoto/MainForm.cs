@@ -218,6 +218,23 @@ namespace EasyPhoto
             timer.Interval = 400;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
+
+            ResizeContainer();
+            this.Resize += MainForm_Resize;
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            ResizeContainer();
+        }
+
+        private void ResizeContainer()
+        {
+            mainTabControl.Left = 24;
+            mainTabControl.Top = 24;
+
+            mainTabControl.Width = this.Width - mainTabControl.Left - imageTabControl.Width - 20;
+            mainTabControl.Height = this.Height - mainTabControl.Top - mainTabControl.Bottom;
         }
 
         #region 定时任务
