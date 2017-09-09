@@ -11,8 +11,6 @@ namespace EasyPhoto
 {
     public partial class MainForm : Form
     {
-        
-
         #region 工具按钮的响应函数
 
         private void MoveToolStrip_Click(object sender, EventArgs e)
@@ -534,6 +532,7 @@ namespace EasyPhoto
                 else
                 {
                     this.TempPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                    this.TempPen.Color = Color.Red;
                     this.LinesToolStrip.CheckStateChanged += new EventHandler(LinesToolStrip_CheckStateChanged);
                     this.tempArrayList.Clear();
                     this.finalArrayList.Clear();
@@ -1042,6 +1041,7 @@ namespace EasyPhoto
         }
         #endregion
 
+        #region 将选择的工具进行初始化
         /// <summary>
         /// 将选择的工具进行初始化
         /// </summary>
@@ -1910,9 +1910,8 @@ namespace EasyPhoto
                         break;
                 }
             }
-        }
-
-        
+        } 
+        #endregion
 
 
     }

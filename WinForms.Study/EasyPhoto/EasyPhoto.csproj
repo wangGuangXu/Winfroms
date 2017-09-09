@@ -258,12 +258,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FileTypeRegister.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="ImageProcess\Adjustment.cs" />
     <Compile Include="ImageProcess\Algebra.cs" />
     <Compile Include="ImageProcess\ColorChange.cs" />

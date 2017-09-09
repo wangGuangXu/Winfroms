@@ -14,8 +14,13 @@ namespace EasyPhoto
         public static string DefaultPath="";
         //程序运行的目录
         public static string ApplicationDirectory = System.Windows.Forms.Application.StartupPath;
-        //当前屏幕分别率
+        /// <summary>
+        /// 当前屏幕分别率宽度
+        /// </summary>
         public int ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
+        /// <summary>
+        /// 当前屏幕分别率高度
+        /// </summary>
         public int ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
         //当前绘画空间大小
         public int DrawClientWidth;
@@ -29,9 +34,13 @@ namespace EasyPhoto
         public int defaultTabPageNum;
         //新建图层的默认名                
         public string defaultTabPageName;
-        //记录当前所在位置
+        /// <summary>
+        /// 记录当前所在位置
+        /// </summary>
         public EPControl.Paper currentPaper;
-        //当前放大系数
+        /// <summary>
+        /// 当前放大系数
+        /// </summary>
         public int Zoom;
         //临时图层
         public EasyPhoto.EPControl.Layer TempLayer;
@@ -128,25 +137,41 @@ namespace EasyPhoto
         }
 
 
-        //当前工具选择
+        /// <summary>
+        /// 当前工具选择
+        /// </summary>
         public ToolSelected toolSelected;
-        //记录鼠标按下的坐标点
+        /// <summary>
+        /// 记录鼠标按下的坐标点
+        /// </summary>
         public Point currentMouseDownPosition;
-        //当前画纸上的Graphics实例
+        /// <summary>
+        /// 当前画纸上的Graphics实例
+        /// </summary>
         public Graphics currentgraphics;
-        //鼠标是否按下
+        /// <summary>
+        /// 鼠标是否按下
+        /// </summary>
         public bool IsMouseDown = false;
-        //鼠标是否单击过
+        /// <summary>
+        /// 鼠标是否单击过
+        /// </summary>
         public bool IsMouseClick = false;
         //当前的画刷
         public Brush CurrentBrush;
         //画刷原型的大小半径
         public int BrushRadius;
-        //初当前的铅笔
+        /// <summary>
+        /// 初当前的铅笔
+        /// </summary>
         public Pen CurrentPen ;
-        //临时铅笔
+        /// <summary>
+        /// 临时铅笔
+        /// </summary>
         public Pen TempPen;
-        //当前的矩形
+        /// <summary>
+        /// 当前的矩形
+        /// </summary>
         public Rectangle CurrentRectangle;
         //文字工具的输入框
         public TextBox tempTextBox;
@@ -154,9 +179,13 @@ namespace EasyPhoto
         public Font CurrentFont;
         //保存临时数值
         public int temprecord;
-        //保存临时对象的数组
+        /// <summary>
+        /// 保存临时对象的数组
+        /// </summary>
         public System.Collections.ArrayList tempArrayList = new System.Collections.ArrayList();
-        //保存最终结果的数组
+        /// <summary>
+        /// 保存最终结果的数组
+        /// </summary>
         public System.Collections.ArrayList finalArrayList = new System.Collections.ArrayList();
         //保存图层
         public System.Collections.ArrayList LayerArrayList = new System.Collections.ArrayList();

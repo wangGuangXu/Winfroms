@@ -22,6 +22,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Canvas", "Canvas\Canvas.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "CommonTools\CommonTools.csproj", "{C0FF92D2-61F1-4934-89FF-2DE364E0974E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "平面图", "平面图", "{C566A62A-2EF7-4E7C-9232-1090E986E71F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plan", "Plan\Plan.csproj", "{CD986873-7C0C-481A-B2A4-16DC81DC664B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,10 @@ Global
 		{C0FF92D2-61F1-4934-89FF-2DE364E0974E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0FF92D2-61F1-4934-89FF-2DE364E0974E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0FF92D2-61F1-4934-89FF-2DE364E0974E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD986873-7C0C-481A-B2A4-16DC81DC664B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD986873-7C0C-481A-B2A4-16DC81DC664B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD986873-7C0C-481A-B2A4-16DC81DC664B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD986873-7C0C-481A-B2A4-16DC81DC664B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{48B26EC8-159F-450B-B21E-5214B9FD7453} = {654AEA5F-40BA-4432-93BC-BF6924C264C4}
 		{C0FF92D2-61F1-4934-89FF-2DE364E0974E} = {654AEA5F-40BA-4432-93BC-BF6924C264C4}
+		{CD986873-7C0C-481A-B2A4-16DC81DC664B} = {C566A62A-2EF7-4E7C-9232-1090E986E71F}
 	EndGlobalSection
 EndGlobal
