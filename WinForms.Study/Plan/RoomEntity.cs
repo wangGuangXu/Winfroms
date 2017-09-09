@@ -9,7 +9,7 @@ namespace Plan
     /// 租赁房源状态表
     /// </summary>
     [Serializable]
-    public class RENTRoomStateEntity
+    public class RoomEntity
     {
         #region 公共属性
         /// <summary>
@@ -40,30 +40,6 @@ namespace Plan
         /// 是否预定
         /// </summary>
         public bool? WhetherReserve { get; set; }
-        /// <summary>
-        /// 创建人
-        /// </summary>
-        public Guid? CreatePerson { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime? CreateTime { get; set; }
-        /// <summary>
-        /// 更新人
-        /// </summary>
-        public Guid? UpdatePerson { get; set; }
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? UpdateTime { get; set; }
-        /// <summary>
-        /// 可返租
-        /// </summary>
-        public bool? AllowLeaseback { get; set; }
-        /// <summary>
-        /// 已返租
-        /// </summary>
-        public bool? HaveLeaseback { get; set; }
         #endregion
 
 

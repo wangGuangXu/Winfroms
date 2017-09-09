@@ -79,7 +79,7 @@ namespace Plan
                 //room. = Guid.NewGuid().ToString();
                 //room.BaseRoomPanelConfig.ShowDialog();
 
-                RENTRoomStateEntity roomInfo = new RENTRoomStateEntity();
+                RoomEntity roomInfo = new RoomEntity();
                 roomInfo.ID = Guid.NewGuid();
                 roomInfo.CouldYouRent = true;
                 roomInfo.HaveToRent = true;

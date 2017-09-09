@@ -51,7 +51,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RENTRoomStateEntity.cs" />
+    <Compile Include="RoomEntity.cs" />
     <Compile Include="Rooms\BaseRoomPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +115,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TZD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

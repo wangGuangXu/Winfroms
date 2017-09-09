@@ -15,6 +15,8 @@ namespace Plan
     public partial class Form1 : Form
     {
         #region 变量
+        //程序运行的目录
+        public static string applicationDirectory = System.Windows.Forms.Application.StartupPath;
         /// <summary>
         /// 是否编辑
         /// </summary>
@@ -38,46 +40,43 @@ namespace Plan
         public List<Point[]> _roomPoints = new List<Point[]>();
         #endregion
 
+        #region 构造函数
         public Form1()
         {
             this.DoubleBuffered = true;
             InitializeComponent();
 
-            //工具条
             _roomTools.Hide();
-            //this.Controls.Add(_roomTools);
+            panelRight.Controls.Add(_roomTools);
 
-            string imgPath = @"E:\img\background.jpg";
-            if (!File.Exists(imgPath)) return;
+            string imgPath = applicationDirectory + @"\Images\background.jpg";
 
-            this.panel1.BackgroundImage = Image.FromFile(imgPath);
-            this.panel1.BackgroundImageLayout = ImageLayout.None;
+            if (File.Exists(imgPath))
+            {
+                this.panelRight.BackgroundImage = Image.FromFile(imgPath);
+                this.panelRight.BackgroundImageLayout = ImageLayout.None;
+            }
             this.Resize += Form1_Resize;
+            this.panelRight.Paint += Panel1_Paint;
+        } 
+        #endregion
 
-            //CustumerResize();
-            this.panel1.Paint += Panel1_Paint;
-
-            panel1.Controls.Add(_roomTools);
-        }
-
-        private void CustumerResize()
-        {
-            panel2.Top = 0;
-            panel2.Left = 0;
-            panel2.Width = 150;
-            panel2.Height = this.Height;
-
-            panel1.Top = 0;
-            panel1.Left = panel2.Width;
-            panel1.Width = this.Width - panel2.Width;
-            panel1.Height = this.Height;
-        }
-
+        #region 窗体大小调整
         private void Form1_Resize(object sender, EventArgs e)
         {
-            CustumerResize();
-        }
+            panelLeft.Top = 0;
+            panelLeft.Left = 0;
+            panelLeft.Width = 150;
+            panelLeft.Height = this.Height;
 
+            panelRight.Top = 0;
+            panelRight.Left = panelLeft.Width;
+            panelRight.Width = this.Width - panelLeft.Width;
+            panelRight.Height = this.Height;
+        }
+        #endregion
+
+        #region 面板容器重绘
         private void Panel1_Paint(object sender, PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -86,7 +85,15 @@ namespace Plan
                 r.SetRefresh(e.Graphics);
             }
         }
+        #endregion
 
+        
+
+        #region 加载图形坐标信息
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            Init();
+        }
         private void Init()
         {
             var points = new Point[5];
@@ -126,25 +133,24 @@ namespace Plan
                 }
                 _roomPoints.Add(points);
 
-                LoadChart(new List<Point[]>() { _tempPoint.ToArray() }, new RENTRoomStateEntity { Number = i.ToString("1000") });
+                LoadChart(new List<Point[]>() { _tempPoint.ToArray() }, new RoomEntity { Number = i.ToString("1000") });
             }
         }
 
-        #region 根据点坐标列表加载图形
         /// <summary>
         /// 根据点坐标列表加载图形
         /// </summary>
         /// <param name="points"></param>
-        private void LoadChart(List<Point[]> points, RENTRoomStateEntity roomInfo)
+        private void LoadChart(List<Point[]> points, RoomEntity roomInfo)
         {
             foreach (var item in _roomPoints)
             {
-                VectorRoomControl room = new VectorRoomControl();
+                var room = new VectorRoomControl();
                 room.Points = item.ToArray();// _tempPoint.ToArray();
 
                 if (roomInfo == null)
                 {
-                    roomInfo = new RENTRoomStateEntity();
+                    roomInfo = new RoomEntity();
                 }
                 roomInfo.ID = Guid.NewGuid();
                 roomInfo.CouldYouRent = true;
@@ -153,16 +159,8 @@ namespace Plan
                 room.RoomInfo = roomInfo;
                 _roomControls.Add(room);
             }
-
-            panel1.Refresh();
+            panelRight.Refresh();
         }
-        #endregion
-
-        #region 加载图形坐标信息
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            Init();
-        } 
         #endregion
 
         #region 添加
@@ -182,7 +180,7 @@ namespace Plan
             _roomControls.Remove(_selctedRoom);
             _selctedRoom = null;
             _roomTools.Hide();
-            panel1.Refresh();
+            panelRight.Refresh();
         }
         #endregion
 
@@ -287,7 +285,7 @@ namespace Plan
                         //}
                     }
                 }
-                panel1.Refresh();
+                panelRight.Refresh();
             }
         }
     }

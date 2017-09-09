@@ -31,8 +31,6 @@ namespace EasyPhoto.Dialog
             }
         }
 
-        
-
         public RGBSelectDlg(int r, int g, int b)
         {
             InitializeComponent();

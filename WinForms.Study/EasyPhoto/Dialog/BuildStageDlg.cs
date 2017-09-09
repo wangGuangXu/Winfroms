@@ -79,6 +79,7 @@ namespace EasyPhoto.Dialog
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             buildflag = false;
+            txtCanvasName.Text = DateTime.Now.ToString("MMddHHmmss");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -88,21 +89,23 @@ namespace EasyPhoto.Dialog
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (this.textBox3.Text == "")
+            if (this.txtCanvasName.Text == "")
             {
                 MessageBox.Show("未输入画纸名称！", "错误");
                 return;
             }
             this.stagewidth = (int)this.numericUpDown1.Value;
             this.stageheight = (int)this.numericUpDown2.Value;
-            stageName = textBox3.Text.Trim();
+            stageName = txtCanvasName.Text.Trim();
+            this.stageColor = panel1.BackColor;
+
             buildflag = true;
             this.Dispose();
         }
 
         void panel1_Click(object sender, System.EventArgs e)
         {
-            Dialog.RGBSelectDlg rgbselect = new RGBSelectDlg(255, 255, 255);
+            var rgbselect = new RGBSelectDlg(255, 255, 255);
             Point temppoint = new Point();
             int scrwidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width;
             int scrheight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height;
@@ -139,7 +142,6 @@ namespace EasyPhoto.Dialog
                 this.panel1.BackColor = rgbselect.SelectColor;
                 this.stageColor = rgbselect.SelectColor;
             }
-            
         }
         
     }

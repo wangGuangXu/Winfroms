@@ -220,6 +220,7 @@ namespace EasyPhoto
             timer.Start();
         }
 
+        #region 定时任务
         void timer_Tick(object sender, EventArgs e)
         {
             this.timer.Stop();
@@ -244,7 +245,7 @@ namespace EasyPhoto
                 {
                     this.pictureBox1.Image = temp;
                     //if (this.pictureBox2.Image != null)
-                        //this.pictureBox2.Image.Dispose();
+                    //this.pictureBox2.Image.Dispose();
                 }
                 else
                 {
@@ -369,7 +370,8 @@ namespace EasyPhoto
                 }
             }
             this.timer.Start();
-        }
+        } 
+        #endregion
 
         //当选项卡发生变化时
         void mainTabControl_Selected(object sender, TabControlEventArgs e)

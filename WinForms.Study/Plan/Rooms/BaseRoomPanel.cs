@@ -17,7 +17,7 @@ namespace Plan
         /// <summary>
         /// 房屋基本信息
         /// </summary>
-        public RENTRoomStateEntity RoomInfo { get; set; }
+        public RoomEntity RoomInfo { get; set; }
 
         public BaseRoomPanel()
         {

@@ -12,7 +12,7 @@ namespace Plan
     /// </summary>
     public abstract  class RoomBase
     {
-        private RENTRoomStateEntity _roomInfo;
+        private RoomEntity _roomInfo;
         /// <summary>
         /// 是否选中
         /// </summary>
@@ -20,7 +20,7 @@ namespace Plan
         /// <summary>
         /// 房屋基本信息
         /// </summary>
-        public RENTRoomStateEntity RoomInfo 
+        public RoomEntity RoomInfo 
         {
             get 
             {
