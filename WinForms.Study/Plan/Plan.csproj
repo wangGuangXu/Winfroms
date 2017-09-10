@@ -65,12 +65,6 @@
     <Compile Include="Rooms\RoomContextMenu.Designer.cs">
       <DependentUpon>RoomContextMenu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Rooms\RoomStateImage.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Rooms\RoomStateImage.Designer.cs">
-      <DependentUpon>RoomStateImage.cs</DependentUpon>
-    </Compile>
     <Compile Include="Rooms\RoomTools.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,9 +90,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Rooms\RoomContextMenu.resx">
       <DependentUpon>RoomContextMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Rooms\RoomStateImage.resx">
-      <DependentUpon>RoomStateImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Rooms\RoomTools.resx">
       <DependentUpon>RoomTools.cs</DependentUpon>

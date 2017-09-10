@@ -73,7 +73,7 @@
             this.panelRight.Name = "panelRight";
             this.panelRight.Size = new System.Drawing.Size(415, 354);
             this.panelRight.TabIndex = 4;
-            this.panelRight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            //this.panelRight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             // 
             // panelLeft
             // 

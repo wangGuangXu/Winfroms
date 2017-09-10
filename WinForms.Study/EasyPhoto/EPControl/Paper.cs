@@ -178,7 +178,6 @@ namespace EasyPhoto.EPControl
         #endregion
 
 
-
         public Paper(MainForm parent, Size PaperSize)
         {
             InitializeComponent();
@@ -193,7 +192,6 @@ namespace EasyPhoto.EPControl
 
         void Paper_MouseMove(object sender, MouseEventArgs e)
         {
-
             switch (this.SuperParent.toolSelected)
             {
                 case EasyPhoto.MainForm.ToolSelected.Brush:

@@ -38,12 +38,23 @@ namespace Plan
         /// 图形点左表数组列表
         /// </summary>
         public List<Point[]> _roomPoints = new List<Point[]>();
+        /// <summary>
+        /// 当前画纸上的Graphics实例
+        /// </summary>
+        public Graphics currentGraphics;
+        /// <summary>
+        /// 临时铅笔
+        /// </summary>
+        public Pen TempPen;
         #endregion
 
         #region 构造函数
         public Form1()
         {
-            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
+            this.UpdateStyles();
+
+            //this.DoubleBuffered = true;
             InitializeComponent();
 
             _roomTools.Hide();
@@ -58,7 +69,16 @@ namespace Plan
             }
             this.Resize += Form1_Resize;
             this.panelRight.Paint += Panel1_Paint;
-        } 
+            panelRight.MouseClick += PanelRight_MouseClick;
+            panelRight.MouseDoubleClick += PanelRight_MouseDoubleClick;
+
+            if (this.currentGraphics != null)
+            {
+                currentGraphics.Dispose();
+            }
+            currentGraphics = this.panelRight.CreateGraphics();
+            panelRight.MouseMove += PanelRight_MouseMove;
+        }
         #endregion
 
         #region 窗体大小调整
@@ -80,14 +100,12 @@ namespace Plan
         private void Panel1_Paint(object sender, PaintEventArgs e)
         {
             base.OnPaint(e);
-            foreach (RoomBase r in this._roomControls)
-            {
-                r.SetRefresh(e.Graphics);
-            }
+            //foreach (RoomBase r in this._roomControls)
+            //{
+            //    r.SetRefresh(e.Graphics);
+            //}
         }
         #endregion
-
-        
 
         #region 加载图形坐标信息
         private void btnLoad_Click(object sender, EventArgs e)
@@ -247,7 +265,7 @@ namespace Plan
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left && _isEdit)
+            if (e.Button == MouseButtons.Left && _isEdit)
             {
                 _tempPoint.Add(e.Location);
             }
@@ -269,7 +287,7 @@ namespace Plan
             {
                 foreach (var item in _roomControls)
                 {
-                    VectorRoomControl room = item as VectorRoomControl;
+                    var room = item as VectorRoomControl;
                     room.Selected = PointInFences(e.Location, room.Points);
                     if (room.Selected)
                     {
@@ -286,6 +304,40 @@ namespace Plan
                     }
                 }
                 panelRight.Refresh();
+            }
+        }
+
+        private void PanelRight_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (_isEdit)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    _tempPoint.Add(e.Location);
+                }
+            }
+        }
+
+        private void PanelRight_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            _tempPoint.Add(e.Location);
+            _isEdit = false;
+
+            _roomPoints.Add(_tempPoint.ToArray());
+        }
+
+        private void PanelRight_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isEdit)
+            {
+                panelRight.Refresh();
+                TempPen = new Pen(new SolidBrush(Color.Red),2);
+                TempPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                if (_tempPoint.Count > 1)
+                {
+                    this.currentGraphics.DrawLines(this.TempPen, _tempPoint.ToArray());
+                    this.currentGraphics.DrawLine(this.TempPen, _tempPoint[_tempPoint.Count - 1], e.Location);
+                }
             }
         }
     }

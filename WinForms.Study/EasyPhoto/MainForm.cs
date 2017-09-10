@@ -214,10 +214,10 @@ namespace EasyPhoto
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
-            this.timer = new Timer();
-            timer.Interval = 400;
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
+            //this.timer = new Timer();
+            //timer.Interval = 400;
+            //timer.Tick += new EventHandler(timer_Tick);
+            //timer.Start();
 
             ResizeContainer();
             this.Resize += MainForm_Resize;

@@ -548,7 +548,6 @@ namespace EasyPhoto
                 tempArrayList.Add(e.Location);
                 finalArrayList.Add(new Point(e.X / this.Zoom + this.currentPaper.ShowRectanglePoint.X, e.Y / this.Zoom + this.currentPaper.ShowRectanglePoint.Y));
             }
-            
         }
 
         public void LinesTool_OnMouseMove(object sender, MouseEventArgs e)

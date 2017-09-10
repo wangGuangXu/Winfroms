@@ -72,24 +72,22 @@ namespace Plan
             }
 
             //填充图形
-            if (g!=null)
+            if (g == null) return;
+
+            if (Selected)
             {
-                if (Selected)
-                {
-                    //让所选择区域为透明
-                    _brush = new SolidBrush(Color.Transparent);
-                    _myPen = new Pen(Color.Yellow, 3);
+                //让所选择区域为透明
+                _brush = new SolidBrush(Color.Transparent);
+                _myPen = new Pen(Color.Yellow, 3);
 
-                    //_brush = new SolidBrush(Color.Yellow);
-                    //_myPen = new Pen(Color.Red, 3);
-                }
-                g.FillPolygon(_brush, _points);
-                g.DrawPolygon(_myPen, _points);
-                var ace = _points[_points.Length - 1];
-
-                //绘制文字
-                g.DrawString(this.RoomInfo.Number, new Font("微软雅黑", 16,FontStyle.Bold), new SolidBrush(Color.White), _points[0].X + 50, _points[0].Y - 30);
+                //_brush = new SolidBrush(Color.Yellow);
+                //_myPen = new Pen(Color.Red, 3);
             }
+            g.FillPolygon(_brush, _points);
+            g.DrawPolygon(_myPen, _points);
+
+            //绘制文字
+            g.DrawString(this.RoomInfo.Number, new Font("微软雅黑", 16, FontStyle.Bold), new SolidBrush(Color.White), _points[0].X + 50, _points[0].Y - 30);
         }
 
         public void Acce(Graphics g, Point location)

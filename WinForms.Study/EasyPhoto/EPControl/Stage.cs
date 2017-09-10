@@ -83,19 +83,29 @@ namespace EasyPhoto.EPControl
             this.tempCell = temp.tempCell;
             this.zoom = temp.zoom;
             if (temp.arrayList == null)
+            {
                 this.arrayList = new System.Collections.ArrayList();
+            }
             else
+            {
                 this.arrayList = temp.arrayList;
+            }
+                
             this.BackgroundImage = this.finalImage;
 
             if (this.Size.Width > this.backgroundWidth)
+            {
                 base.hScrollBar1.Visible = false;
+            }
             else
             {
                 base.hScrollBar1.Visible = true;                               //以后还需要补充
             }
+
             if (this.Size.Height > this.backgroundHeight)
+            {
                 base.vScrollBar1.Visible = false;
+            }
             else
             {
                 base.vScrollBar1.Visible = true;                                   //以后还需要补充
