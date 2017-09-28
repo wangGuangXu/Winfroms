@@ -6,6 +6,9 @@ using System.Drawing;
 
 namespace EasyPhoto.EPControl
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class Stage:Paper
     {
@@ -14,13 +17,17 @@ namespace EasyPhoto.EPControl
         {
             this.paperName = name;
             if (papersize.Width > backimagewidth)
+            {
                 base.hScrollBar1.Visible = false;
+            }
             else
             {
                 base.hScrollBar1.Visible = true;                               //以后还需要补充
             }
             if (papersize.Height > backimageheight)
+            {
                 base.vScrollBar1.Visible = false;
+            }
             else
             {
                 base.vScrollBar1.Visible = true;                                   //以后还需要补充
@@ -76,19 +83,29 @@ namespace EasyPhoto.EPControl
             this.tempCell = temp.tempCell;
             this.zoom = temp.zoom;
             if (temp.arrayList == null)
+            {
                 this.arrayList = new System.Collections.ArrayList();
+            }
             else
+            {
                 this.arrayList = temp.arrayList;
+            }
+                
             this.BackgroundImage = this.finalImage;
 
             if (this.Size.Width > this.backgroundWidth)
+            {
                 base.hScrollBar1.Visible = false;
+            }
             else
             {
                 base.hScrollBar1.Visible = true;                               //以后还需要补充
             }
+
             if (this.Size.Height > this.backgroundHeight)
+            {
                 base.vScrollBar1.Visible = false;
+            }
             else
             {
                 base.vScrollBar1.Visible = true;                                   //以后还需要补充
@@ -114,6 +131,28 @@ namespace EasyPhoto.EPControl
             }
             this.OnPaint(null);
             this.Parent.Refresh();
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // hScrollBar1
+            // 
+            this.hScrollBar1.Location = new System.Drawing.Point(0, 213);
+            this.hScrollBar1.Size = new System.Drawing.Size(509, 17);
+            // 
+            // vScrollBar1
+            // 
+            this.vScrollBar1.Location = new System.Drawing.Point(492, 0);
+            this.vScrollBar1.Size = new System.Drawing.Size(17, 213);
+            // 
+            // Stage
+            // 
+            this.Name = "Stage";
+            this.Size = new System.Drawing.Size(509, 230);
+            this.ResumeLayout(false);
+
         }
     }
 }

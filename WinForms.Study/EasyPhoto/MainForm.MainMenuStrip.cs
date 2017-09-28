@@ -152,10 +152,6 @@ namespace EasyPhoto
             }
         }  
 
-        
-
-        
-
 
         private void 背景区域截图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -257,7 +253,6 @@ namespace EasyPhoto
                 }
                 sfd.Dispose();
             }
-
         }
 
         private void 当前区域截图ToolStripMenuItem1_Click(object sender, EventArgs e)

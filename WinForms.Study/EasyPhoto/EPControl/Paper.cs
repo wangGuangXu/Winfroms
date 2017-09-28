@@ -16,8 +16,8 @@ namespace EasyPhoto.EPControl
     public partial class Paper : UserControl
     {
         public MainForm SuperParent;
-        protected int backgroundWidth = 600;
-        protected int backgroundHeight = 400;
+        protected int backgroundWidth = 800;
+        protected int backgroundHeight = 600;
         protected Color backgroundColor = Color.White;
         protected string paperName = "";
         protected Point startPoint;
@@ -178,7 +178,6 @@ namespace EasyPhoto.EPControl
         #endregion
 
 
-
         public Paper(MainForm parent, Size PaperSize)
         {
             InitializeComponent();
@@ -193,7 +192,6 @@ namespace EasyPhoto.EPControl
 
         void Paper_MouseMove(object sender, MouseEventArgs e)
         {
-
             switch (this.SuperParent.toolSelected)
             {
                 case EasyPhoto.MainForm.ToolSelected.Brush:

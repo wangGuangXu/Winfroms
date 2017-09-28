@@ -258,12 +258,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FileTypeRegister.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="ImageProcess\Adjustment.cs" />
     <Compile Include="ImageProcess\Algebra.cs" />
     <Compile Include="ImageProcess\ColorChange.cs" />
@@ -409,6 +403,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EPControl\Paper.resx">
       <DependentUpon>Paper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EPControl\Stage.resx">
+      <DependentUpon>Stage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -688,6 +685,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\正方形副本1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Brush.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Eraser.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Hand.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Magnifier.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Pencil.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

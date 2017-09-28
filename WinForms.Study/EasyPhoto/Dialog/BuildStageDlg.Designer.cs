@@ -33,7 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtCanvasName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -89,12 +89,12 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "底  色";
             // 
-            // textBox3
+            // txtCanvasName
             // 
-            this.textBox3.Location = new System.Drawing.Point(89, 22);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 21);
-            this.textBox3.TabIndex = 5;
+            this.txtCanvasName.Location = new System.Drawing.Point(89, 22);
+            this.txtCanvasName.Name = "txtCanvasName";
+            this.txtCanvasName.Size = new System.Drawing.Size(100, 21);
+            this.txtCanvasName.TabIndex = 5;
             // 
             // label4
             // 
@@ -122,7 +122,7 @@
             this.numericUpDown1.Size = new System.Drawing.Size(101, 21);
             this.numericUpDown1.TabIndex = 6;
             this.numericUpDown1.Value = new decimal(new int[] {
-            400,
+            1000,
             0,
             0,
             0});
@@ -144,14 +144,14 @@
             this.numericUpDown2.Size = new System.Drawing.Size(101, 21);
             this.numericUpDown2.TabIndex = 6;
             this.numericUpDown2.Value = new decimal(new int[] {
-            400,
+            600,
             0,
             0,
             0});
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BackColor = System.Drawing.Color.Khaki;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(88, 140);
             this.panel1.Name = "panel1";
@@ -167,7 +167,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.numericUpDown2);
             this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.txtCanvasName);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
@@ -199,7 +199,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtCanvasName;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
