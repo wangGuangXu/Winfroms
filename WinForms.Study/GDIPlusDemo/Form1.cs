@@ -5169,6 +5169,7 @@ namespace GDIPlusDemo
             graphics.FillRegion(Brushes.Red, region);
         }
 
+        #region 区域的运算
         private void Region_Calculate_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -5183,19 +5184,19 @@ namespace GDIPlusDemo
 
             //定义多边形的端点坐标
             Point[] points = new Point[]
-        {
-            new Point(75, 0),
-            new Point(100, 50),
-            new Point(150, 50),
-            new Point(112, 75),
-            new Point(150, 150),
-            new Point(75, 120),
-            new Point(10, 150),
-            new Point(37, 75),
-            new Point(0, 50),
-            new Point(50, 50),
-            new Point(75, 0)
-        };
+            {
+                new Point(75, 0),
+                new Point(100, 50),
+                new Point(150, 50),
+                new Point(112, 75),
+                new Point(150, 150),
+                new Point(75, 120),
+                new Point(10, 150),
+                new Point(37, 75),
+                new Point(0, 50),
+                new Point(50, 50),
+                new Point(75, 0)
+            };
 
             //创建路径并添加线条
             GraphicsPath path = new GraphicsPath();
@@ -5277,7 +5278,8 @@ namespace GDIPlusDemo
             graphics.FillRegion(solidBrush2, region5);
             graphics.DrawString("排斥集", font, Brushes.Black, textout, format);
             graphics.DrawRectangle(pen, tmp.X, tmp.Y, tmp.Width, tmp.Height);
-        }
+        } 
+        #endregion
 
         private void Region_GetRects_Click(object sender, System.EventArgs e)
         {
