@@ -18,6 +18,7 @@ namespace GDIPlusDemo
     /// </summary>
     public class Form1 : System.Windows.Forms.Form
     {
+        #region 字段
         private System.Windows.Forms.MainMenu mainMenu1;
         private System.Windows.Forms.MenuItem menuItem1;
         private System.Windows.Forms.MenuItem FadeInOut;
@@ -173,8 +174,8 @@ namespace GDIPlusDemo
         private System.Windows.Forms.MenuItem OnCanvas;
         private System.Windows.Forms.MenuItem OnWood;
         private System.Windows.Forms.MenuItem Flashligt;
-        private System.Windows.Forms.MenuItem BlurAndSharpen;
-
+        private System.Windows.Forms.MenuItem BlurAndSharpen; 
+        #endregion
 
         //private AxThreed.AxSSRibbon axSSRibbon1;
         //	private AxThreed.AxSSFrame axSSFrame1;
@@ -186,15 +187,9 @@ namespace GDIPlusDemo
 
         public Form1()
         {
-            //
             // Windows 窗体设计器支持所必需的
-            //
             InitializeComponent();
-
-
-            //
             // TODO: 在 InitializeComponent 调用后添加任何构造函数代码
-            //
         }
 
         /// <summary>
@@ -1492,6 +1487,7 @@ namespace GDIPlusDemo
 
         //}
 
+        #region MyRegion
         private void menuItem2_Click(object sender, System.EventArgs e)
         {
             Graphics g = this.CreateGraphics();
@@ -1502,13 +1498,13 @@ namespace GDIPlusDemo
 
             //初始化色彩变换矩阵
             float[][] tem =
-        {
-            new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-            new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-            new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
-            new float[]{0.0f, 0.0f, 0.0f, 1.0f, 0.0f},
-            new float[]{0.0f, 0.0f, 0.0f, 0.0f, 1.0f}
-        };
+            {
+                new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                new float[]{0.0f, 0.0f, 0.0f, 0.0f, 0.0f},
+                new float[]{0.0f, 0.0f, 0.0f, 1.0f, 0.0f},
+                new float[]{0.0f, 0.0f, 0.0f, 0.0f, 1.0f}
+            };
 
             ColorMatrix colorMatrix = new ColorMatrix(tem);
             ImageAttributes imageAtt = new ImageAttributes();
@@ -1522,15 +1518,9 @@ namespace GDIPlusDemo
                 colorMatrix.Matrix22 = i;
                 colorMatrix.Matrix33 = i;
                 //设置色彩校正矩阵
-                imageAtt.SetColorMatrix(colorMatrix,
-                    ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                imageAtt.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
                 //绘制图片
-                g.DrawImage(
-                    bitmap, new Rectangle(0, 0, iWidth, iHeight),
-                    0, 0,
-                    iWidth, iHeight,
-                    GraphicsUnit.Pixel,
-                    imageAtt);
+                g.DrawImage(bitmap, new Rectangle(0, 0, iWidth, iHeight), 0, 0, iWidth, iHeight, GraphicsUnit.Pixel, imageAtt);
             }
 
             MessageBox.Show("下面演示淡出效果");
@@ -1544,19 +1534,14 @@ namespace GDIPlusDemo
                 colorMatrix.Matrix22 = i;
                 colorMatrix.Matrix33 = i;
                 //设置色彩校正矩阵
-                imageAtt.SetColorMatrix(colorMatrix,
-                    ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                imageAtt.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
                 //绘制图片
-                g.DrawImage(
-                    bitmap, new Rectangle(0, 0, iWidth, iHeight),
-                    0, 0,
-                    iWidth, iHeight,
-                    GraphicsUnit.Pixel,
-                    imageAtt);
+                g.DrawImage(bitmap, new Rectangle(0, 0, iWidth, iHeight), 0, 0, iWidth, iHeight, GraphicsUnit.Pixel, imageAtt);
             }
-        }
+        } 
+        #endregion
 
-
+        #region MyRegion
         private void GrayScale_Click(object sender, System.EventArgs e)
         {
             Graphics g = this.CreateGraphics();
@@ -1696,8 +1681,10 @@ namespace GDIPlusDemo
             //重新绘制灰度化图
             g.DrawImage(
                 image2, new Rectangle(0, 0, Width, Height));
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void Inverse_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1749,8 +1736,10 @@ namespace GDIPlusDemo
                     image, new Rectangle(Width * 2, 0, Width, Height));
             }
 
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void Emboss_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1819,8 +1808,10 @@ namespace GDIPlusDemo
                 graphics.DrawImage(
                     image2, new Rectangle(Width * 2 + 20, 0, Width, image.Height));
             }
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void CreatePenFromBrush_Click(object sender, System.EventArgs e)
         {
             Graphics g = this.CreateGraphics();
@@ -1850,9 +1841,10 @@ namespace GDIPlusDemo
             g.TranslateTransform(130, 0);
             //绘制贝塞尔曲线
             g.DrawBezier(texturedPen, p1, c1, c2, p2);
-        }
+        } 
+        #endregion
 
-        //画笔的线形演示
+        #region 画笔的线形演示
         private void DashStyle_Custom_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1892,16 +1884,16 @@ namespace GDIPlusDemo
             pen.Color = (Color.Red);
             graphics.DrawLine(pen, 10, 30 * i, 260, 30 * i);
             graphics.DrawString(pen.DashStyle.ToString(), font, sBrush, new Point(260, 30 * i), fmt);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void Pen_Align_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
             graphics.Clear(Color.White);
 
-
             Pen pen = new Pen(Color.Gray, 1.0f);
-
 
             Pen pen2 = new Pen(Color.FromArgb(155, Color.Red), 10);
             int i = 0;
@@ -1910,15 +1902,14 @@ namespace GDIPlusDemo
                 pen2.Alignment = (PenAlignment)i;
                 graphics.DrawLine(pen2, new Point(0, 10), new Point(60, 10));
                 graphics.TranslateTransform(70, 0);
-
             }
 
             graphics.ResetTransform();
             graphics.DrawLine(pen, 0, 10, 600, 10);
+        } 
+        #endregion
 
-
-        }
-
+        #region MyRegion
         private void Pen_Tranform_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1942,8 +1933,10 @@ namespace GDIPlusDemo
             graphics.TranslateTransform(100, 0);
             pen.RotateTransform(60, MatrixOrder.Append);
             graphics.DrawEllipse(pen, 0, 50, 80, 80);
-        }
-        //线帽演示
+        } 
+        #endregion
+
+        #region 线帽演示
         private void Pen_LineCap_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1972,9 +1965,10 @@ namespace GDIPlusDemo
                 //平移绘图平面
                 graphics.TranslateTransform(0, 30);
             }
-        }
+        } 
+        #endregion
 
-        //画笔的透明度支持
+        #region 画笔的透明度支持
         private void Pen_TransColor_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2012,8 +2006,10 @@ namespace GDIPlusDemo
                 //延时以查看动态效果
                 Thread.Sleep(20);
             }
-        }
-        //简单的单色画刷示意
+        } 
+        #endregion
+
+        #region 简单的单色画刷示意
         private void Brush_SolidBrush_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2036,8 +2032,10 @@ namespace GDIPlusDemo
             //在另一个位置填充多边形
             graphics.TranslateTransform(300, 0);
             graphics.FillPolygon(greenBrush, poly, FillMode.Alternate);
-        }
-        //填充正叶曲线
+        } 
+        #endregion
+
+        #region 填充正叶曲线
         private void Brush_FillVurve_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2077,8 +2075,10 @@ namespace GDIPlusDemo
             Pen pen = new Pen(Color.Gray);
             graphics.DrawLine(pen, 0, cy, cx * 2, cy);
             graphics.DrawLine(pen, cx, 0, cx, cy * 2);
-        }
-        //影线画刷示意
+        } 
+        #endregion
+
+        #region 影线画刷示意
         private void Brush_HatchBrush_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2111,8 +2111,10 @@ namespace GDIPlusDemo
             //使用第六种风格的影线画刷
             HatchBrush brush5 = new HatchBrush(HatchStyle.DiagonalCross, black, white);
             graphics.FillRectangle(brush5, 520, 20, 100, 50);
-        }
-        //列举出所有风格的影线画刷
+        } 
+        #endregion
+
+        #region 列举出所有风格的影线画刷
         private void Brush_EnumAllStyle_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2163,8 +2165,10 @@ namespace GDIPlusDemo
                 graphics.DrawString(brush_tmp.HatchStyle.ToString(), myFont, redBrush, layoutRect, format);
                 rol += 1;
             }
-        }
-        //设置绘制原点
+        } 
+        #endregion
+
+        #region 设置绘制原点
         private void Brush_SetRenderingOrigin_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2188,8 +2192,10 @@ namespace GDIPlusDemo
                 graphics.RenderingOrigin = new Point(i, 0);
                 graphics.FillRectangle(hatchBrush, 100, i * 50, 100, 50);
             }
-        }
-        //纹理画刷的不同加载方式
+        } 
+        #endregion
+
+        #region 纹理画刷的不同加载方式
         private void Brush_Texture_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2228,9 +2234,10 @@ namespace GDIPlusDemo
             graphics.FillEllipse(tBrush3, rect3);
             graphics.DrawEllipse(pen, rect3);
             graphics.DrawString("比例缩小图片", myFont, brush, new PointF(440, 220));
-        }
+        } 
+        #endregion
 
-        //使用图片排列方式
+        #region 使用图片排列方式
         private void Brush_Texture_WrapMode_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2281,8 +2288,10 @@ namespace GDIPlusDemo
             graphics.FillRectangle(tBrush, new Rectangle(160, 180, 150, 150));
             graphics.DrawRectangle(pen, new Rectangle(160, 180, 150, 150));
             graphics.DrawString("TileFlipXY", myFont, brush, new PointF(170, 335));
-        }
-        //纹理画刷的变换
+        } 
+        #endregion
+
+        #region 纹理画刷的变换
         private void Brush_TextureTransform_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2323,8 +2332,10 @@ namespace GDIPlusDemo
             graphics.FillEllipse(tBrush, rect3);
             graphics.DrawEllipse(pen, rect3);
             graphics.DrawString("横向平移30个像素", myFont, brush, new PointF(440, 220));
-        }
-        //查询画刷的变换信息
+        } 
+        #endregion
+
+        #region 查询画刷的变换信息
         private void Brush_GetTextureMatrix_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2355,8 +2366,10 @@ namespace GDIPlusDemo
             {
                 MessageBox.Show(elements[j].ToString(), "矩阵元素值");
             }
-        }
-        //线性渐变画刷程序
+        } 
+        #endregion
+
+        #region 线性渐变画刷程序
         private void Brush_LinearGradientBrush_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2391,8 +2404,10 @@ namespace GDIPlusDemo
                     240 + i * 40, i * 40, 40, 40);
             }
 
-        }
-        //控制线性渐变画刷的填充方式
+        } 
+        #endregion
+
+        #region 控制线性渐变画刷的填充方式
         private void Brush_LinearArrange_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2447,8 +2462,10 @@ namespace GDIPlusDemo
                 graphics.DrawLine(pen2, 0, i * 40, 320, i * 40);
             for (i = 0; i < 9; i++)
                 graphics.DrawLine(pen2, i * 40, 0, i * 40, 360);
-        }
-        //定义线性渐变画刷的渐变模式
+        } 
+        #endregion
+
+        #region 定义线性渐变画刷的渐变模式
         private void Brush_LinearGradientMode_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2515,7 +2532,9 @@ namespace GDIPlusDemo
                 graphics.DrawLine(pen2, 0, i * 20, 320, i * 20);
             for (i = 0; i < 9; i++)
                 graphics.DrawLine(pen2, i * 40, 0, i * 40, 360);
-        }
+        } 
+        #endregion
+
         //渐变线偏转角度
         private void Brush_LinearAngle_Click(object sender, System.EventArgs e)
         {
@@ -2581,6 +2600,7 @@ namespace GDIPlusDemo
             for (i = 0; i < 9; i++)
                 graphics.DrawLine(pen2, i * 40, 0, i * 40, 360);
         }
+
         //多色渐变画刷
         private void Brush_LinearInterpolation_Click(object sender, System.EventArgs e)
         {
@@ -2635,6 +2655,7 @@ namespace GDIPlusDemo
             graphics.FillRectangle(linGrBrush1, 0, 120, 60, 100);
             graphics.FillRectangle(linGrBrush2, 60, 120, 120, 100);
         }
+
         //自定义渐变过程：三角形
         private void Brush_LinearCustomize_Click(object sender, System.EventArgs e)
         {
@@ -2678,6 +2699,7 @@ namespace GDIPlusDemo
                 myFont, brush, new PointF(540, 200));
 
         }
+
         //基于钟形曲线的渐变画刷		
         private void Brush_LinearGradientBrush_BellShape_Click(object sender, System.EventArgs e)
         {
@@ -2699,6 +2721,7 @@ namespace GDIPlusDemo
             graphics.TranslateTransform(160, 0);
             graphics.FillEllipse(myLGBrush, myRect);
         }
+
 
         private void Brush_PathGradientBrush_Star_Click(object sender, System.EventArgs e)
         {
@@ -2733,6 +2756,7 @@ namespace GDIPlusDemo
                 //每个圆点的直径为10
                 graphics.FillEllipse(blackbrush, points[i].X - 5, points[i].Y - 5, 10, 10);
         }
+
         //使用路径渐变画刷绘制五星
         private void Brush_PathGradientBrush_Star2_Click(object sender, System.EventArgs e)
         {
@@ -2785,6 +2809,7 @@ namespace GDIPlusDemo
                 graphics.FillPath(pthGrBrush, path);
             }
         }
+
         //使用多个路径渐变画刷
         private void Brush_Using_MorePathGradientBrush_Click(object sender, System.EventArgs e)
         {
@@ -2833,6 +2858,7 @@ namespace GDIPlusDemo
             //在上次未被填充的区域中再次填充当前窗口的空白部份
             graphics.FillRectangle(pgbrush2, 0, 0, this.Width, this.Height);
         }
+
         //路径渐变画刷的填充方式
         private void Brush_PathGradientBrush_WrapMode_Click(object sender, System.EventArgs e)
         {
@@ -6979,6 +7005,7 @@ namespace GDIPlusDemo
             metagraph.Dispose();
         }
 
+        #region MyRegion
         private void SetColorMatrices_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -6996,46 +7023,46 @@ namespace GDIPlusDemo
 
             //定义一个使红色分量递增1.5的矩阵
             float[][] colorMatrixElements =
-        {
-            new float[]{1.5f,  0.0f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  1.0f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  1.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
-        };
+            {
+                new float[]{1.5f,  0.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  1.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  1.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
+            };
             ColorMatrix defaultColorMatrix = new ColorMatrix(colorMatrixElements);
 
             //定义一个使绿色分量递增1.5的矩阵
             float[][] colorMatrixElements2 =
-        {
-            new float[]{1.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  1.5f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  1.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
-        };
+            {
+                new float[]{1.0f,  0.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  1.5f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  1.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
+            };
             ColorMatrix defaultGrayMatrix = new ColorMatrix(colorMatrixElements2);
 
             //画笔的彩色色彩信息较校正矩阵：蓝色分量递增1.5的矩阵
             float[][] colorMatrixElements3 =
-        {
-            new float[]{1.0f,  0.0f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  1.0f,  0.0f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  1.5f,  0.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
-            new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
-        };
+            {
+                new float[]{1.0f,  0.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  1.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  1.5f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
+            };
             ColorMatrix penColorMatrix = new ColorMatrix(colorMatrixElements3);
 
             //画笔的灰度色矩阵：所有分量递增1.5的矩阵
             float[][] colorMatrixElements4 =
-    {
-        new float[]{1.5f,  0.0f,  0.0f,  0.0f,  0.0f},
-        new float[]{0.0f,  1.5f,  0.0f,  0.0f,  0.0f},
-        new float[]{0.0f,  0.0f,  1.5f,  0.0f,  0.0f},
-        new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
-        new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
-    };
+            {
+                new float[]{1.5f,  0.0f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  1.5f,  0.0f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  1.5f,  0.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  1.0f,  0.0f},
+                new float[]{0.0f,  0.0f,  0.0f,  0.0f,  1.0f}
+            };
 
             ColorMatrix penGrayMatrix = new ColorMatrix(colorMatrixElements4);
 
@@ -7088,7 +7115,8 @@ namespace GDIPlusDemo
                 rect.Height,
                 GraphicsUnit.Pixel,
                 imAtt);
-        }
+        } 
+        #endregion
 
         private void SetOutputChannelColorProfile_Click(object sender, System.EventArgs e)
         {
@@ -7158,9 +7186,9 @@ namespace GDIPlusDemo
                 graphics.Clear(Color.White);
                 imAtt.ClearGamma();
             }
-
         }
 
+        #region MyRegion
         private void SetOutputChannel_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7223,7 +7251,8 @@ namespace GDIPlusDemo
                 GraphicsUnit.Pixel,
                 imAtt);
 
-        }
+        } 
+        #endregion
 
         private void Colorkey_Click(object sender, System.EventArgs e)
         {
@@ -7303,6 +7332,7 @@ namespace GDIPlusDemo
             }
         }
 
+        #region MyRegion
         private void AdjustedPalette_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7346,8 +7376,10 @@ namespace GDIPlusDemo
             graphics.DrawImage(image2, 0, 0);
             //绘制修改后的图片
             graphics.DrawImage(image, image.Width + 10, 0);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void SetWrapMode_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7393,7 +7425,8 @@ namespace GDIPlusDemo
                 0, 0, 2 * image.Width, 2 * image.Height,       //源图片区域
                 GraphicsUnit.Pixel,
                 imAtt);
-        }
+        } 
+        #endregion
 
         private void ListAllImageEncoders_Click(object sender, System.EventArgs e)
         {
@@ -7420,6 +7453,7 @@ namespace GDIPlusDemo
                 new PointF(0, 0));
         }
 
+        #region MyRegion
         private void ListImageEncoder_Detail_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7437,10 +7471,8 @@ namespace GDIPlusDemo
             for (j = 0; j < pImageCodecInfo.GetLength(0); ++j)
             {
                 msg += string.Format("开始描述第{0}种图形编码信息\n\n", j);
-                msg += string.Format("编码标识: {0}\n",
-                    pImageCodecInfo[j].Clsid);
-                msg += string.Format("文件格式标识: {0}\n",
-                    pImageCodecInfo[j].FormatID);
+                msg += string.Format("编码标识: {0}\n", pImageCodecInfo[j].Clsid);
+                msg += string.Format("文件格式标识: {0}\n", pImageCodecInfo[j].FormatID);
                 msg += string.Format("编码器名称: {0}\n",
                     pImageCodecInfo[j].CodecName);
                 msg += string.Format("编码器依存的动态连接库名: {0}\n",
@@ -7467,8 +7499,10 @@ namespace GDIPlusDemo
             sw.Write(msg);
             sw.Close();
             MessageBox.Show("操作结束，请打开当前目录下的listinfo.txt查看编码器消息");
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void ListImageDecoder_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7487,15 +7521,15 @@ namespace GDIPlusDemo
             string msg = string.Empty;
             for (int j = 0; j < pImageCodecInfo.GetLength(0); ++j)
             {
-                msg += string.Format("解码器名称:{0}\t文件格式扩展名:{1}\t\n",
-                    pImageCodecInfo[j].CodecName, pImageCodecInfo[j].FilenameExtension);
-
+                msg += string.Format("解码器名称:{0}\t文件格式扩展名:{1}\t\n", pImageCodecInfo[j].CodecName, pImageCodecInfo[j].FilenameExtension);
             }
 
             //显示信息
             graphics.DrawString(msg, myFont, brush,
                 new PointF(0, 0));
-        }
+        } 
+        #endregion
+
         private Guid GetEncoderClsid(string format)
         {
             Guid picGUID = new Guid();
@@ -7504,7 +7538,8 @@ namespace GDIPlusDemo
             pImageCodecInfo = ImageCodecInfo.GetImageEncoders();
             //查找指定格式文件的编码器信息
             for (int i = 0; i < pImageCodecInfo.GetLength(0); ++i)
-            {	//MimeType：编码方式的具体描述
+            {	
+                //MimeType：编码方式的具体描述
                 if (format.CompareTo(pImageCodecInfo[i].MimeType.ToString()) == 0)
                 {
                     picGUID = pImageCodecInfo[i].Clsid;
@@ -7584,6 +7619,7 @@ namespace GDIPlusDemo
             return ParameterCategory;
         }
 
+        #region MyRegion
         private string ShowAllEncoderParameters(string format)
         {
             string outmsg = string.Empty;
@@ -7614,7 +7650,8 @@ namespace GDIPlusDemo
             }
             //将所有信息导出outmsg
             return outmsg;
-        }
+        } 
+        #endregion
 
         private void GetAllEncoderParameter_Click(object sender, System.EventArgs e)
         {
@@ -7647,6 +7684,7 @@ namespace GDIPlusDemo
             return null;
         }
 
+        #region MyRegion
         private void menuItem17_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7673,9 +7711,10 @@ namespace GDIPlusDemo
             graphics.DrawImage(image_png1, rect);
             graphics.TranslateTransform(rect.Width, 0);
             graphics.DrawImage(image_png2, rect);
+        } 
+        #endregion
 
-        }
-
+        #region MyRegion
         private void SaveBmp2tif_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7700,8 +7739,10 @@ namespace GDIPlusDemo
                 (long)EncoderValue.CompressionLZW);
             myEncoderParameters.Param[0] = myEncoderParameter;
             myBitmap.Save("jieba.tif", myImageCodecInfo, myEncoderParameters);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void SaveBMP2JPG_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7761,8 +7802,10 @@ namespace GDIPlusDemo
             Bitmap image05 = new Bitmap("car075.jpg");
             graphics.TranslateTransform(imgrect.Width + 10, 0);
             graphics.DrawImage(image02, imgrect);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void TransformingJPEG_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7804,9 +7847,10 @@ namespace GDIPlusDemo
             imgrect = new Rectangle(0, 0,
                 myBitmap.Width, myBitmap.Height);
             graphics.DrawImage(myBitmap, imgrect);
-        }
+        } 
+        #endregion
 
-
+        #region MyRegion
         private void MultipleFrameImage_Click(object sender, System.EventArgs e)
         {
             Bitmap multi;
@@ -7868,7 +7912,10 @@ namespace GDIPlusDemo
             myEncoderParameters.Param[0] = myEncoderParameter;
             multi.SaveAdd(myEncoderParameters);
             MessageBox.Show("操作结束，请打开当前目录下的Multiframe.tiff查看图片添加结果");
-        }
+        } 
+        #endregion
+
+        #region MyRegion
         private void GetImageFromMultyFrame_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7911,8 +7958,10 @@ namespace GDIPlusDemo
             multi.SelectActiveFrame(pageGuid, 3);
             graphics.DrawImage(multi, r4);
             multi.Save("Page3.png", ImageFormat.Png);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void QueryImage_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -7950,16 +7999,17 @@ namespace GDIPlusDemo
             //输出图像的属性信息
             graphics.DrawString(tmp, myFont, brush,
                 new PointF(0, 0));
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void SetProp_Click(object sender, System.EventArgs e)
         {
             //装入图片以供修改
             Bitmap image = new Bitmap("car.jpg");
 
             // 设置图片的作者为Jasmine
-            byte[] newWriterValue = {(byte)'J', (byte)'a',
-                                (byte)'s', (byte)'m', (byte)'i', (byte)'e'};
+            byte[] newWriterValue = { (byte)'J', (byte)'a', (byte)'s', (byte)'m', (byte)'i', (byte)'e' };
 
             PropertyItem[] pp = image.PropertyItems;
 
@@ -7984,8 +8034,10 @@ namespace GDIPlusDemo
             string manufacturer = encoding.GetString(pp[1].Value);
             msg = string.Format("图片的作者已经更改为\n{0}", manufacturer);
             MessageBox.Show(msg);
-        }
+        } 
+        #endregion
 
+        #region MyRegion
         private void OnCanvas_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -8016,9 +8068,10 @@ namespace GDIPlusDemo
                 graphics.DrawImage(image,
                     new Rectangle(Width, 0, Width, Height));
             }
+        } 
+        #endregion
 
-        }
-
+        #region MyRegion
         private void OnWood_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -8052,18 +8105,26 @@ namespace GDIPlusDemo
                     image.SetPixel(i, j, colorTemp);
                 }
                 //动态绘制滤镜效果图
-                graphics.DrawImage(
-                    image, new Rectangle(Width, 0, Width, Height));
+                graphics.DrawImage(image, new Rectangle(Width, 0, Width, Height));
             }
+        } 
+        #endregion
 
-        }
-        //计算两点A、B之间的绝对距离
+        #region 计算两点A、B之间的绝对距离
+        /// <summary>
+        /// 计算两点A、B之间的绝对距离
+        /// </summary>
+        /// <param name="A"></param>
+        /// <param name="B"></param>
+        /// <returns></returns>
         float fDistance(Point A, Point B)
         {
             double i = Math.Pow((A.X - B.X), 2) + Math.Pow((A.Y - B.Y), 2);
             return (float)Math.Sqrt(i);
         }
+        #endregion
 
+        #region MyRegion
         private void Flashligt_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -8117,11 +8178,10 @@ namespace GDIPlusDemo
             /*如果在此处使用graphics.DrawImage(
             image, new Rectangle(Width, 0, Width, Height));
             绘制过程是静态的*/
+        } 
+        #endregion
 
-
-
-        }
-
+        #region MyRegion
         private void BlurAndSharpen_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -8212,7 +8272,8 @@ namespace GDIPlusDemo
                     image2, new Rectangle(Width * 2, 0, Width, Height));
 
             }
-        }
+        } 
+        #endregion
 
     }
 }
