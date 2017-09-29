@@ -1811,7 +1811,7 @@ namespace GDIPlusDemo
         } 
         #endregion
 
-        #region MyRegion
+        #region 从画刷中构造画笔
         private void CreatePenFromBrush_Click(object sender, System.EventArgs e)
         {
             Graphics g = this.CreateGraphics();
@@ -1844,7 +1844,7 @@ namespace GDIPlusDemo
         } 
         #endregion
 
-        #region 画笔的线形演示
+        #region 自定义线形
         private void DashStyle_Custom_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1887,7 +1887,7 @@ namespace GDIPlusDemo
         } 
         #endregion
 
-        #region MyRegion
+        #region 画笔的对其方式
         private void Pen_Align_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1909,7 +1909,7 @@ namespace GDIPlusDemo
         } 
         #endregion
 
-        #region MyRegion
+        #region 画笔的缩放与旋转
         private void Pen_Tranform_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -1936,7 +1936,7 @@ namespace GDIPlusDemo
         } 
         #endregion
 
-        #region 线帽演示
+        #region 画笔的线帽属性演示
         private void Pen_LineCap_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2722,7 +2722,6 @@ namespace GDIPlusDemo
             graphics.FillEllipse(myLGBrush, myRect);
         }
 
-
         private void Brush_PathGradientBrush_Star_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -2871,13 +2870,13 @@ namespace GDIPlusDemo
 
             //定义五星的边线坐标，为演示翻转效果，将五星的一角拉长
             Point[] points = new Point[]
-        {
-            new Point(75, 0), new Point(100, 50),
-            new Point(150, 50), new Point(112, 75),
-            new Point(150, 150), new Point(75, 100),
-            new Point(0, 190), new Point(37, 75),
-            new Point(10, 50), new Point(50, 50)
-        };
+            {
+                new Point(75, 0), new Point(100, 50),
+                new Point(150, 50), new Point(112, 75),
+                new Point(150, 150), new Point(75, 100),
+                new Point(0, 190), new Point(37, 75),
+                new Point(10, 50), new Point(50, 50)
+            };
 
             GraphicsPath path = new GraphicsPath();
             path.AddLines(points);
@@ -2943,6 +2942,7 @@ namespace GDIPlusDemo
             //输出中心点及约束矩形对象的信息
             graphics.DrawString(tmp, myFont, brush, new PointF(0, 395));
         }
+       
         //更改路径渐变画刷的中心点
         private void Brush_PathGradientBrush_CenterPoint_Click(object sender, System.EventArgs e)
         {
@@ -2990,6 +2990,7 @@ namespace GDIPlusDemo
             }
 
         }
+        
         //对路径渐变画刷使用多色渐变
         private void Brush_PathGradientBrush_InterpolationColors_Click(object sender, System.EventArgs e)
         {
@@ -3035,6 +3036,7 @@ namespace GDIPlusDemo
             centerpoint = pthGrBrush.CenterPoint;
             graphics.FillEllipse(brush, centerpoint.X - 5, centerpoint.Y - 5, 10, 10);
         }
+        
         //更改路径渐变画刷的焦点缩放比例
         private void Brsuh_PathGradietBrush_Focus_Click(object sender, System.EventArgs e)
         {
@@ -3124,6 +3126,7 @@ namespace GDIPlusDemo
                 myFont, brush, new PointF(0, 210));
 
         }
+        
         //路径渐变画刷的变换
         private void Brush_PathGradientBrush_Transform_Click(object sender, System.EventArgs e)
         {
@@ -3163,6 +3166,7 @@ namespace GDIPlusDemo
             graphics.FillRectangle(linGrBrush, 0, 60, 200, 50);
 
         }
+        
         //简单的使用字体示意
         private void Font_UsingFontInGDIPlus_Click(object sender, System.EventArgs e)
         {
@@ -3187,6 +3191,7 @@ namespace GDIPlusDemo
             graphics.DrawString("输出文本", myFont, brush, new Rectangle(0, 0, this.Width, this.Height), fmt);
 
         }
+        
         //枚举所有的字体系列
         private void Font_EnumAllFonts_Click(object sender, System.EventArgs e)
         {
@@ -3228,6 +3233,7 @@ namespace GDIPlusDemo
             Form3 f = new Form3();
             f.ShowDialog();
         }
+        
         //使用不同的字体边缘处理方式
         private void Font_UsingTextRenderHint_Click(object sender, System.EventArgs e)
         {
@@ -3249,6 +3255,7 @@ namespace GDIPlusDemo
                 graphics.TranslateTransform(0, font.Height);
             }
         }
+        
         //使用私有字体集合
         private void Font_Privatefontcollection_Click(object sender, System.EventArgs e)
         {
@@ -3286,6 +3293,7 @@ namespace GDIPlusDemo
         {
 
         }
+
         //在私有字体集合中使用多种字体
         private void Font_Privatefontcollection2_Click(object sender, System.EventArgs e)
         {
@@ -3320,6 +3328,7 @@ namespace GDIPlusDemo
                 graphics.TranslateTransform(0, tmpFont.Height);
             }
         }
+        
         //检查字体风格是否可用
         private void Font_IsStyleAvailable_Click(object sender, System.EventArgs e)
         {
@@ -3470,6 +3479,7 @@ namespace GDIPlusDemo
                 pointF.Y += 10.0f;
             }
         }
+        
         //获取字体的大小
         private void Font_Size_Click(object sender, System.EventArgs e)
         {
@@ -3544,6 +3554,7 @@ namespace GDIPlusDemo
                 lineSpacing, lineSpacingPixel);
             graphics.DrawString(infoString, font2, solidBrush, pointF);
         }
+        
         //设置文本输出基线
         private void Font_BaseLine_Click(object sender, System.EventArgs e)
         {
@@ -3644,6 +3655,7 @@ namespace GDIPlusDemo
             graphics.TranslateTransform(0, 10 + stringSize.Height);
             graphics.DrawString(tmp, font2, brush, new PointF(0, 0));
         }
+        
         //计算在指定的区域中显示的字符总数及行数
         private void Font_MeasureString2_Click(object sender, System.EventArgs e)
         {
@@ -3688,6 +3700,7 @@ namespace GDIPlusDemo
             graphics.TranslateTransform(0, 10 + stringSize.Height);
             graphics.DrawString(tmp, font2, brush, new PointF(0, 0));
         }
+        
         //文本的分栏输出
         private void Font_ColumnTextOut_Click(object sender, System.EventArgs e)
         {
@@ -3746,6 +3759,7 @@ namespace GDIPlusDemo
                 str = str.Substring(codepointsFitted);
             }
         }
+        
         //设置文本的去尾方式
         private void Font_StirngTrimming_Click(object sender, System.EventArgs e)
         {
@@ -3828,6 +3842,7 @@ namespace GDIPlusDemo
                 msgFormat);
 
         }
+        
         //文本输出的剪裁处理
         private void Font_TextOutClip_Click(object sender, System.EventArgs e)
         {
@@ -3871,6 +3886,7 @@ namespace GDIPlusDemo
             graphics.DrawRectangle(pen, outtext.X, outtext.Y,
                 outtext.Width, outtext.Height);
         }
+        
         //测量文本局部输出区域
         private void Font_MeasureCharacterRanges_Click(object sender, System.EventArgs e)
         {
@@ -3953,6 +3969,7 @@ namespace GDIPlusDemo
             }
 
         }
+        
         //控件文本输出方向
         private void Font_TextoutDirection_Click(object sender, System.EventArgs e)
         {
@@ -3990,6 +4007,7 @@ namespace GDIPlusDemo
             graphics.DrawRectangle(pen, f);
             graphics.DrawString(ts, myFont, brush, f, strFormat);
         }
+        
         //设置文本对齐方式
         private void Font_TextAlignment_Click(object sender, System.EventArgs e)
         {
@@ -4045,8 +4063,6 @@ namespace GDIPlusDemo
 
         }
 
-
-
         private void Form1_Resize(object sender, System.EventArgs e)
         {
             ////this.Invalidate();
@@ -4100,6 +4116,7 @@ namespace GDIPlusDemo
                     graphics.DrawString(s, font, brush, new PointF(this.ClientSize.Width / 2, this.ClientSize.Height / 2), strfmt);
                 }
         }
+        
         //使用制表位
         private void Font_TextoutUsingTabs_Click(object sender, System.EventArgs e)
         {
@@ -4159,6 +4176,7 @@ namespace GDIPlusDemo
                 num = p3;
             }
         };
+
         private void Font_UsingTabs_Click(object sender, System.EventArgs e)
         {
 
@@ -4214,6 +4232,7 @@ namespace GDIPlusDemo
             graphics.DrawString(title, font, solidBrush, rect, stringFormat);
         }
 
+
         private void Font_TextoutHotkeyPrefix_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -4251,6 +4270,7 @@ namespace GDIPlusDemo
             graphics.DrawRectangle(pen, new Rectangle(30, 30, 160, font.Height * 2));
 
         }
+
 
         private void Font_TextoutShadow_Click(object sender, System.EventArgs e)
         {
@@ -4290,6 +4310,7 @@ namespace GDIPlusDemo
             graphics.DrawString("阴影字", font, Brushes.Red, new PointF(textout.X, textout.Y));
         }
 
+
         private void Font_TextoutHashline_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -4318,6 +4339,7 @@ namespace GDIPlusDemo
             graphics.DrawString("影线字", font, brush_tmp, textout, format);
 
         }
+
 
         private void Font_TextoutTexture_Click(object sender, System.EventArgs e)
         {
@@ -4350,6 +4372,7 @@ namespace GDIPlusDemo
             //使用画刷绘制文本
             graphics.DrawString("纹理字", font, brush_tmp, textout, format);
         }
+
 
         private void Font_TextoutGradient_Click(object sender, System.EventArgs e)
         {
@@ -4401,7 +4424,8 @@ namespace GDIPlusDemo
             //使用画刷绘制文本
             graphics.DrawString("渐变字", font, brush_tmp, textout, format);
         }
-        //构造路径
+
+        #region 构造路径
         private void Path_Construct_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -4409,25 +4433,25 @@ namespace GDIPlusDemo
 
             //定义构成路径的点坐标
             PointF[] data = new PointF[]
-        {
-            new PointF(40,140),
-            new PointF(275,200),
-            new PointF(105,225),
-            new PointF(190,300),
-            new PointF(50,350),
-            new PointF(20,180)
-        };
+            {
+                new PointF(40,140),
+                new PointF(275,200),
+                new PointF(105,225),
+                new PointF(190,300),
+                new PointF(50,350),
+                new PointF(20,180)
+            };
 
             //设置定义点的类型将每点都处理成直线的端点
             byte[] typeline = new byte[]
-    {
-        (byte)PathPointType.Line,
-        (byte)PathPointType.Line,
-        (byte)PathPointType.Line,
-        (byte)PathPointType.Line,
-        (byte)PathPointType.Line,
-        (byte)PathPointType.Line
-    };
+            {
+                (byte)PathPointType.Line,
+                (byte)PathPointType.Line,
+                (byte)PathPointType.Line,
+                (byte)PathPointType.Line,
+                (byte)PathPointType.Line,
+                (byte)PathPointType.Line
+            };
 
             //构造路径
             GraphicsPath tmp1 = new GraphicsPath(data, typeline);
@@ -4460,7 +4484,8 @@ namespace GDIPlusDemo
             for (int i = 0; i < 6; i++)
                 graphics.FillEllipse(Brushes.Black,
                     new RectangleF(data[i].X - 5, data[i].Y - 5, 10, 10));
-        }
+        } 
+        #endregion
 
         private void Path_AddLines_Click(object sender, System.EventArgs e)
         {
@@ -4478,7 +4503,8 @@ namespace GDIPlusDemo
             path.AddArc(rect2, 0.0f, 180.0f);
             graphics.DrawPath(pen, path);
         }
-        //封闭图形
+
+        #region 封闭图形
         private void Path_CloseFigure_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -4498,8 +4524,10 @@ namespace GDIPlusDemo
             //封闭弧线2
             path2.CloseFigure();
             graphics.DrawPath(pen, path2);
-        }
-        //路径的填充
+        } 
+        #endregion
+
+        #region 路径的填充
         private void Path_FillPath_Click(object sender, System.EventArgs e)
         {
             Graphics graphics = this.CreateGraphics();
@@ -4532,7 +4560,8 @@ namespace GDIPlusDemo
             //使用默认的填充方式填充路径
             graphics.FillPath(brush, path);
             graphics.DrawPath(pen, path);
-        }
+        } 
+        #endregion
 
         private void Path_AddSubPath_Click(object sender, System.EventArgs e)
         {
@@ -4658,13 +4687,13 @@ namespace GDIPlusDemo
             path.AddEllipse(new Rectangle(70, 30, 100, 40));
             //添加曲线　
             Point[] points = new Point[]
-        {
-            new Point(300, 40),
-            new Point(350, 60),
-            new Point(300, 80),
-            new Point(300, 100),
-            new Point(350, 150)
-        };
+            {
+                new Point(300, 40),
+                new Point(350, 60),
+                new Point(300, 80),
+                new Point(300, 100),
+                new Point(350, 150)
+            };
             path.AddCurve(points, 5);
 
             //绘制路径
@@ -4702,11 +4731,11 @@ namespace GDIPlusDemo
 
             //曲线的定义点
             Point[] points = new Point[]
-        {
-            new Point(40, 60),
-            new Point(50, 70),
-            new Point(30, 90)
-        };
+            {
+                new Point(40, 60),
+                new Point(50, 70),
+                new Point(30, 90)
+            };
 
             Pen pen = new Pen(Color.Red, 2);
             GraphicsPath path = new GraphicsPath();
@@ -4894,12 +4923,12 @@ namespace GDIPlusDemo
 
             //曲线定义点
             Point[] pts = new Point[]
-        {
-            new Point(20,50),
-            new Point(60,70),
-            new Point(80,10),
-            new Point(120,50)
-        };
+            {
+                new Point(20,50),
+                new Point(60,70),
+                new Point(80,10),
+                new Point(120,50)
+            };
 
             GraphicsPath path = new GraphicsPath();
             path.AddCurve(pts, 4);
@@ -4937,16 +4966,16 @@ namespace GDIPlusDemo
 
             // 创建一个全部由线条组成的路径
             PointF[] points = new PointF[]
-        {
-            new PointF(20.0f, 60.0f),
-            new PointF(30.0f, 90.0f),
-            new PointF(15.0f, 110.0f),
-            new PointF(15.0f, 145.0f),
-            new PointF(55.0f, 145.0f),
-            new PointF(55.0f, 110.0f),
-            new PointF(40.0f, 90.0f),
-            new PointF(50.0f, 60.0f)
-        };
+            {
+                new PointF(20.0f, 60.0f),
+                new PointF(30.0f, 90.0f),
+                new PointF(15.0f, 110.0f),
+                new PointF(15.0f, 145.0f),
+                new PointF(55.0f, 145.0f),
+                new PointF(55.0f, 110.0f),
+                new PointF(40.0f, 90.0f),
+                new PointF(50.0f, 60.0f)
+            };
 
             GraphicsPath path = new GraphicsPath();
             path.AddLines(points);
@@ -5010,12 +5039,12 @@ namespace GDIPlusDemo
             Pen greenPen = new Pen(Color.Green, 10);
             //定义曲线
             PointF[] points =
-        {
-            new PointF(10.0f, 10.0f),
-            new PointF(130.0f, 90.0f),
-            new PointF(140.0f, 60.0f),
-            new PointF(60.0f, 90.0f)
-        };
+            {
+                new PointF(10.0f, 10.0f),
+                new PointF(130.0f, 90.0f),
+                new PointF(140.0f, 60.0f),
+                new PointF(60.0f, 90.0f)
+            };
 
             GraphicsPath path = new GraphicsPath();
             //添加四条曲线
