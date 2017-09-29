@@ -368,10 +368,18 @@ namespace Canvas
             dc.Graphics.Dispose();
             dc.Dispose();
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dostatic"></param>
+        /// <param name="rect"></param>
         public void DoInvalidate(bool dostatic, RectangleF rect)
         {
             if (dostatic)
+            {
                 m_staticDirty = true;
+            }
             Invalidate(ScreenUtils.ConvertRect(rect));
         }
         
@@ -387,6 +395,10 @@ namespace Canvas
             }
             Invalidate();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public IDrawObject NewObject
         {
             get { return m_newObject; }
@@ -410,30 +422,42 @@ namespace Canvas
                 anyoldsel = true;
                 break;
             }
+
             if (toggle && selcount > 0)
             {
                 invalidate = true;
                 foreach (IDrawObject obj in selected)
                 {
                     if (m_model.IsSelected(obj))
+                    {
                         m_model.RemoveSelectedObject(obj);
+                    }
                     else
+                    {
                         m_model.AddSelectedObject(obj);
+                    }
                 }
             }
+
             if (add && selcount > 0)
             {
                 invalidate = true;
                 foreach (IDrawObject obj in selected)
+                {
                     m_model.AddSelectedObject(obj);
+                }
             }
+
             if (add == false && toggle == false && selcount > 0)
             {
                 invalidate = true;
                 m_model.ClearSelectedObjects();
                 foreach (IDrawObject obj in selected)
+                {
                     m_model.AddSelectedObject(obj);
+                }
             }
+
             if (add == false && toggle == false && selcount == 0 && anyoldsel)
             {
                 invalidate = true;
@@ -441,7 +465,9 @@ namespace Canvas
             }
 
             if (invalidate)
+            {
                 DoInvalidate(false);
+            }
         }
 
         /// <summary>

@@ -94,6 +94,10 @@ namespace Canvas.DrawTools
 				line.P2 = point;
 		}
 	}
+
+    /// <summary>
+    /// Ïß
+    /// </summary>
 	class Line : DrawObjectBase, IDrawObject, ISerialize
 	{
 		protected UnitPoint m_p1, m_p2;
@@ -364,6 +368,8 @@ namespace Canvas.DrawTools
 				HitUtil.RadiansToDegrees(HitUtil.LineAngleR(P1, P2, 0)));
 		}
 		#endregion
+
+
 		#region ISerialize
 		public void GetObjectData(XmlWriter wr)
 		{
@@ -385,6 +391,10 @@ namespace Canvas.DrawTools
 				P2 = newlinepoint;
 		}
 	}
+
+    /// <summary>
+    /// Ïß±à¼­
+    /// </summary>
 	class LineEdit : Line, IObjectEditInstance
 	{
 		protected PerpendicularSnapPoint m_perSnap;
@@ -427,6 +437,14 @@ namespace Canvas.DrawTools
 			}
 			base.OnMouseMove(canvas, point);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
+        /// <returns></returns>
 		public override eDrawObjectMouseDown OnMouseDown(ICanvas canvas, UnitPoint point, ISnapPoint snappoint)
 		{
 			if (m_tanSnap != null && Control.MouseButtons == MouseButtons.Right)
