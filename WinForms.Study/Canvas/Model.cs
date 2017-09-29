@@ -179,6 +179,10 @@ namespace Canvas
 		{
 			get { return m_layers.ToArray(); }
 		}
+
+        /// <summary>
+        /// 活动层
+        /// </summary>
 		public ICanvasLayer ActiveLayer
 		{
 			get
@@ -192,6 +196,7 @@ namespace Canvas
 				m_activeLayer = value;
 			}
 		}
+
 		public ICanvasLayer GetLayer(string id)
 		{
 			foreach (ICanvasLayer layer in m_layers)
@@ -201,6 +206,14 @@ namespace Canvas
 			}
 			return null;
 		}
+
+        /// <summary>
+        /// 创建绘制对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
+        /// <returns></returns>
 		public IDrawObject CreateObject(string type, UnitPoint point, ISnapPoint snappoint)
 		{
 			DrawingLayer layer = ActiveLayer as DrawingLayer;

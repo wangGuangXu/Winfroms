@@ -8,117 +8,157 @@ using System.Windows.Forms;
 
 namespace Canvas
 {
-    /// <summary>
-    /// 
-    /// </summary>
-	public struct CanvasWrapper : ICanvas
-	{
-		CanvasCtrl m_canvas; 
-		Graphics m_graphics;
-		Rectangle m_rect;
-		public CanvasWrapper(CanvasCtrl canvas)
-		{
-			m_canvas = canvas;
-			m_graphics = null;
-			m_rect = new Rectangle();
-		}
-		public CanvasWrapper(CanvasCtrl canvas, Graphics graphics, Rectangle clientrect)
-		{
-			m_canvas = canvas;
-			m_graphics = graphics;
-			m_rect = clientrect;
-		}
-		public IModel Model
-		{
-			get { return m_canvas.Model; }
-		}
-		public CanvasCtrl CanvasCtrl
-		{
-			get { return m_canvas; }
-		}
-		public void Dispose()
-		{
-			m_graphics = null;
-		}
-		#region ICanvas Members
-		public IModel DataModel
-		{
-			get { return m_canvas.Model; }
-		}
-		public UnitPoint ScreenTopLeftToUnitPoint()
-		{
-			return m_canvas.ScreenTopLeftToUnitPoint();
-		}
-		public UnitPoint ScreenBottomRightToUnitPoint()
-		{
-			return m_canvas.ScreenBottomRightToUnitPoint();
-		}
-		public PointF ToScreen(UnitPoint unitpoint)
-		{
-			return m_canvas.ToScreen(unitpoint);
-		}
-		public float ToScreen(double unitvalue)
-		{
-			return m_canvas.ToScreen(unitvalue);
-		}
-		public double ToUnit(float screenvalue)
-		{
-			return m_canvas.ToUnit(screenvalue);
-		}
-		public UnitPoint ToUnit(PointF screenpoint)
-		{
-			return m_canvas.ToUnit(screenpoint);
-		}
-		public Graphics Graphics
-		{
-			get { return m_graphics; }
-		}
-		public Rectangle ClientRectangle
-		{
-			get { return m_rect; }
-			set { m_rect = value; }
-		}
-		public Pen CreatePen(Color color, float unitWidth)
-		{
-			return m_canvas.CreatePen(color, unitWidth);
-		}
-		public void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2)
-		{
-			m_canvas.DrawLine(canvas, pen, p1, p2);
-		}
-		public void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float beginangle, float angle)
-		{
-			m_canvas.DrawArc(canvas, pen, center, radius, beginangle, angle);
-		}
-		public void Invalidate()
-		{
-			m_canvas.DoInvalidate(false);
-		}
-		public IDrawObject CurrentObject
-		{
-			get { return m_canvas.NewObject; }
-		}
-		#endregion
-	}
-
     #region MyRegion
     /// <summary>
     /// 
     /// </summary>
+    public struct CanvasWrapper : ICanvas
+    {
+        CanvasCtrl m_canvas;
+        Graphics m_graphics;
+        Rectangle m_rect;
+
+        public CanvasWrapper(CanvasCtrl canvas)
+        {
+            m_canvas = canvas;
+            m_graphics = null;
+            m_rect = new Rectangle();
+        }
+
+        public CanvasWrapper(CanvasCtrl canvas, Graphics graphics, Rectangle clientrect)
+        {
+            m_canvas = canvas;
+            m_graphics = graphics;
+            m_rect = clientrect;
+        }
+
+        public IModel Model
+        {
+            get { return m_canvas.Model; }
+        }
+
+        public CanvasCtrl CanvasCtrl
+        {
+            get { return m_canvas; }
+        }
+
+        public void Dispose()
+        {
+            m_graphics = null;
+        }
+
+        #region ICanvas Members
+
+        public IModel DataModel
+        {
+            get { return m_canvas.Model; }
+        }
+
+        public UnitPoint ScreenTopLeftToUnitPoint()
+        {
+            return m_canvas.ScreenTopLeftToUnitPoint();
+        }
+
+        public UnitPoint ScreenBottomRightToUnitPoint()
+        {
+            return m_canvas.ScreenBottomRightToUnitPoint();
+        }
+
+        public PointF ToScreen(UnitPoint unitpoint)
+        {
+            return m_canvas.ToScreen(unitpoint);
+        }
+
+        public float ToScreen(double unitvalue)
+        {
+            return m_canvas.ToScreen(unitvalue);
+        }
+
+        public double ToUnit(float screenvalue)
+        {
+            return m_canvas.ToUnit(screenvalue);
+        }
+
+        public UnitPoint ToUnit(PointF screenpoint)
+        {
+            return m_canvas.ToUnit(screenpoint);
+        }
+
+        public Graphics Graphics
+        {
+            get { return m_graphics; }
+        }
+
+        public Rectangle ClientRectangle
+        {
+            get { return m_rect; }
+            set { m_rect = value; }
+        }
+
+        public Pen CreatePen(Color color, float unitWidth)
+        {
+            return m_canvas.CreatePen(color, unitWidth);
+        }
+
+        public void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2)
+        {
+            m_canvas.DrawLine(canvas, pen, p1, p2);
+        }
+
+        public void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float beginangle, float angle)
+        {
+            m_canvas.DrawArc(canvas, pen, center, radius, beginangle, angle);
+        }
+
+        public void Invalidate()
+        {
+            m_canvas.DoInvalidate(false);
+        }
+
+        public IDrawObject CurrentObject
+        {
+            get { return m_canvas.NewObject; }
+        }
+
+        #endregion
+    } 
+    #endregion
+
+    #region 画布控制
+    /// <summary>
+    /// 画布控制
+    /// </summary>
     public partial class CanvasCtrl : UserControl
     {
+        #region 命令类型枚举
         /// <summary>
-        /// 命令类型
+        /// 命令类型枚举
         /// </summary>
-		enum eCommandType
+        enum eCommandType
         {
             select,
+            /// <summary>
+            /// 画笔
+            /// </summary>
             pan,
+            /// <summary>
+            /// 移动
+            /// </summary>
             move,
+            /// <summary>
+            /// 绘制
+            /// </summary>
             draw,
+            /// <summary>
+            /// 编辑
+            /// </summary>
             edit,
+            /// <summary>
+            /// 编辑节点
+            /// </summary>
             editNode,
-        }
+        } 
+        #endregion
 
         ICanvasOwner m_owner;
         CursorCollection m_cursors = new CursorCollection();
@@ -129,6 +169,9 @@ namespace Canvas
         eCommandType m_commandType = eCommandType.select;
         bool m_runningSnaps = true;
         Type[] m_runningSnapTypes = null;
+        /// <summary>
+        /// 鼠标按下的点坐标
+        /// </summary>
         PointF m_mousedownPoint;
         IDrawObject m_newObject = null;
         IEditTool m_editTool = null;
@@ -162,6 +205,7 @@ namespace Canvas
             get { return m_model; }
             set { m_model = value; }
         }
+
         public CanvasCtrl(ICanvasOwner owner, IModel datamodel)
         {
             m_canvaswrapper = new CanvasWrapper(this);
@@ -183,6 +227,8 @@ namespace Canvas
             m_moveHelper = new MoveHelper(this);
             m_nodeMoveHelper = new NodeMoveHelper(m_canvaswrapper);
         }
+
+
         public UnitPoint GetMousePoint()
         {
             Point point = this.PointToClient(Control.MousePosition);
@@ -215,6 +261,8 @@ namespace Canvas
                 Cursor.Position = this.PointToScreen(new Point((int)centerX, (int)centerY));
             DoInvalidate(true);
         }
+
+
         protected override void OnPaint(PaintEventArgs e)
         {
             CommonTools.Tracing.StartTrack(Program.TracePaint);
@@ -282,6 +330,8 @@ namespace Canvas
             ClearPens();
             CommonTools.Tracing.EndTrack(Program.TracePaint, "OnPaint complete");
         }
+
+
         void RepaintStatic(Rectangle r)
         {
             if (m_staticImage == null)
@@ -324,16 +374,28 @@ namespace Canvas
                 m_staticDirty = true;
             Invalidate(ScreenUtils.ConvertRect(rect));
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dostatic"></param>
         public void DoInvalidate(bool dostatic)
         {
             if (dostatic)
+            {
                 m_staticDirty = true;
+            }
             Invalidate();
         }
         public IDrawObject NewObject
         {
             get { return m_newObject; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="selected"></param>
         protected void HandleSelection(List<IDrawObject> selected)
         {
             bool add = Control.ModifierKeys == Keys.Shift;
@@ -381,44 +443,55 @@ namespace Canvas
             if (invalidate)
                 DoInvalidate(false);
         }
+
+        /// <summary>
+        /// 完成节点编辑
+        /// </summary>
         void FinishNodeEdit()
         {
             m_commandType = eCommandType.select;
             m_snappoint = null;
         }
+
+        /// <summary>
+        /// 处理鼠标按下的绘图
+        /// </summary>
+        /// <param name="mouseunitpoint"></param>
+        /// <param name="snappoint"></param>
         protected virtual void HandleMouseDownWhenDrawing(UnitPoint mouseunitpoint, ISnapPoint snappoint)
         {
-            if (m_commandType == eCommandType.draw)
+            if (m_commandType != eCommandType.draw) return;
+
+            if (m_newObject == null)
             {
-                if (m_newObject == null)
-                {
-                    m_newObject = m_model.CreateObject(m_drawObjectId, mouseunitpoint, snappoint);
-                    DoInvalidate(false, m_newObject.GetBoundingRect(m_canvaswrapper));
-                }
-                else
-                {
-                    if (m_newObject != null)
-                    {
-                        eDrawObjectMouseDown result = m_newObject.OnMouseDown(m_canvaswrapper, mouseunitpoint, snappoint);
-                        switch (result)
-                        {
-                            case eDrawObjectMouseDown.Done:
-                                m_model.AddObject(m_model.ActiveLayer, m_newObject);
-                                m_newObject = null;
-                                DoInvalidate(true);
-                                break;
-                            case eDrawObjectMouseDown.DoneRepeat:
-                                m_model.AddObject(m_model.ActiveLayer, m_newObject);
-                                m_newObject = m_model.CreateObject(m_newObject.Id, m_newObject.RepeatStartingPoint, null);
-                                DoInvalidate(true);
-                                break;
-                            case eDrawObjectMouseDown.Continue:
-                                break;
-                        }
-                    }
-                }
+                m_newObject = m_model.CreateObject(m_drawObjectId, mouseunitpoint, snappoint);
+                DoInvalidate(false, m_newObject.GetBoundingRect(m_canvaswrapper));
+                return;
+            }
+
+            eDrawObjectMouseDown result = m_newObject.OnMouseDown(m_canvaswrapper, mouseunitpoint, snappoint);
+            switch (result)
+            {
+                case eDrawObjectMouseDown.Done:
+                    m_model.AddObject(m_model.ActiveLayer, m_newObject);
+                    m_newObject = null;
+                    DoInvalidate(true);
+                    break;
+                case eDrawObjectMouseDown.DoneRepeat:
+                    m_model.AddObject(m_model.ActiveLayer, m_newObject);
+                    m_newObject = m_model.CreateObject(m_newObject.Id, m_newObject.RepeatStartingPoint, null);
+                    DoInvalidate(true);
+                    break;
+                case eDrawObjectMouseDown.Continue:
+                    break;
             }
         }
+
+        #region 鼠标按下
+        /// <summary>
+        /// 鼠标按下
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             m_mousedownPoint = new PointF(e.X, e.Y); // used when panning
@@ -426,7 +499,9 @@ namespace Canvas
 
             UnitPoint mousepoint = ToUnit(m_mousedownPoint);
             if (m_snappoint != null)
+            {
                 mousepoint = m_snappoint.SnapPoint;
+            }
 
             if (m_commandType == eCommandType.editNode)
             {
@@ -480,7 +555,7 @@ namespace Canvas
                     {
                         m_editTool.Finished();
                         m_editTool = m_model.GetEditTool(m_editToolId); // continue with new tool
-                                                                        //m_editTool = null;
+                        //m_editTool = null;
 
                         if (m_editTool.SupportSelection)
                             m_selection = new SelectionRectangle(m_mousedownPoint);
@@ -490,7 +565,14 @@ namespace Canvas
                 UpdateCursor();
             }
             base.OnMouseDown(e);
-        }
+        } 
+        #endregion
+
+        #region 鼠标弹起
+        /// <summary>
+        /// 鼠标弹起
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
@@ -543,7 +625,14 @@ namespace Canvas
                     mousepoint = m_snappoint.SnapPoint;
                 m_newObject.OnMouseUp(m_canvaswrapper, mousepoint, m_snappoint);
             }
-        }
+        } 
+        #endregion
+
+        #region 鼠标移动
+        /// <summary>
+        /// 鼠标移动
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -627,7 +716,14 @@ namespace Canvas
                 dc.Graphics.Dispose();
                 dc.Dispose();
             }
-        }
+        } 
+        #endregion
+
+        #region 鼠标滚动
+        /// <summary>
+        /// 鼠标滚动
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             UnitPoint p = GetMousePoint();
@@ -641,6 +737,13 @@ namespace Canvas
             DoInvalidate(true);
             base.OnMouseWheel(e);
         }
+        #endregion
+
+        #region 画布大小调整
+        /// <summary>
+        /// 画布大小调整
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -650,7 +753,8 @@ namespace Canvas
             m_lastCenterPoint = CenterPointUnit();
             m_staticImage = null;
             DoInvalidate(true);
-        }
+        } 
+        #endregion
 
         UnitPoint m_lastCenterPoint;
         PointF m_panOffset = new PointF(25, -25);

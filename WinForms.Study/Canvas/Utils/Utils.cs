@@ -468,10 +468,19 @@ namespace Canvas
                 return new UnitPoint(x, y);
             return UnitPoint.Empty;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp1"></param>
+        /// <param name="lp2"></param>
+        /// <param name="r"></param>
+        /// <returns></returns>
         public static bool LineIntersectWithRect(UnitPoint lp1, UnitPoint lp2, RectangleF r)
         {
             if (r.Contains(lp1.Point))
                 return true;
+
             if (r.Contains(lp2.Point))
                 return true;
 
@@ -481,18 +490,22 @@ namespace Canvas
             UnitPoint p4 = new UnitPoint(r.Left, r.Bottom);
             if (LinesIntersect(lp1, lp2, p3, p4))
                 return true;
+
             // check bottom
             p4.Y = r.Top;
             p4.X = r.Right;
             if (LinesIntersect(lp1, lp2, p3, p4))
                 return true;
+
             // check right
             p3.X = r.Right;
             p3.Y = r.Top;
             p4.X = r.Right;
             p4.Y = r.Bottom;
+
             if (LinesIntersect(lp1, lp2, p3, p4))
                 return true;
+
             return false;
         }
         public static UnitPoint LineMidpoint(UnitPoint lp1, UnitPoint lp2)

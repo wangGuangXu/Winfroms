@@ -182,13 +182,29 @@ namespace Canvas.DrawTools
 			float thWidth = ThresholdWidth(canvas, Width);
 			return HitUtil.IsPointInLine(m_p1, m_p2, point, thWidth);
 		}
+        
+        /// <summary>
+        /// 创建绘制对象到矩形中
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="rect"></param>
+        /// <param name="anyPoint"></param>
+        /// <returns></returns>
 		public bool ObjectInRectangle(ICanvas canvas, RectangleF rect, bool anyPoint)
 		{
 			RectangleF boundingrect = GetBoundingRect(canvas);
-			if (anyPoint)
-				return HitUtil.LineIntersectWithRect(m_p1, m_p2, rect);
+            if (anyPoint)
+            {
+                return HitUtil.LineIntersectWithRect(m_p1, m_p2, rect);
+            }
 			return rect.Contains(boundingrect);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="unitrect"></param>
 		public virtual void Draw(ICanvas canvas, RectangleF unitrect)
 		{
 			Color color = Color;
@@ -207,12 +223,26 @@ namespace Canvas.DrawTools
 					DrawUtils.DrawNode(canvas, m_p2);
 			}
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
 		public virtual void OnMouseMove(ICanvas canvas, UnitPoint point)
 		{
 			if (Control.ModifierKeys == Keys.Control)
 				point = HitUtil.OrthoPointD(m_p1, point, 45);
 			m_p2 = point;
 		}
+
+        /// <summary>
+        /// 鼠标按下
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
+        /// <returns></returns>
 		public virtual eDrawObjectMouseDown OnMouseDown(ICanvas canvas, UnitPoint point, ISnapPoint snappoint)
 		{
 			Selected = false;
