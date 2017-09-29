@@ -55,20 +55,18 @@ namespace Plan
         /// </summary>
         public override void SetRefresh(Graphics g)
         {
-            _myPen = new Pen(Color.Gray, 3);
+            _myPen = new Pen(Color.Yellow, 3);
 
             //可租
             if (this.RoomInfo.CouldYouRent.HasValue && this.RoomInfo.CouldYouRent.Value)
             {
                 _brush = new SolidBrush(Color.Blue);
-                //_myPen = new Pen(Color.Blue, 3);
             }
 
             //已租
             if (this.RoomInfo.HaveToRent.HasValue && this.RoomInfo.HaveToRent.Value)
             {
-                _brush = new SolidBrush(Color.Red);
-                //_myPen = new Pen(Color.Red, 3);
+                _brush = new SolidBrush(Color.FromArgb(153, 189, 216));
             }
 
             //填充图形
@@ -78,10 +76,7 @@ namespace Plan
             {
                 //让所选择区域为透明
                 _brush = new SolidBrush(Color.Transparent);
-                _myPen = new Pen(Color.Yellow, 3);
-
-                //_brush = new SolidBrush(Color.Yellow);
-                //_myPen = new Pen(Color.Red, 3);
+                _myPen = new Pen(Color.Red, 3);
             }
             g.FillPolygon(_brush, _points);
             g.DrawPolygon(_myPen, _points);

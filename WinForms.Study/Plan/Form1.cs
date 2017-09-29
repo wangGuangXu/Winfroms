@@ -54,7 +54,7 @@ namespace Plan
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             this.UpdateStyles();
 
-            //this.DoubleBuffered = true;
+            this.DoubleBuffered = true;
             InitializeComponent();
 
             _roomTools.Hide();
@@ -69,15 +69,15 @@ namespace Plan
             }
             this.Resize += Form1_Resize;
             this.panelRight.Paint += Panel1_Paint;
-            panelRight.MouseClick += PanelRight_MouseClick;
-            panelRight.MouseDoubleClick += PanelRight_MouseDoubleClick;
+            panelRight.MouseClick += panel1_MouseClick;
+            //panelRight.MouseDoubleClick += PanelRight_MouseDoubleClick;
 
             if (this.currentGraphics != null)
             {
                 currentGraphics.Dispose();
             }
             currentGraphics = this.panelRight.CreateGraphics();
-            panelRight.MouseMove += PanelRight_MouseMove;
+            //panelRight.MouseMove += PanelRight_MouseMove;
         }
         #endregion
 
@@ -100,10 +100,10 @@ namespace Plan
         private void Panel1_Paint(object sender, PaintEventArgs e)
         {
             base.OnPaint(e);
-            //foreach (RoomBase r in this._roomControls)
-            //{
-            //    r.SetRefresh(e.Graphics);
-            //}
+            foreach (RoomBase r in this._roomControls)
+            {
+                r.SetRefresh(e.Graphics);
+            }
         }
         #endregion
 
@@ -151,7 +151,7 @@ namespace Plan
                 }
                 _roomPoints.Add(points);
 
-                LoadChart(new List<Point[]>() { _tempPoint.ToArray() }, new RoomEntity { Number = i.ToString("1000") });
+                LoadChart(_roomPoints, new RoomEntity { Number = i.ToString("1000") });
             }
         }
 
@@ -161,10 +161,10 @@ namespace Plan
         /// <param name="points"></param>
         private void LoadChart(List<Point[]> points, RoomEntity roomInfo)
         {
-            foreach (var item in _roomPoints)
+            foreach (var item in points)
             {
                 var room = new VectorRoomControl();
-                room.Points = item.ToArray();// _tempPoint.ToArray();
+                room.Points = item.ToArray();
 
                 if (roomInfo == null)
                 {
@@ -177,27 +177,23 @@ namespace Plan
                 room.RoomInfo = roomInfo;
                 _roomControls.Add(room);
             }
-            panelRight.Refresh();
+            //panelRight.Refresh();
         }
         #endregion
 
-        #region 添加
+        #region 添加 删除
         private void btnAdd_Click(object sender, EventArgs e)
         {
             _isEdit = true;
             _tempPoint.Clear();
             _tempPoint = new List<Point>();
         } 
-        #endregion
-
-        #region 删除
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (_selctedRoom == null) return;
 
             _roomControls.Remove(_selctedRoom);
             _selctedRoom = null;
-            _roomTools.Hide();
             panelRight.Refresh();
         }
         #endregion
@@ -275,12 +271,8 @@ namespace Plan
                 _isEdit = false;
 
                 _roomPoints.Add(_tempPoint.ToArray());
-                LoadChart(new List<Point[]>() { _tempPoint.ToArray() }, null);
-            }
-
-            if (this.ContextMenuStrip != null)
-            {
-                this.ContextMenuStrip.Hide();
+                LoadChart(new List<Point[]>() { _tempPoint.ToArray() }, new RoomEntity { Number = new Random().Next(100).ToString("1000") });
+                panelRight.Refresh();
             }
 
             if (!_isEdit)
@@ -292,15 +284,6 @@ namespace Plan
                     if (room.Selected)
                     {
                         this._selctedRoom = room;
-                        _roomTools.Room = this._selctedRoom;
-                        _roomTools.Location = new Point(e.Location.X - 70, e.Location.Y + 60);
-                        _roomTools.Show();
-
-                        //右键菜单
-                        //if (e.Button == System.Windows.Forms.MouseButtons.Right)
-                        //{
-                        //    this.ContextMenuStrip = room.ContextMenuStrip;
-                        //}
                     }
                 }
                 panelRight.Refresh();
@@ -328,17 +311,17 @@ namespace Plan
 
         private void PanelRight_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isEdit)
-            {
-                panelRight.Refresh();
-                TempPen = new Pen(new SolidBrush(Color.Red),2);
-                TempPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-                if (_tempPoint.Count > 1)
-                {
-                    this.currentGraphics.DrawLines(this.TempPen, _tempPoint.ToArray());
-                    this.currentGraphics.DrawLine(this.TempPen, _tempPoint[_tempPoint.Count - 1], e.Location);
-                }
-            }
+            //if (_isEdit)
+            //{
+            //    panelRight.Refresh();
+            //    TempPen = new Pen(new SolidBrush(Color.Red),2);
+            //    TempPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+            //    if (_tempPoint.Count > 1)
+            //    {
+            //        this.currentGraphics.DrawLines(this.TempPen, _tempPoint.ToArray());
+            //        this.currentGraphics.DrawLine(this.TempPen, _tempPoint[_tempPoint.Count - 1], e.Location);
+            //    }
+            //}
         }
     }
 }
