@@ -6,7 +6,7 @@ using System.Threading;
 namespace CommonTools
 {
     /// <summary>
-    /// ×·×Ù
+    /// ¸ú×Ù
     /// </summary>
 	public class Tracing
 	{
