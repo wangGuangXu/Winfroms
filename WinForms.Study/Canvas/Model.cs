@@ -16,6 +16,12 @@ namespace Canvas
 	public class DataModel : IModel
 	{
 		static Dictionary<string, Type> m_toolTypes = new Dictionary<string,Type>();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objecttype"></param>
+        /// <returns></returns>
 		static public IDrawObject NewDrawObject(string objecttype)
 		{
 			if (m_toolTypes.ContainsKey(objecttype))
@@ -26,7 +32,12 @@ namespace Canvas
 			return null;
 		}
 
-		Dictionary<string, IDrawObject> m_drawObjectTypes = new Dictionary<string, IDrawObject>(); 
+		Dictionary<string, IDrawObject> m_drawObjectTypes = new Dictionary<string, IDrawObject>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objecttype"></param>
+        /// <returns></returns>
 		DrawTools.DrawObjectBase CreateObject(string objecttype)
 		{
 			if (m_drawObjectTypes.ContainsKey(objecttype))
@@ -43,6 +54,9 @@ namespace Canvas
 			m_editTools.Add(key, tool);
 		}
 
+        /// <summary>
+        /// 脏的
+        /// </summary>
 		public bool IsDirty
 		{
 			get { return m_undoBuffer.Dirty; }
@@ -99,85 +113,93 @@ namespace Canvas
 			m_drawObjectTypes[key] = drawtool;
 		}
 
+        #region 保存为xml文件
         /// <summary>
         /// 保存为xml文件
         /// </summary>
         /// <param name="filename"></param>
-		public void Save(string filename)
-		{
-			try
-			{
-				XmlTextWriter wr = new XmlTextWriter(filename, null);
-				wr.Formatting = Formatting.Indented;
-				wr.WriteStartElement("CanvasDataModel");
-				m_backgroundLayer.GetObjectData(wr);
-				m_gridLayer.GetObjectData(wr);
+        public void Save(string filename)
+        {
+            try
+            {
+                XmlTextWriter wr = new XmlTextWriter(filename, null);
+                wr.Formatting = Formatting.Indented;
+                wr.WriteStartElement("CanvasDataModel");
+                m_backgroundLayer.GetObjectData(wr);
+                m_gridLayer.GetObjectData(wr);
 
-				foreach (ICanvasLayer layer in m_layers)
-				{
+                foreach (ICanvasLayer layer in m_layers)
+                {
                     if (layer is ISerialize)
                     {
                         ((ISerialize)layer).GetObjectData(wr);
                     }
-				}
+                }
 
-				XmlUtil.WriteProperties(this, wr);
-				wr.WriteEndElement();
-				wr.Close();
-				m_undoBuffer.Dirty = false;
-			}
-			catch { }
-		}
+                XmlUtil.WriteProperties(this, wr);
+                wr.WriteEndElement();
+                wr.Close();
+                m_undoBuffer.Dirty = false;
+            }
+            catch { }
+        } 
+        #endregion
 
+        #region 加载文件
+        /// <summary>
+        /// 加载文件
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public bool Load(string filename)
+        {
+            try
+            {
+                StreamReader sr = new StreamReader(filename);
+                //XmlTextReader rd = new XmlTextReader(sr);
+                XmlDocument doc = new XmlDocument();
+                doc.Load(sr);
+                sr.Dispose();
+                XmlElement root = doc.DocumentElement;
+                if (root.Name != "CanvasDataModel") return false;
 
-		public bool Load(string filename)
-		{
-			try
-			{
-				StreamReader sr = new StreamReader(filename);
-				//XmlTextReader rd = new XmlTextReader(sr);
-				XmlDocument doc = new XmlDocument();
-				doc.Load(sr);
-				sr.Dispose();
-				XmlElement root = doc.DocumentElement;
-				if (root.Name != "CanvasDataModel")
-					return false;
+                m_layers.Clear();
+                m_undoBuffer.Clear();
+                m_undoBuffer.Dirty = false;
+                foreach (XmlElement childnode in root.ChildNodes)
+                {
+                    if (childnode.Name == "backgroundlayer")
+                    {
+                        XmlUtil.ParseProperties(childnode, m_backgroundLayer);
+                        continue;
+                    }
+                    if (childnode.Name == "gridlayer")
+                    {
+                        XmlUtil.ParseProperties(childnode, m_gridLayer);
+                        continue;
+                    }
+                    if (childnode.Name == "layer")
+                    {
+                        DrawingLayer l = DrawingLayer.NewLayer(childnode as XmlElement);
+                        m_layers.Add(l);
+                    }
 
-				m_layers.Clear();
-				m_undoBuffer.Clear();
-				m_undoBuffer.Dirty = false;
-				foreach (XmlElement childnode in root.ChildNodes)
-				{
-					if (childnode.Name == "backgroundlayer")
-					{
-						XmlUtil.ParseProperties(childnode, m_backgroundLayer);
-						continue;
-					}
-					if (childnode.Name == "gridlayer")
-					{
-						XmlUtil.ParseProperties(childnode, m_gridLayer);
-						continue;
-					}
-					if (childnode.Name == "layer")
-					{
-						DrawingLayer l = DrawingLayer.NewLayer(childnode as XmlElement);
-						m_layers.Add(l);
-					}
-					if (childnode.Name == "property")
-						XmlUtil.ParseProperty(childnode, this);
-				}
-				return true;
-			}
-			catch (Exception e)
-			{
-				DefaultLayer();
-				Console.WriteLine("Load exception - {0}", e.Message);
-			}
-			return false;
-		}
+                    if (childnode.Name == "property")
+                    {
+                        XmlUtil.ParseProperty(childnode, this);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                DefaultLayer();
+                Console.WriteLine("Load exception - {0}", e.Message);
+            }
 
-
-
+            return false;
+        } 
+        #endregion
 
 
 		public IDrawObject GetFirstSelected()
@@ -188,6 +210,7 @@ namespace Canvas
 				e.MoveNext();
 				return e.Current;
 			}
+
 			return null;
 		}
 
@@ -204,7 +227,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 背景层
         /// </summary>
 		public ICanvasLayer BackgroundLayer
 		{
@@ -212,7 +235,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 网格层
         /// </summary>
 		public ICanvasLayer GridLayer
 		{
@@ -246,6 +269,11 @@ namespace Canvas
 			}
 		}
 
+        /// <summary>
+        /// 获取层
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 		public ICanvasLayer GetLayer(string id)
 		{
 			foreach (ICanvasLayer layer in m_layers)
@@ -268,10 +296,7 @@ namespace Canvas
 		public IDrawObject CreateObject(string type, UnitPoint point, ISnapPoint snappoint)
 		{
 			DrawingLayer layer = ActiveLayer as DrawingLayer;
-            if (layer.Enabled == false)
-            {
-                return null;
-            }
+            if (layer.Enabled == false) return null;
 
 			DrawTools.DrawObjectBase newobj = CreateObject(type);
 			if (newobj != null)
@@ -283,7 +308,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 添加对象
         /// </summary>
         /// <param name="layer"></param>
         /// <param name="drawobject"></param>
@@ -303,7 +328,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 批量删除对象
         /// </summary>
         /// <param name="objects"></param>
 		public void DeleteObjects(IEnumerable<IDrawObject> objects)
@@ -330,7 +355,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 移动对象
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="objects"></param>
@@ -348,7 +373,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 复制对象
         /// </summary>
         /// <param name="offset"></param>
         /// <param name="objects"></param>
@@ -386,7 +411,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 获取编辑工具
         /// </summary>
         /// <param name="edittoolid"></param>
         /// <returns></returns>
@@ -400,7 +425,7 @@ namespace Canvas
 		}
 
         /// <summary>
-        /// 
+        /// 移动节点
         /// </summary>
         /// <param name="position"></param>
         /// <param name="nodes"></param>
@@ -430,10 +455,7 @@ namespace Canvas
 			List<IDrawObject> selected = new List<IDrawObject>();
 			foreach (ICanvasLayer layer in m_layers)
 			{
-                if (layer.Visible == false)
-                {
-                    continue;
-                }
+                if (layer.Visible == false) continue;
 
 				foreach (IDrawObject drawobject in layer.Objects)
 				{
@@ -457,10 +479,7 @@ namespace Canvas
 			List<IDrawObject> selected = new List<IDrawObject>();
 			foreach (ICanvasLayer layer in m_layers)
 			{
-                if (layer.Visible == false)
-                {
-                    continue;
-                }
+                if (layer.Visible == false) continue;
 
 				foreach (IDrawObject drawobject in layer.Objects)
 				{
@@ -549,10 +568,7 @@ namespace Canvas
 		public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, Type[] runningsnaptypes, Type usersnaptype)
 		{
 			List<IDrawObject> objects = GetHitObjects(canvas, point);
-            if (objects.Count == 0)
-            {
-                return null;
-            }
+            if (objects.Count == 0) return null;
 
 			foreach (IDrawObject obj in objects)
 			{

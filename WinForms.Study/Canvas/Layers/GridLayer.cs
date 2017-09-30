@@ -166,7 +166,9 @@ namespace Canvas
 			get { return null; }
 		}
 
-
+        /// <summary>
+        /// ÆôÓÃ
+        /// </summary>
 		[XmlSerializable]
 		public bool Enabled
 		{
@@ -174,16 +176,29 @@ namespace Canvas
             set { enabled = value; }
 		}
 
-
+        /// <summary>
+        /// ¿É¼û
+        /// </summary>
 		public bool Visible
 		{
 			get { return true; }
 		}
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="otherobj"></param>
+        /// <returns></returns>
         public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj)
         {
             if (Enabled == false)
+            {
                 return null;
+            }
+
             UnitPoint snappoint = new UnitPoint();
             UnitPoint mousepoint = point;
             float gridX = Spacing.Width;

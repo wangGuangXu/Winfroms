@@ -296,8 +296,11 @@ namespace Canvas
                 CanvasWrapper dcStatic = new CanvasWrapper(this, Graphics.FromImage(m_staticImage), ClientRectangle);
                 dcStatic.Graphics.SmoothingMode = m_smoothingMode;
                 m_model.BackgroundLayer.Draw(dcStatic, r);
+
                 if (m_model.GridLayer.Enabled)
+                {
                     m_model.GridLayer.Draw(dcStatic, r);
+                }
 
                 PointF nullPoint = ToScreen(new UnitPoint(0, 0));
                 dcStatic.Graphics.DrawLine(Pens.Blue, nullPoint.X - 10, nullPoint.Y, nullPoint.X + 10, nullPoint.Y);
@@ -307,34 +310,51 @@ namespace Canvas
                 for (int layerindex = layers.Length - 1; layerindex >= 0; layerindex--)
                 {
                     if (layers[layerindex] != m_model.ActiveLayer && layers[layerindex].Visible)
+                    {
                         layers[layerindex].Draw(dcStatic, r);
+                    }
                 }
+
                 if (m_model.ActiveLayer != null)
+                {
                     m_model.ActiveLayer.Draw(dcStatic, r);
+                }
 
                 dcStatic.Dispose();
             }
             e.Graphics.DrawImage(m_staticImage, cliprectangle, cliprectangle, GraphicsUnit.Pixel);
 
             foreach (IDrawObject drawobject in m_model.SelectedObjects)
+            {
                 drawobject.Draw(dc, r);
+            }
 
             if (m_newObject != null)
+            {
                 m_newObject.Draw(dc, r);
+            }
 
             if (m_snappoint != null)
+            {
                 m_snappoint.Draw(dc);
+            }
 
             if (m_selection != null)
             {
                 m_selection.Reset();
                 m_selection.SetMousePoint(e.Graphics, this.PointToClient(Control.MousePosition));
             }
+
             if (m_moveHelper.IsEmpty == false)
+            {
                 m_moveHelper.DrawObjects(dc, r);
+            }
 
             if (m_nodeMoveHelper.IsEmpty == false)
+            {
                 m_nodeMoveHelper.DrawObjects(dc, r);
+            }
+
             dc.Dispose();
             ClearPens();
             CommonTools.Tracing.EndTrack(Program.TracePaint, "OnPaint complete");
@@ -621,43 +641,61 @@ namespace Canvas
 
             List<IDrawObject> hitlist = null;
             Rectangle screenSelRect = Rectangle.Empty;
+
             if (m_selection != null)
             {
                 screenSelRect = m_selection.ScreenRect();
                 RectangleF selectionRect = m_selection.Selection(m_canvaswrapper);
                 if (selectionRect != RectangleF.Empty)
                 {
-                    // is any selection rectangle. use it for selection
+                    //是否选择矩形用它来选择  is any selection rectangle. use it for selection
                     hitlist = m_model.GetHitObjects(m_canvaswrapper, selectionRect, m_selection.AnyPoint());
                     DoInvalidate(true);
                 }
                 else
                 {
-                    // else use mouse point
+                    //否则使用鼠标点 else use mouse point
                     UnitPoint mousepoint = ToUnit(new PointF(e.X, e.Y));
                     hitlist = m_model.GetHitObjects(m_canvaswrapper, mousepoint);
                 }
                 m_selection = null;
             }
+
+            //选择命令
             if (m_commandType == eCommandType.select)
             {
                 if (hitlist != null)
+                {
                     HandleSelection(hitlist);
+                }
             }
+
+            //编辑命令
             if (m_commandType == eCommandType.edit && m_editTool != null)
             {
                 UnitPoint mousepoint = ToUnit(m_mousedownPoint);
                 if (m_snappoint != null)
+                {
                     mousepoint = m_snappoint.SnapPoint;
+                }
+
                 if (screenSelRect != Rectangle.Empty)
+                {
                     m_editTool.SetHitObjects(mousepoint, hitlist);
+                }
+
                 m_editTool.OnMouseUp(m_canvaswrapper, mousepoint, m_snappoint);
             }
+            
+            //绘制命令
             if (m_commandType == eCommandType.draw && m_newObject != null)
             {
                 UnitPoint mousepoint = ToUnit(m_mousedownPoint);
                 if (m_snappoint != null)
+                {
                     mousepoint = m_snappoint.SnapPoint;
+                }
+
                 m_newObject.OnMouseUp(m_canvaswrapper, mousepoint, m_snappoint);
             }
         } 
@@ -803,12 +841,19 @@ namespace Canvas
         {
             return point.Point;
         }
+
+
         float ScreenHeight()
         {
             return (float)(ToUnit(this.ClientRectangle.Height) / m_model.Zoom);
         }
 
         #region ICanvas
+        
+        /// <summary>
+        /// 中心点单元
+        /// </summary>
+        /// <returns></returns>
         public UnitPoint CenterPointUnit()
         {
             UnitPoint p1 = ScreenTopLeftToUnitPoint();
@@ -816,16 +861,20 @@ namespace Canvas
             UnitPoint center = new UnitPoint();
             center.X = (p1.X + p2.X) / 2;
             center.Y = (p1.Y + p2.Y) / 2;
+
             return center;
         }
+
         public UnitPoint ScreenTopLeftToUnitPoint()
         {
             return ToUnit(new PointF(0, 0));
         }
+
         public UnitPoint ScreenBottomRightToUnitPoint()
         {
             return ToUnit(new PointF(this.ClientRectangle.Width, this.ClientRectangle.Height));
         }
+
         public PointF ToScreen(UnitPoint point)
         {
             PointF transformedPoint = Translate(point);
@@ -846,6 +895,8 @@ namespace Canvas
         {
             return (double)screenvalue / (double)(m_screenResolution * m_model.Zoom);
         }
+
+
         public UnitPoint ToUnit(PointF screenpoint)
         {
             float panoffsetX = m_panOffset.X + m_dragOffset.X;
@@ -854,16 +905,41 @@ namespace Canvas
             float ypos = ScreenHeight() - ((screenpoint.Y - panoffsetY)) / (m_screenResolution * m_model.Zoom);
             return new UnitPoint(xpos, ypos);
         }
+
+        /// <summary>
+        /// 创建画笔
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="unitWidth"></param>
+        /// <returns></returns>
         public Pen CreatePen(Color color, float unitWidth)
         {
             return GetPen(color, ToScreen(unitWidth));
         }
+
+        /// <summary>
+        /// 画线
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pen"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
         public void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2)
         {
             PointF tmpp1 = ToScreen(p1);
             PointF tmpp2 = ToScreen(p2);
             canvas.Graphics.DrawLine(pen, tmpp1, tmpp2);
         }
+
+        /// <summary>
+        /// 画弧线
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pen"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="startAngle"></param>
+        /// <param name="sweepAngle"></param>
         public void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float startAngle, float sweepAngle)
         {
             PointF p1 = ToScreen(center);
@@ -871,20 +947,41 @@ namespace Canvas
             RectangleF r = new RectangleF(p1, new SizeF());
             r.Inflate(radius, radius);
             if (radius > 0 && radius < 1e8f)
+            {
                 canvas.Graphics.DrawArc(pen, r, -startAngle, -sweepAngle);
+            }
         }
 
         #endregion
 
+        /// <summary>
+        /// 画笔缓存
+        /// </summary>
         Dictionary<float, Dictionary<Color, Pen>> m_penCache = new Dictionary<float, Dictionary<Color, Pen>>();
+
+        /// <summary>
+        /// 获取画笔
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="width"></param>
+        /// <returns></returns>
         Pen GetPen(Color color, float width)
         {
             if (m_penCache.ContainsKey(width) == false)
+            {
                 m_penCache[width] = new Dictionary<Color, Pen>();
+            }
+
             if (m_penCache[width].ContainsKey(color) == false)
+            {
                 m_penCache[width][color] = new Pen(color, width);
+            }
             return m_penCache[width][color];
         }
+
+        /// <summary>
+        ///清空画笔
+        /// </summary>
         void ClearPens()
         {
             m_penCache.Clear();
@@ -895,7 +992,11 @@ namespace Canvas
             Cursor = m_cursors.GetCursor(m_commandType);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         Dictionary<Keys, Type> m_QuickSnap = new Dictionary<Keys, Type>();
+
         public void AddQuickSnapType(Keys key, Type snaptype)
         {
             m_QuickSnap.Add(key, snaptype);
@@ -909,13 +1010,18 @@ namespace Canvas
             m_drawObjectId = drawobjectid;
             UpdateCursor();
         }
+
+
         public void CommandEscape()
         {
             bool dirty = (m_newObject != null) || (m_snappoint != null);
             m_newObject = null;
             m_snappoint = null;
             if (m_editTool != null)
+            {
                 m_editTool.Finished();
+            }
+
             m_editTool = null;
             m_commandType = eCommandType.select;
             m_moveHelper.HandleCancelMove();
@@ -923,12 +1029,18 @@ namespace Canvas
             DoInvalidate(dirty);
             UpdateCursor();
         }
+
+
         public void CommandPan()
         {
             if (m_commandType == eCommandType.select || m_commandType == eCommandType.move)
+            {
                 m_commandType = eCommandType.pan;
+            }
             UpdateCursor();
         }
+
+
         public void CommandMove(bool handleImmediately)
         {
             if (m_model.SelectedCount > 0)
@@ -939,6 +1051,8 @@ namespace Canvas
                 UpdateCursor();
             }
         }
+
+
         public void CommandDeleteSelected()
         {
             m_model.DeleteObjects(m_model.SelectedObjects);
@@ -946,6 +1060,8 @@ namespace Canvas
             DoInvalidate(true);
             UpdateCursor();
         }
+
+
         public void CommandEdit(string editid)
         {
             CommandEscape();
@@ -955,41 +1071,59 @@ namespace Canvas
             m_editTool = m_model.GetEditTool(m_editToolId);
             UpdateCursor();
         }
+
+        /// <summary>
+        /// 快速处理
+        /// </summary>
+        /// <param name="e"></param>
         void HandleQuickSnap(KeyEventArgs e)
         {
-            if (m_commandType == eCommandType.select || m_commandType == eCommandType.pan)
-                return;
+            if (m_commandType == eCommandType.select || m_commandType == eCommandType.pan) return;
+
             ISnapPoint p = null;
             UnitPoint mousepoint = GetMousePoint();
             if (m_QuickSnap.ContainsKey(e.KeyCode))
-                p = m_model.SnapPoint(m_canvaswrapper, mousepoint, null, m_QuickSnap[e.KeyCode]);
-            if (p != null)
             {
-                if (m_commandType == eCommandType.draw)
+                p = m_model.SnapPoint(m_canvaswrapper, mousepoint, null, m_QuickSnap[e.KeyCode]);
+            }
+
+            if (p == null) return;
+
+            if (m_commandType == eCommandType.draw)
+            {
+                HandleMouseDownWhenDrawing(p.SnapPoint, p);
+                if (m_newObject != null)
                 {
-                    HandleMouseDownWhenDrawing(p.SnapPoint, p);
-                    if (m_newObject != null)
-                        m_newObject.OnMouseMove(m_canvaswrapper, GetMousePoint());
-                    DoInvalidate(true);
-                    e.Handled = true;
+                    m_newObject.OnMouseMove(m_canvaswrapper, GetMousePoint());
                 }
-                if (m_commandType == eCommandType.move)
-                {
-                    m_moveHelper.HandleMouseDownForMove(p.SnapPoint, p);
-                    e.Handled = true;
-                }
-                if (m_nodeMoveHelper.IsEmpty == false)
-                {
-                    bool handled = false;
-                    m_nodeMoveHelper.HandleMouseDown(p.SnapPoint, ref handled);
-                    FinishNodeEdit();
-                    e.Handled = true;
-                }
-                if (m_commandType == eCommandType.edit)
-                {
-                }
+
+                DoInvalidate(true);
+                e.Handled = true;
+            }
+
+            if (m_commandType == eCommandType.move)
+            {
+                m_moveHelper.HandleMouseDownForMove(p.SnapPoint, p);
+                e.Handled = true;
+            }
+
+            if (m_nodeMoveHelper.IsEmpty == false)
+            {
+                bool handled = false;
+                m_nodeMoveHelper.HandleMouseDown(p.SnapPoint, ref handled);
+                FinishNodeEdit();
+                e.Handled = true;
+            }
+
+            if (m_commandType == eCommandType.edit)
+            {
             }
         }
+
+        /// <summary>
+        /// 键盘按下
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnKeyDown(KeyEventArgs e)
         {
             HandleQuickSnap(e);
@@ -997,32 +1131,32 @@ namespace Canvas
             if (m_nodeMoveHelper.IsEmpty == false)
             {
                 m_nodeMoveHelper.OnKeyDown(m_canvaswrapper, e);
-                if (e.Handled)
-                    return;
+                if (e.Handled) return;
             }
+
             base.OnKeyDown(e);
             if (e.Handled)
             {
                 UpdateCursor();
                 return;
             }
+
             if (m_editTool != null)
             {
                 m_editTool.OnKeyDown(m_canvaswrapper, e);
-                if (e.Handled)
-                    return;
+                if (e.Handled) return;
             }
+
             if (m_newObject != null)
             {
                 m_newObject.OnKeyDown(m_canvaswrapper, e);
-                if (e.Handled)
-                    return;
+                if (e.Handled) return;
             }
+
             foreach (IDrawObject obj in m_model.SelectedObjects)
             {
                 obj.OnKeyDown(m_canvaswrapper, e);
-                if (e.Handled)
-                    return;
+                if (e.Handled) return;
             }
 
             if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
@@ -1032,11 +1166,12 @@ namespace Canvas
                     m_model.GridLayer.Enabled = !m_model.GridLayer.Enabled;
                     DoInvalidate(true);
                 }
+
                 if (e.KeyCode == Keys.S)
                 {
                     RunningSnapsEnabled = !RunningSnapsEnabled;
-                    if (!RunningSnapsEnabled)
-                        m_snappoint = null;
+                    if (!RunningSnapsEnabled) m_snappoint = null;
+
                     DoInvalidate(false);
                 }
                 return;
@@ -1046,17 +1181,20 @@ namespace Canvas
             {
                 CommandEscape();
             }
+
             if (e.KeyCode == Keys.P)
             {
                 CommandPan();
             }
+
             if (e.KeyCode == Keys.S)
             {
                 RunningSnapsEnabled = !RunningSnapsEnabled;
-                if (!RunningSnapsEnabled)
-                    m_snappoint = null;
+                if (!RunningSnapsEnabled) m_snappoint = null;
+
                 DoInvalidate(false);
             }
+
             if (e.KeyCode >= Keys.D1 && e.KeyCode <= Keys.D9)
             {
                 int layerindex = (int)e.KeyCode - (int)Keys.D1;
@@ -1066,16 +1204,21 @@ namespace Canvas
                     DoInvalidate(true);
                 }
             }
+
             if (e.KeyCode == Keys.Delete)
             {
                 CommandDeleteSelected();
             }
+
             if (e.KeyCode == Keys.O)
             {
                 CommandEdit("linesmeet");
             }
+
             UpdateCursor();
         }
+
+
     } 
     #endregion
 

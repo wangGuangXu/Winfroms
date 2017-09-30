@@ -9,6 +9,10 @@ using System.IO;
 
 namespace Canvas
 {
+
+    /// <summary>
+    /// 绘图图层
+    /// </summary>
 	public class DrawingLayer : ICanvasLayer, ISerialize
 	{
 		string m_id;
@@ -35,6 +39,8 @@ namespace Canvas
 			get { return m_name; }
 			set { m_name = value; }
 		}
+
+
 		public DrawingLayer(string id, string name, Color color, float width)
 		{
 			m_id = id;
@@ -42,23 +48,35 @@ namespace Canvas
 			m_color = color;
 			m_width = width;
 		}
+
+
 		List<IDrawObject> m_objects = new List<IDrawObject>();
 		Dictionary<IDrawObject, bool> m_objectMap = new Dictionary<IDrawObject, bool>();
 		public void AddObject(IDrawObject drawobject)
 		{
-			if (m_objectMap.ContainsKey(drawobject))
-				return; // this should never happen
-			if (drawobject is DrawTools.DrawObjectBase)
-				((DrawTools.DrawObjectBase)drawobject).Layer = this;
+            if (m_objectMap.ContainsKey(drawobject)) return; // this should never happen
+
+            if (drawobject is DrawTools.DrawObjectBase)
+            {
+                ((DrawTools.DrawObjectBase)drawobject).Layer = this;
+            }
+
 			m_objects.Add(drawobject);
 			m_objectMap[drawobject] = true;
 		}
+
+        /// <summary>
+        /// 删除对象
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
 		public List<IDrawObject> DeleteObjects(IEnumerable<IDrawObject> objects)
 		{
-			if (Enabled == false)
-				return null;
+            if (Enabled == false) return null;
+
 			List<IDrawObject> removedobjects = new List<IDrawObject>();
-			// first remove from map only
+
+			// 首先从地图上移除
 			foreach (IDrawObject obj in objects)
 			{
 				if (m_objectMap.ContainsKey(obj))
@@ -69,34 +87,52 @@ namespace Canvas
 			}
 			// need some smart algorithm here to either remove from existing list or build a new list
 			// for now I will just ise the removed count;
-			if (removedobjects.Count == 0)
-				return null;
+            if (removedobjects.Count == 0) return null;
+
 			if (removedobjects.Count < 10) // remove from existing list
 			{
-				foreach (IDrawObject obj in removedobjects)
-					m_objects.Remove(obj);
+                foreach (IDrawObject obj in removedobjects)
+                {
+                    m_objects.Remove(obj);
+                }
 			}
-			else // else build new list;
+			else // 否则新建列表
 			{
 				List<IDrawObject> newlist = new List<IDrawObject>();
 				foreach (IDrawObject obj in m_objects)
 				{
 					if (m_objectMap.ContainsKey(obj))
-						newlist.Add(obj);
+                    {
+                        newlist.Add(obj);
+                    }
 				}
+
 				m_objects.Clear();
 				m_objects = newlist;
 			}
 			return removedobjects;
 		}
-		public int Count
+		
+        /// <summary>
+        /// 对象数量
+        /// </summary>
+        public int Count
 		{
 			get { return m_objects.Count; }
 		}
+
+        /// <summary>
+        /// 复制
+        /// </summary>
+        /// <param name="acopy">绘制图层</param>
+        /// <param name="includeDrawObjects"></param>
 		public void Copy(DrawingLayer acopy, bool includeDrawObjects)
 		{
-			if (includeDrawObjects)
-				throw new Exception("not supported yet");
+            if (includeDrawObjects)
+            {
+                throw new Exception("not supported yet");
+            }
+
 			m_id = acopy.m_id;
 			m_name = acopy.m_name;
 			m_color = acopy.m_color;
@@ -104,6 +140,7 @@ namespace Canvas
 			m_enabled = acopy.m_enabled;
 			m_visible = acopy.m_visible;
 		}
+
 		#region ICanvasLayer Members
 		public void Draw(ICanvas canvas, RectangleF unitrect)
 		{
@@ -159,6 +196,7 @@ namespace Canvas
 			set { m_visible = value; }
 		}
 		#endregion
+
 		#region XML Serialize
 		public void GetObjectData(XmlWriter wr)
 		{
@@ -168,39 +206,60 @@ namespace Canvas
 			wr.WriteStartElement("items");
 			foreach (IDrawObject drawobj in m_objects)
 			{
-				if (drawobj is ISerialize)
-					((ISerialize)drawobj).GetObjectData(wr);
+                if (drawobj is ISerialize)
+                {
+                    ((ISerialize)drawobj).GetObjectData(wr);
+                }
 			}
+
 			wr.WriteEndElement();
 			wr.WriteEndElement();
 		}
+
 		public void AfterSerializedIn()
 		{
+
 		}
+
+        /// <summary>
+        /// 新绘制图层
+        /// </summary>
+        /// <param name="xmlelement"></param>
+        /// <returns></returns>
 		public static DrawingLayer NewLayer(XmlElement xmlelement)
 		{
 			string id = xmlelement.GetAttribute("Id");
-			if (id.Length == 0)
-				id = Guid.NewGuid().ToString();
+            if (id.Length == 0)
+            {
+                id = Guid.NewGuid().ToString();
+            }
+
 			DrawingLayer layer = new DrawingLayer(id, string.Empty, Color.White, 0.0f);
 			foreach (XmlElement node in xmlelement.ChildNodes)
 			{
 				XmlUtil.ParseProperty(node, layer);
-				if (node.Name == "items")
-				{
-					foreach (XmlElement itemnode in node.ChildNodes)
-					{
-						object item = DataModel.NewDrawObject(itemnode.Name);
-						if (item == null)
-							continue;
-						if (item != null)
-							XmlUtil.ParseProperties(itemnode, item);
-						if (item is ISerialize)
-						   ((ISerialize)item).AfterSerializedIn();
-						if (item is IDrawObject)
-							layer.AddObject(item as IDrawObject);
-					}
-				}
+                if (node.Name != "items") continue;
+
+                foreach (XmlElement itemnode in node.ChildNodes)
+                {
+                    object item = DataModel.NewDrawObject(itemnode.Name);
+                    if (item == null) continue;
+
+                    if (item != null)
+                    {
+                        XmlUtil.ParseProperties(itemnode, item);
+                    }
+
+                    if (item is ISerialize)
+                    {
+                        ((ISerialize)item).AfterSerializedIn();
+                    }
+
+                    if (item is IDrawObject)
+                    {
+                        layer.AddObject(item as IDrawObject);
+                    }
+                }
 			}
 			return layer;
 		}
