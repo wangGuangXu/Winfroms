@@ -30,6 +30,12 @@ namespace Canvas
     /// </summary>
     class XmlUtil
     {
+        /// <summary>
+        /// 添加属性
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <param name="wr"></param>
         public static void AddProperty(string name, object value, XmlWriter wr)
         {
             string svalue = string.Empty;
@@ -48,6 +54,11 @@ namespace Canvas
             wr.WriteEndElement();
         }
 
+        /// <summary>
+        /// 解析属性
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="dataobject"></param>
         public static void ParseProperty(XmlElement node, object dataobject)
         {
             if (node.Name != "property")
@@ -72,6 +83,12 @@ namespace Canvas
             catch { };
         }
 
+        /// <summary>
+        /// 解析属性
+        /// </summary>
+        /// <param name="itemnode"></param>
+        /// <param name="dataobject"></param>
+
         public static void ParseProperties(XmlElement itemnode, object dataobject)
         {
             foreach (XmlElement propertynode in itemnode.ChildNodes)
@@ -80,6 +97,11 @@ namespace Canvas
             }
         }
 
+        /// <summary>
+        /// 写属性
+        /// </summary>
+        /// <param name="dataobject"></param>
+        /// <param name="wr"></param>
         public static void WriteProperties(object dataobject, XmlWriter wr)
         {
             foreach (PropertyInfo propertyInfo in dataobject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
@@ -95,25 +117,32 @@ namespace Canvas
                 }
             }
         }
+
     } 
     #endregion
 
-    #region MyRegion
+    #region 属性工具包
     /// <summary>
-    /// 
+    /// 属性工具包
     /// </summary>
     class PropertyUtil
     {
+
         public static object ChangeType(object value, Type type)
         {
             if (type == typeof(UnitPoint))
+            {
                 return Parse(value.ToString(), type);
+            }
             return CommonTools.PropertyUtil.ChangeType(value, type);
         }
+
         static public object Parse(string value, Type type)
         {
             if (type == typeof(UnitPoint))
+            {
                 return CommonTools.PropertyUtil.Parse(new UnitPoint(0, 0), value);
+            }
             return CommonTools.PropertyUtil.Parse(value, type);
         }
     } 

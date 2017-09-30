@@ -50,6 +50,9 @@ namespace Canvas
 		UndoRedoBuffer m_undoBuffer = new UndoRedoBuffer();
 		
 		UnitPoint m_centerPoint = UnitPoint.Empty;
+        /// <summary>
+        /// 中心点
+        /// </summary>
 		[XmlSerializable]
 		public UnitPoint CenterPoint
 		{
@@ -58,7 +61,13 @@ namespace Canvas
 		}
 
 		float m_zoom = 1;
+        /// <summary>
+        /// 表格属性
+        /// </summary>
 		GridLayer m_gridLayer = new GridLayer();
+        /// <summary>
+        /// 背景属性
+        /// </summary>
 		BackgroundLayer m_backgroundLayer = new BackgroundLayer();
 		List<ICanvasLayer> m_layers = new List<ICanvasLayer>();
 		ICanvasLayer m_activeLayer;
@@ -73,10 +82,27 @@ namespace Canvas
 			DefaultLayer();
 			m_centerPoint = new UnitPoint(0,0);
 		}
+
+        /// <summary>
+        /// 默认层
+        /// </summary>
+        void DefaultLayer()
+        {
+            m_layers.Clear();
+            m_layers.Add(new DrawingLayer("layer0", "Hairline Layer", Color.White, 0.0f));
+            m_layers.Add(new DrawingLayer("layer1", "0.005 Layer", Color.Red, 0.005f));
+            m_layers.Add(new DrawingLayer("layer2", "0.025 Layer", Color.Green, 0.025f));
+        }
+
 		public void AddDrawTool(string key, IDrawObject drawtool)
 		{
 			m_drawObjectTypes[key] = drawtool;
 		}
+
+        /// <summary>
+        /// 保存为xml文件
+        /// </summary>
+        /// <param name="filename"></param>
 		public void Save(string filename)
 		{
 			try
@@ -86,11 +112,15 @@ namespace Canvas
 				wr.WriteStartElement("CanvasDataModel");
 				m_backgroundLayer.GetObjectData(wr);
 				m_gridLayer.GetObjectData(wr);
+
 				foreach (ICanvasLayer layer in m_layers)
 				{
-					if (layer is ISerialize)
-						((ISerialize)layer).GetObjectData(wr);
+                    if (layer is ISerialize)
+                    {
+                        ((ISerialize)layer).GetObjectData(wr);
+                    }
 				}
+
 				XmlUtil.WriteProperties(this, wr);
 				wr.WriteEndElement();
 				wr.Close();
@@ -98,6 +128,8 @@ namespace Canvas
 			}
 			catch { }
 		}
+
+
 		public bool Load(string filename)
 		{
 			try
@@ -143,13 +175,11 @@ namespace Canvas
 			}
 			return false;
 		}
-		void DefaultLayer()
-		{
-			m_layers.Clear();
-			m_layers.Add(new DrawingLayer("layer0", "Hairline Layer", Color.White, 0.0f));
-			m_layers.Add(new DrawingLayer("layer1", "0.005 Layer", Color.Red, 0.005f));
-			m_layers.Add(new DrawingLayer("layer2", "0.025 Layer", Color.Green, 0.025f));
-		}
+
+
+
+
+
 		public IDrawObject GetFirstSelected()
 		{
 			if (m_selection.Count > 0)
@@ -160,21 +190,38 @@ namespace Canvas
 			}
 			return null;
 		}
+
+
 		#region IModel Members
+        /// <summary>
+        /// 缩放值
+        /// </summary>
 		[XmlSerializable]
 		public float Zoom
 		{
 			get { return m_zoom; }
 			set { m_zoom = value; }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public ICanvasLayer BackgroundLayer
 		{
 			get { return m_backgroundLayer; }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public ICanvasLayer GridLayer
 		{
 			get { return m_gridLayer; }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public ICanvasLayer[] Layers
 		{
 			get { return m_layers.ToArray(); }
@@ -187,8 +234,10 @@ namespace Canvas
 		{
 			get
 			{
-				if (m_activeLayer == null)
-					m_activeLayer = m_layers[0];
+                if (m_activeLayer == null)
+                {
+                    m_activeLayer = m_layers[0];
+                }
 				return m_activeLayer;
 			}
 			set
@@ -201,8 +250,10 @@ namespace Canvas
 		{
 			foreach (ICanvasLayer layer in m_layers)
 			{
-				if (layer.Id == id)
-					return layer;
+                if (layer.Id == id)
+                {
+                    return layer;
+                }
 			}
 			return null;
 		}
@@ -217,8 +268,11 @@ namespace Canvas
 		public IDrawObject CreateObject(string type, UnitPoint point, ISnapPoint snappoint)
 		{
 			DrawingLayer layer = ActiveLayer as DrawingLayer;
-			if (layer.Enabled == false)
-				return null;
+            if (layer.Enabled == false)
+            {
+                return null;
+            }
+
 			DrawTools.DrawObjectBase newobj = CreateObject(type);
 			if (newobj != null)
 			{
@@ -227,39 +281,82 @@ namespace Canvas
 			}
 			return newobj as IDrawObject;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="layer"></param>
+        /// <param name="drawobject"></param>
 		public void AddObject(ICanvasLayer layer, IDrawObject drawobject)
 		{
-			if (drawobject is DrawTools.IObjectEditInstance)
-				drawobject = ((DrawTools.IObjectEditInstance)drawobject).GetDrawObject();
-			if (m_undoBuffer.CanCapture)
-				m_undoBuffer.AddCommand(new EditCommandAdd(layer, drawobject));
+            if (drawobject is DrawTools.IObjectEditInstance)
+            {
+                drawobject = ((DrawTools.IObjectEditInstance)drawobject).GetDrawObject();
+            }
+
+            if (m_undoBuffer.CanCapture)
+            {
+                m_undoBuffer.AddCommand(new EditCommandAdd(layer, drawobject));
+            }
+
 			((DrawingLayer)layer).AddObject(drawobject);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objects"></param>
 		public void DeleteObjects(IEnumerable<IDrawObject> objects)
 		{
 			EditCommandRemove undocommand = null;
-			if (m_undoBuffer.CanCapture)
-				undocommand = new EditCommandRemove();
+            if (m_undoBuffer.CanCapture)
+            {
+                undocommand = new EditCommandRemove();
+            }
+				
 			foreach (ICanvasLayer layer in m_layers)
 			{
 				List<IDrawObject> removedobjects = ((DrawingLayer)layer).DeleteObjects(objects);
-				if (removedobjects != null && undocommand != null)
-					undocommand.AddLayerObjects(layer, removedobjects);
+                if (removedobjects != null && undocommand != null)
+                {
+                    undocommand.AddLayerObjects(layer, removedobjects);
+                }
 			}
-			if (undocommand != null)
-				m_undoBuffer.AddCommand(undocommand);
+
+            if (undocommand != null)
+            {
+                m_undoBuffer.AddCommand(undocommand);
+            }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="objects"></param>
 		public void MoveObjects(UnitPoint offset, IEnumerable<IDrawObject> objects)
 		{
-			if (m_undoBuffer.CanCapture)
-				m_undoBuffer.AddCommand(new EditCommandMove(offset, objects));
-			foreach (IDrawObject obj in objects)
-				obj.Move(offset);
+            if (m_undoBuffer.CanCapture)
+            {
+                m_undoBuffer.AddCommand(new EditCommandMove(offset, objects));
+            }
+
+            foreach (IDrawObject obj in objects)
+            {
+                obj.Move(offset);
+            }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="objects"></param>
 		public void CopyObjects(UnitPoint offset, IEnumerable<IDrawObject> objects)
 		{
 			ClearSelectedObjects();
 			List<IDrawObject> newobjects = new List<IDrawObject>();
+
 			foreach (IDrawObject obj in objects)
 			{
 				IDrawObject newobj = obj.Clone();
@@ -268,65 +365,128 @@ namespace Canvas
 				((DrawingLayer)ActiveLayer).AddObject(newobj);
 				AddSelectedObject(newobj);
 			}
-			if (m_undoBuffer.CanCapture)
-				m_undoBuffer.AddCommand(new EditCommandAdd(ActiveLayer, newobjects));
+
+            if (m_undoBuffer.CanCapture)
+            {
+                m_undoBuffer.AddCommand(new EditCommandAdd(ActiveLayer, newobjects));
+            }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="edittool"></param>
 		public void AfterEditObjects(IEditTool edittool)
 		{
 			edittool.Finished();
-			if (m_undoBuffer.CanCapture)
-				m_undoBuffer.AddCommand(new EditCommandEditTool(edittool));
+            if (m_undoBuffer.CanCapture)
+            {
+                m_undoBuffer.AddCommand(new EditCommandEditTool(edittool));
+            }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="edittoolid"></param>
+        /// <returns></returns>
 		public IEditTool GetEditTool(string edittoolid)
 		{
-			if (m_editTools.ContainsKey(edittoolid))
-				return m_editTools[edittoolid].Clone();
+            if (m_editTools.ContainsKey(edittoolid))
+            {
+                return m_editTools[edittoolid].Clone();
+            }
 			return null;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="nodes"></param>
 		public void MoveNodes(UnitPoint position, IEnumerable<INodePoint> nodes)
 		{
-			if (m_undoBuffer.CanCapture)
-				m_undoBuffer.AddCommand(new EditCommandNodeMove(nodes));
+            if (m_undoBuffer.CanCapture)
+            {
+                m_undoBuffer.AddCommand(new EditCommandNodeMove(nodes));
+            }
+
 			foreach (INodePoint node in nodes)
 			{
 				node.SetPosition(position);
 				node.Finish();
 			}
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="selection"></param>
+        /// <param name="anyPoint"></param>
+        /// <returns></returns>
 		public List<IDrawObject> GetHitObjects(ICanvas canvas, RectangleF selection, bool anyPoint)
 		{
 			List<IDrawObject> selected = new List<IDrawObject>();
 			foreach (ICanvasLayer layer in m_layers)
 			{
-				if (layer.Visible == false)
-					continue;
+                if (layer.Visible == false)
+                {
+                    continue;
+                }
+
 				foreach (IDrawObject drawobject in layer.Objects)
 				{
-					if (drawobject.ObjectInRectangle(canvas, selection, anyPoint))
-						selected.Add(drawobject);
+                    if (drawobject.ObjectInRectangle(canvas, selection, anyPoint))
+                    {
+                        selected.Add(drawobject);
+                    }
 				}
 			}
 			return selected;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
 		public List<IDrawObject> GetHitObjects(ICanvas canvas, UnitPoint point)
 		{
 			List<IDrawObject> selected = new List<IDrawObject>();
 			foreach (ICanvasLayer layer in m_layers)
 			{
-				if (layer.Visible == false)
-					continue;
+                if (layer.Visible == false)
+                {
+                    continue;
+                }
+
 				foreach (IDrawObject drawobject in layer.Objects)
 				{
-					if (drawobject.PointInObject(canvas, point))
-						selected.Add(drawobject);
+                    if (drawobject.PointInObject(canvas, point))
+                    {
+                        selected.Add(drawobject);
+                    }
 				}
 			}
 			return selected;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drawobject"></param>
+        /// <returns></returns>
 		public bool IsSelected(IDrawObject drawobject)
 		{
 			return m_selection.ContainsKey(drawobject);
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drawobject"></param>
 		public void AddSelectedObject(IDrawObject drawobject)
 		{
 			DrawTools.DrawObjectBase obj = drawobject as DrawTools.DrawObjectBase;
@@ -334,6 +494,11 @@ namespace Canvas
 			m_selection[drawobject] = true;
 			obj.Selected = true;
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drawobject"></param>
 		public void RemoveSelectedObject(IDrawObject drawobject)
 		{
 			if (m_selection.ContainsKey(drawobject))
@@ -343,6 +508,8 @@ namespace Canvas
 				m_selection.Remove(drawobject);
 			}
 		}
+
+
 		public IEnumerable<IDrawObject> SelectedObjects
 		{
 			get
@@ -350,10 +517,16 @@ namespace Canvas
 				return m_selection.Keys;
 			}
 		}
+
+
 		public int SelectedCount
 		{
 			get { return m_selection.Count; }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		public void ClearSelectedObjects()
 		{
 			IEnumerable<IDrawObject> x = SelectedObjects;
@@ -364,34 +537,51 @@ namespace Canvas
 			}
 			m_selection.Clear();
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="runningsnaptypes"></param>
+        /// <param name="usersnaptype"></param>
+        /// <returns></returns>
 		public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, Type[] runningsnaptypes, Type usersnaptype)
 		{
 			List<IDrawObject> objects = GetHitObjects(canvas, point);
-			if (objects.Count == 0)
-				return null;
+            if (objects.Count == 0)
+            {
+                return null;
+            }
 
 			foreach (IDrawObject obj in objects)
 			{
 				ISnapPoint snap = obj.SnapPoint(canvas, point, objects, runningsnaptypes, usersnaptype);
-				if (snap != null)
-					return snap;
+                if (snap != null)
+                {
+                    return snap;
+                }
 			}
 			return null;
 		}
+
 
 		public bool CanUndo()
 		{
 			return m_undoBuffer.CanUndo;
 		}
+
 		public bool DoUndo()
 		{
 			return m_undoBuffer.DoUndo(this);
 		}
+
 		public bool CanRedo()
 		{
 			return m_undoBuffer.CanRedo;
-
 		}
+
+
 		public bool DoRedo()
 		{
 			return m_undoBuffer.DoRedo(this);

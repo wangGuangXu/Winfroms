@@ -7,13 +7,19 @@ using System.Xml;
 
 namespace Canvas
 {
+    /// <summary>
+    /// ±³¾°²ã
+    /// </summary>
 	public class BackgroundLayer : ICanvasLayer, ISerialize
 	{
-		Font m_font = new System.Drawing.Font("Arial Black", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		SolidBrush m_brush = new SolidBrush(Color.FromArgb(50, 200, 200, 200));
+        Font m_font = new System.Drawing.Font("Î¢ÈíÑÅºÚ", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));//Arial Black
+        SolidBrush m_brush = new SolidBrush(Color.Red);//Color.FromArgb(50, 200, 200, 200)
+        /// <summary>
+        /// ±³¾°»­±Ê
+        /// </summary>
 		SolidBrush m_backgroundBrush;
 
-		Color m_color = Color.Black;
+		Color m_color = Color.AliceBlue;
 		[XmlSerializable]
 		public Color Color
 		{
@@ -40,9 +46,10 @@ namespace Canvas
 			PointF centerpoint = new PointF(r.Width / 2, r.Height / 2);
 			canvas.Graphics.TranslateTransform(centerpoint.X, centerpoint.Y);
 			canvas.Graphics.RotateTransform(-15);
-			canvas.Graphics.DrawString("Jesper Kristiansen (2007)", m_font, m_brush, 0, 0, f);
+            canvas.Graphics.DrawString("Winfrom »æÍ¼Ä£·¶³ÌÐò", m_font, m_brush, 0, 0, f);//Jesper Kristiansen (2007)
 			canvas.Graphics.ResetTransform();
 		}
+
 		public PointF SnapPoint(PointF unitmousepoint)
 		{
 			return PointF.Empty;
@@ -70,6 +77,7 @@ namespace Canvas
 			set { ;}
 		}
 		#endregion
+
 		#region ISerialize
 		public void GetObjectData(XmlWriter wr)
 		{

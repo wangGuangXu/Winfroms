@@ -100,7 +100,7 @@ namespace Canvas
 
     #region GDI
     /// <summary>
-    /// GDI
+    /// GDI Õº–Œ¿‡
     /// </summary>
     public class GDI
     {

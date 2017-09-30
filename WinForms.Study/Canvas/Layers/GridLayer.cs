@@ -15,59 +15,94 @@ namespace Canvas
 	{
 		public enum eStyle
 		{
+            /// <summary>
+            /// 点
+            /// </summary>
 			Dots,
+            /// <summary>
+            /// 线
+            /// </summary>
 			Lines,
 		}
-		public SizeF m_spacing = new SizeF(1f, 1f); // 12"
-		private bool m_enabled = true;
-		private int m_minSize = 15;
-		private eStyle m_gridStyle = eStyle.Lines;
-		private Color m_color = Color.FromArgb(50, Color.Gray);
+
+		public SizeF spacing = new SizeF(1f, 1f); // 12"
+		private bool enabled = true;
+		private int minSize = 15;
+        /// <summary>
+        /// 网格样式
+        /// </summary>
+		private eStyle gridStyle = eStyle.Lines;
+        /// <summary>
+        /// 
+        /// </summary>
+		private Color color = Color.FromArgb(90, Color.Gray);
+
+        /// <summary>
+        /// 间距
+        /// </summary>
 		[XmlSerializable]
 		public SizeF Spacing
 		{
-			get { return m_spacing; }
-			set { m_spacing = value; }
+			get { return spacing; }
+			set { spacing = value; }
 		}
+
+
 		[XmlSerializable]
 		public int MinSize
 		{
-			get { return m_minSize; }
-			set { m_minSize = value; }
+			get { return minSize; }
+			set { minSize = value; }
 		}
+
+        /// <summary>
+        /// 网格样式
+        /// </summary>
 		[XmlSerializable]
 		public eStyle GridStyle
 		{
-			get { return m_gridStyle; }
-			set { m_gridStyle = value; }
+			get { return gridStyle; }
+            set { gridStyle = value; }
 		}
+
+        /// <summary>
+        /// 颜色
+        /// </summary>
 		[XmlSerializable]
 		public Color Color
 		{
-			get { return m_color; }
-			set { m_color = value; }
+			get { return color; }
+            set { color = value; }
 		}
+
 
 		public void Copy(GridLayer acopy)
 		{
-			m_enabled = acopy.m_enabled;
-			m_spacing = acopy.m_spacing;
-			m_minSize = acopy.m_minSize;
-			m_gridStyle = acopy.m_gridStyle;
-			m_color = acopy.m_color;
+			enabled = acopy.enabled;
+            spacing = acopy.spacing;
+            minSize = acopy.minSize;
+            gridStyle = acopy.gridStyle;
+            color = acopy.color;
 		}
 
 		#region ICanvasLayer Members
+
+        /// <summary>
+        /// 绘制网格
+        /// </summary>
+        /// <param name="canvas">画布</param>
+        /// <param name="unitrect">单元矩形</param>
 		public void Draw(ICanvas canvas, RectangleF unitrect)
 		{
-			if (Enabled == false)
-				return;
+            if (Enabled == false) return;
+
 			float gridX = Spacing.Width;
 			float gridY = Spacing.Height;
+
 			float gridscreensizeX = canvas.ToScreen(gridX);
 			float gridscreensizeY = canvas.ToScreen(gridY);
-			if (gridscreensizeX < MinSize || gridscreensizeY < MinSize)
-				return;
+
+            if (gridscreensizeX < MinSize || gridscreensizeY < MinSize) return;
 
 			PointF leftpoint = unitrect.Location;
 			PointF rightpoint = ScreenUtils.RightPoint(canvas, unitrect);
@@ -86,17 +121,18 @@ namespace Canvas
 					for (float y = bottom; y <= top; y += gridY)
 					{
 						PointF p1 = canvas.ToScreen(new UnitPoint(x, y));
-						gdi.SetPixel((int)p1.X, (int)p1.Y, m_color.ToArgb());
+                        gdi.SetPixel((int)p1.X, (int)p1.Y, color.ToArgb());
 					}
 				}
 				gdi.EndGDI();
 			}
+
 			if (GridStyle == eStyle.Lines)
 			{
-				Pen pen = new Pen(m_color);
+                Pen pen = new Pen(color);
 				GraphicsPath path = new GraphicsPath();
 
-				// draw vertical lines
+				// 画垂直线条
 				while (left < right)
 				{
 					PointF p1 = canvas.ToScreen(new UnitPoint(left, leftpoint.Y));
@@ -106,7 +142,7 @@ namespace Canvas
 					left += gridX;
 				}
 
-				// draw horizontal lines
+				// 画水平线条
 				while (bottom < top)
 				{
 					PointF p1 = canvas.ToScreen(new UnitPoint(leftpoint.X, bottom));
@@ -118,41 +154,49 @@ namespace Canvas
 				canvas.Graphics.DrawPath(pen, path);
 			}
 		}
+
 		public string Id
 		{
 			get { return "grid"; }
 		}
-		public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj)
-		{
-			if (Enabled == false)
-				return null;
-			UnitPoint snappoint = new UnitPoint();
-			UnitPoint mousepoint = point;
-			float gridX = Spacing.Width;
-			float gridY = Spacing.Height;
-			snappoint.X = (float)(Math.Round(mousepoint.X / gridX)) * gridX;
-			snappoint.Y = (float)(Math.Round(mousepoint.Y / gridY)) * gridY;
-			double threshold = canvas.ToUnit(/*ThresholdPixel*/6);
-			if ((snappoint.X < point.X - threshold) || (snappoint.X > point.X + threshold))
-				return null;
-			if ((snappoint.Y < point.Y - threshold) || (snappoint.Y > point.Y + threshold))
-				return null;
-			return new GridSnapPoint(canvas, snappoint);
-		}
+
+
 		public IEnumerable<IDrawObject> Objects
 		{
 			get { return null; }
 		}
+
+
 		[XmlSerializable]
 		public bool Enabled
 		{
-			get { return m_enabled; }
-			set { m_enabled = value; }
+			get { return enabled; }
+            set { enabled = value; }
 		}
+
+
 		public bool Visible
 		{
 			get { return true; }
 		}
+
+        public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj)
+        {
+            if (Enabled == false)
+                return null;
+            UnitPoint snappoint = new UnitPoint();
+            UnitPoint mousepoint = point;
+            float gridX = Spacing.Width;
+            float gridY = Spacing.Height;
+            snappoint.X = (float)(Math.Round(mousepoint.X / gridX)) * gridX;
+            snappoint.Y = (float)(Math.Round(mousepoint.Y / gridY)) * gridY;
+            double threshold = canvas.ToUnit(/*ThresholdPixel*/6);
+            if ((snappoint.X < point.X - threshold) || (snappoint.X > point.X + threshold))
+                return null;
+            if ((snappoint.Y < point.Y - threshold) || (snappoint.Y > point.Y + threshold))
+                return null;
+            return new GridSnapPoint(canvas, snappoint);
+        }
 		#endregion
 
 		#region ISerialize

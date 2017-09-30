@@ -193,7 +193,13 @@ namespace Canvas
             set { m_runningSnaps = value; }
         }
 
+        /// <summary>
+        /// 图形质量
+        /// </summary>
         System.Drawing.Drawing2D.SmoothingMode m_smoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+        /// <summary>
+        /// 图形质量
+        /// </summary>
         public System.Drawing.Drawing2D.SmoothingMode SmoothingMode
         {
             get { return m_smoothingMode; }
@@ -262,7 +268,10 @@ namespace Canvas
             DoInvalidate(true);
         }
 
-
+        /// <summary>
+        /// 重绘
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
             CommonTools.Tracing.StartTrack(Program.TracePaint);
@@ -785,6 +794,9 @@ namespace Canvas
         UnitPoint m_lastCenterPoint;
         PointF m_panOffset = new PointF(25, -25);
         PointF m_dragOffset = new PointF(0, 0);
+        /// <summary>
+        /// 屏幕分辨率
+        /// </summary>
         float m_screenResolution = 96;
 
         PointF Translate(UnitPoint point)
@@ -825,6 +837,7 @@ namespace Canvas
             transformedPoint.Y += m_panOffset.Y + m_dragOffset.Y;
             return transformedPoint;
         }
+
         public float ToScreen(double value)
         {
             return (float)(value * m_screenResolution * m_model.Zoom);

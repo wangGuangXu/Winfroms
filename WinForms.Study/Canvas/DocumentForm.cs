@@ -17,23 +17,25 @@ namespace Canvas
 		MenuItemManager m_menuItems = new MenuItemManager();
 		
 		string m_filename = string.Empty;
-		public DocumentForm(string filename)
-		{
-			InitializeComponent();
 
-			Text = "<新文件>";
-			m_data = new DataModel();
-			if (filename.Length > 0 && File.Exists(filename) && m_data.Load(filename))
-			{
-				Text = filename;
-				m_filename = filename;
-			}
+        #region 构造函数
+        public DocumentForm(string filename)
+        {
+            InitializeComponent();
 
-			m_canvas = new CanvasCtrl(this, m_data);
-			m_canvas.Dock = DockStyle.Fill;
-			Controls.Add(m_canvas);
-			m_canvas.SetCenter(new UnitPoint(0, 0));
-			m_canvas.RunningSnaps = new Type[] 
+            Text = "<新文件>";
+            m_data = new DataModel();
+            if (filename.Length > 0 && File.Exists(filename) && m_data.Load(filename))
+            {
+                Text = filename;
+                m_filename = filename;
+            }
+
+            m_canvas = new CanvasCtrl(this, m_data);
+            m_canvas.Dock = DockStyle.Fill;
+            Controls.Add(m_canvas);
+            m_canvas.SetCenter(new UnitPoint(0, 0));
+            m_canvas.RunningSnaps = new Type[] 
 				{
 				typeof(VertextSnapPoint),
 				typeof(MidpointSnapPoint),
@@ -43,101 +45,109 @@ namespace Canvas
 				typeof(DivisionSnapPoint),
 				};
 
-			m_canvas.AddQuickSnapType(Keys.N, typeof(NearestSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.M, typeof(MidpointSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.I, typeof(IntersectSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.V, typeof(VertextSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.P, typeof(PerpendicularSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.Q, typeof(QuadrantSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.C, typeof(CenterSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.T, typeof(TangentSnapPoint));
-			m_canvas.AddQuickSnapType(Keys.D, typeof(DivisionSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.N, typeof(NearestSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.M, typeof(MidpointSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.I, typeof(IntersectSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.V, typeof(VertextSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.P, typeof(PerpendicularSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.Q, typeof(QuadrantSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.C, typeof(CenterSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.T, typeof(TangentSnapPoint));
+            m_canvas.AddQuickSnapType(Keys.D, typeof(DivisionSnapPoint));
 
-			m_canvas.KeyDown += new KeyEventHandler(OnCanvasKeyDown);
-			SetupMenuItems();
-			SetupDrawTools();
-			SetupLayerToolstrip();
-			SetupEditTools();
-			UpdateLayerUI();
+            m_canvas.KeyDown += new KeyEventHandler(OnCanvasKeyDown);
+            SetupMenuItems();
+            SetupDrawTools();
+            SetupLayerToolstrip();
+            SetupEditTools();
+            UpdateLayerUI();
 
-			MenuStrip menuitem = new MenuStrip();
-			menuitem.Items.Add(m_menuItems.GetMenuStrip("edit"));
-			menuitem.Items.Add(m_menuItems.GetMenuStrip("draw"));
-			menuitem.Visible = false;
-			Controls.Add(menuitem);
-			this.MainMenuStrip = menuitem;
-		}
+            MenuStrip menuitem = new MenuStrip();
+            menuitem.Items.Add(m_menuItems.GetMenuStrip("edit"));
+            menuitem.Items.Add(m_menuItems.GetMenuStrip("draw"));
+            menuitem.Visible = false;
+            Controls.Add(menuitem);
+            this.MainMenuStrip = menuitem;
+        } 
+        #endregion
+
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
 			m_canvas.SetCenter(m_data.CenterPoint);
 		}
-		void SetupMenuItems()
-		{
-			MenuItem mmitem = m_menuItems.GetItem("Undo");
-			mmitem.Text = "Undo";
-			mmitem.Image = MenuImages16x16.Image(MenuImages16x16.eIndexes.Undo);
-			mmitem.ToolTipText = "Undo (Ctrl-Z)";
-			mmitem.Click += new EventHandler(OnUndo);
-			mmitem.ShortcutKeys = Shortcut.CtrlZ;
 
-			mmitem = m_menuItems.GetItem("Redo");
-			mmitem.Text = "Redo";
-			mmitem.ToolTipText = "Undo (Ctrl-Y)";
-			mmitem.Image = MenuImages16x16.Image(MenuImages16x16.eIndexes.Redo);
-			mmitem.Click += new EventHandler(OnRedo);
-			mmitem.ShortcutKeys = Shortcut.CtrlY;
-
-			mmitem = m_menuItems.GetItem("Select");
-			mmitem.Text = "Select";
-			mmitem.ToolTipText = "Select (Esc)";
-			mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Select);
-			mmitem.Click += new EventHandler(OnToolSelect);
-			mmitem.ShortcutKeyDisplayString = "Esc";
-			mmitem.SingleKey = Keys.Escape;
-			mmitem.Tag = "select";
-
-			mmitem = m_menuItems.GetItem("Pan");
-			mmitem.Text = "Pan";
-			mmitem.ToolTipText = "Pan (P)";
-			mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Pan);
-			mmitem.Click += new EventHandler(OnToolSelect);
-			mmitem.ShortcutKeyDisplayString = "P";
-			mmitem.SingleKey = Keys.P;
-			mmitem.Tag = "pan";
-
-			mmitem = m_menuItems.GetItem("Move");
-			mmitem.Text = "Move";
-			mmitem.ToolTipText = "Move (M)";
-			mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Move);
-			mmitem.Click += new EventHandler(OnToolSelect);
-			mmitem.ShortcutKeyDisplayString = "M";
-			mmitem.SingleKey = Keys.M;
-			mmitem.Tag = "move";
-
-			ToolStrip strip = m_menuItems.GetStrip("edit");
-			strip.Items.Add(m_menuItems.GetItem("Select").CreateButton());
-			strip.Items.Add(m_menuItems.GetItem("Pan").CreateButton());
-			strip.Items.Add(m_menuItems.GetItem("Move").CreateButton());
-			strip.Items.Add(new ToolStripSeparator());
-			strip.Items.Add(m_menuItems.GetItem("Undo").CreateButton());
-			strip.Items.Add(m_menuItems.GetItem("Redo").CreateButton());
-
-			ToolStripMenuItem menu = m_menuItems.GetMenuStrip("edit");
-			menu.MergeAction = System.Windows.Forms.MergeAction.Insert;
-			menu.MergeIndex = 1;
-			menu.Text = "&Edit";
-			menu.DropDownItems.Add(m_menuItems.GetItem("Undo").CreateMenuItem());
-			menu.DropDownItems.Add(m_menuItems.GetItem("Redo").CreateMenuItem());
-			menu.DropDownItems.Add(new ToolStripSeparator());
-			menu.DropDownItems.Add(m_menuItems.GetItem("Select").CreateMenuItem());
-			menu.DropDownItems.Add(m_menuItems.GetItem("Pan").CreateMenuItem());
-			menu.DropDownItems.Add(m_menuItems.GetItem("Move").CreateMenuItem());
-		}
-
-        #region 设置绘制工具
+        #region 安装菜单项
         /// <summary>
-        /// 设置绘制工具
+        /// 安装菜单项
+        /// </summary>
+        void SetupMenuItems()
+        {
+            MenuItem mmitem = m_menuItems.GetItem("Undo");
+            mmitem.Text = "Undo";
+            mmitem.Image = MenuImages16x16.Image(MenuImages16x16.eIndexes.Undo);
+            mmitem.ToolTipText = "Undo (Ctrl-Z)";
+            mmitem.Click += new EventHandler(OnUndo);
+            mmitem.ShortcutKeys = Shortcut.CtrlZ;
+
+            mmitem = m_menuItems.GetItem("Redo");
+            mmitem.Text = "Redo";
+            mmitem.ToolTipText = "Undo (Ctrl-Y)";
+            mmitem.Image = MenuImages16x16.Image(MenuImages16x16.eIndexes.Redo);
+            mmitem.Click += new EventHandler(OnRedo);
+            mmitem.ShortcutKeys = Shortcut.CtrlY;
+
+            mmitem = m_menuItems.GetItem("Select");
+            mmitem.Text = "Select";
+            mmitem.ToolTipText = "Select (Esc)";
+            mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Select);
+            mmitem.Click += new EventHandler(OnToolSelect);
+            mmitem.ShortcutKeyDisplayString = "Esc";
+            mmitem.SingleKey = Keys.Escape;
+            mmitem.Tag = "select";
+
+            mmitem = m_menuItems.GetItem("Pan");
+            mmitem.Text = "Pan";
+            mmitem.ToolTipText = "Pan (P)";
+            mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Pan);
+            mmitem.Click += new EventHandler(OnToolSelect);
+            mmitem.ShortcutKeyDisplayString = "P";
+            mmitem.SingleKey = Keys.P;
+            mmitem.Tag = "pan";
+
+            mmitem = m_menuItems.GetItem("Move");
+            mmitem.Text = "Move";
+            mmitem.ToolTipText = "Move (M)";
+            mmitem.Image = DrawToolsImages16x16.Image(DrawToolsImages16x16.eIndexes.Move);
+            mmitem.Click += new EventHandler(OnToolSelect);
+            mmitem.ShortcutKeyDisplayString = "M";
+            mmitem.SingleKey = Keys.M;
+            mmitem.Tag = "move";
+
+            ToolStrip strip = m_menuItems.GetStrip("edit");
+            strip.Items.Add(m_menuItems.GetItem("Select").CreateButton());
+            strip.Items.Add(m_menuItems.GetItem("Pan").CreateButton());
+            strip.Items.Add(m_menuItems.GetItem("Move").CreateButton());
+            strip.Items.Add(new ToolStripSeparator());
+            strip.Items.Add(m_menuItems.GetItem("Undo").CreateButton());
+            strip.Items.Add(m_menuItems.GetItem("Redo").CreateButton());
+
+            ToolStripMenuItem menu = m_menuItems.GetMenuStrip("edit");
+            menu.MergeAction = System.Windows.Forms.MergeAction.Insert;
+            menu.MergeIndex = 1;
+            menu.Text = "&Edit";
+            menu.DropDownItems.Add(m_menuItems.GetItem("Undo").CreateMenuItem());
+            menu.DropDownItems.Add(m_menuItems.GetItem("Redo").CreateMenuItem());
+            menu.DropDownItems.Add(new ToolStripSeparator());
+            menu.DropDownItems.Add(m_menuItems.GetItem("Select").CreateMenuItem());
+            menu.DropDownItems.Add(m_menuItems.GetItem("Pan").CreateMenuItem());
+            menu.DropDownItems.Add(m_menuItems.GetItem("Move").CreateMenuItem());
+        } 
+        #endregion
+
+        #region 安装绘制工具条
+        /// <summary>
+        /// 安装绘制工具条
         /// </summary>
         void SetupDrawTools()
         {
@@ -237,9 +247,9 @@ namespace Canvas
         }
         #endregion
 
-        #region 设置编辑工具
+        #region 安装编辑工具条
         /// <summary>
-        /// 设置编辑工具
+        /// 安装编辑工具条
         /// </summary>
         void SetupEditTools()
         {
@@ -271,9 +281,9 @@ namespace Canvas
 		ToolStripStatusLabel m_drawInfoLabel = new ToolStripStatusLabel();
 		ToolStripComboBox m_layerCombo = new ToolStripComboBox();
 
-        #region 设置图层工具条
+        #region 安装图层工具条
         /// <summary>
-        /// 设置图层工具条
+        /// 安装图层工具条
         /// </summary>
         void SetupLayerToolstrip()
         {
@@ -325,6 +335,7 @@ namespace Canvas
 			return m_menuItems.GetStrip(id);
 		}
 
+
 		public void Save()
 		{
 			UpdateData();
@@ -337,6 +348,7 @@ namespace Canvas
                 m_data.Save(m_filename);
             }
 		}
+
 		public void SaveAs()
 		{
 			UpdateData();
@@ -354,19 +366,25 @@ namespace Canvas
             m_data.Save(m_filename);
             Text = m_filename;
         }
+
+
 		public CanvasCtrl Canvas
 		{
 			get { return m_canvas ;}
 		}
+
 		public DataModel Model
 		{
 			get { return m_data; }
 		}
+
 		void UpdateData()
 		{
 			// update any additional properties of data which is not part of the interface
 			m_data.CenterPoint = m_canvas.GetCenter();
 		}
+
+
 		void OnToolSelect(object sender, System.EventArgs e)
 		{
 			string toolid = string.Empty;
@@ -398,6 +416,8 @@ namespace Canvas
 			}
 			m_canvas.CommandSelectDrawTool(toolid);
 		}
+
+
 		void OnEditToolSelect(object sender, System.EventArgs e)
 		{
 			string toolid = string.Empty;
@@ -413,6 +433,8 @@ namespace Canvas
 			}
 			m_canvas.CommandEdit(toolid);
 		}
+
+
 		void UpdateLayerUI()
 		{
 			CommonTools.NameObject<DrawingLayer> selitem = m_layerCombo.SelectedItem as CommonTools.NameObject<DrawingLayer>;
@@ -425,6 +447,8 @@ namespace Canvas
 				}
 			}
 		}
+
+
 		void OnLayerSelect(object sender, System.EventArgs e)
 		{
 			CommonTools.NameObject<DrawingLayer> obj = null;
@@ -438,6 +462,8 @@ namespace Canvas
 			m_canvas.DoInvalidate(true);
 			UpdateLayerUI();
 		}
+
+
 		void OnUndo(object sender, System.EventArgs e)
 		{
 			if (m_data.DoUndo())
@@ -454,6 +480,12 @@ namespace Canvas
 			m_menuItems.GetItem("Redo").Enabled = m_data.CanRedo();
 			m_menuItems.GetItem("Move").Enabled = m_data.SelectedCount > 0;
 		}
+
+        /// <summary>
+        /// 画布键按下
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		void OnCanvasKeyDown(object sender, KeyEventArgs e)
 		{
 			if (Control.ModifierKeys != Keys.None)
@@ -484,32 +516,59 @@ namespace Canvas
 			m_menuItems.DisableAll();
 			base.OnFormClosing(e);
 		}
+
+
 		#region ICanvasOwner Members
+        /// <summary>
+        /// 设置位置信息
+        /// </summary>
+        /// <param name="unitpos"></param>
 		public void SetPositionInfo(UnitPoint unitpos)
 		{
 			m_mousePosLabel.Text = unitpos.PosAsString();
 			string s = string.Empty;
+
 			if (m_data.SelectedCount == 1 || m_canvas.NewObject != null)
 			{
 				IDrawObject obj = m_data.GetFirstSelected();
-				if (obj == null)
-					obj = m_canvas.NewObject;
-				if (obj != null)
-					s = obj.GetInfoAsString();
+
+                if (obj == null)
+                {
+                    obj = m_canvas.NewObject;
+                }
+
+                if (obj != null)
+                {
+                    s = obj.GetInfoAsString();
+                }
 			}
-			if (m_toolHint.Length > 0)
-				s = m_toolHint;
-			if (s != m_drawInfoLabel.Text)
-				m_drawInfoLabel.Text = s;
+
+            if (m_toolHint.Length > 0)
+            {
+                s = m_toolHint;
+            }
+
+            if (s != m_drawInfoLabel.Text)
+            {
+                m_drawInfoLabel.Text = s;
+            }
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="snap"></param>
 		public void SetSnapInfo(ISnapPoint snap)
 		{
 			m_snapHint = string.Empty;
-			if (snap != null)
-				m_snapHint = string.Format("Snap@{0}, {1}", snap.SnapPoint.PosAsString(), snap.GetType());
+            if (snap != null)
+            {
+                m_snapHint = string.Format("Snap@{0}, {1}", snap.SnapPoint.PosAsString(), snap.GetType());
+            }
 			m_snapInfoLabel.Text = m_snapHint;
 		}
 		#endregion
+
 		#region IEditToolOwner
 		public void SetHint(string text)
 		{
@@ -518,6 +577,7 @@ namespace Canvas
 			//SetHint();
 		}
 		#endregion
+
 		string m_toolHint = string.Empty;
 		string m_snapHint = string.Empty;
 		/*

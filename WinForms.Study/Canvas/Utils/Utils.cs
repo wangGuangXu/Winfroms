@@ -65,34 +65,46 @@ namespace Canvas
             }
         }
 
+
         public double X
         {
             get { return m_x; }
             set { m_x = value; }
         }
+
+
         public double Y
         {
             get { return m_y; }
             set { m_y = value; }
         }
+
+
         public PointF Point
         {
             get { return new PointF((float)m_x, (float)m_y); }
         }
+
         public override string ToString()
         {
             return string.Format("{{X={0}, Y={1}}}", XmlConvert.ToString(Math.Round(X, 8)), XmlConvert.ToString(Math.Round(Y, 8)));
         }
+
+
         public override bool Equals(object obj)
         {
             if (obj is UnitPoint)
                 return (this == (UnitPoint)obj);
             return false;
         }
+
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
+
         public string PosAsString()
         {
             return string.Format("[{0:f4}, {1:f4}]", X, Y);
@@ -106,6 +118,13 @@ namespace Canvas
     /// </summary>
     public class ScreenUtils
     {
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="unitrect">单元矩形</param>
+        /// <returns></returns>
         public static PointF RightPoint(ICanvas canvas, RectangleF unitrect)
         {
             PointF leftpoint = unitrect.Location;
@@ -113,6 +132,13 @@ namespace Canvas
             float y = leftpoint.Y + unitrect.Height;
             return new PointF(x, y);
         }
+
+        /// <summary>
+        /// 到屏幕
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="unitrect"></param>
+        /// <returns></returns>
         public static RectangleF ToScreen(ICanvas canvas, RectangleF unitrect)
         {
             RectangleF r = new RectangleF();
@@ -121,6 +147,8 @@ namespace Canvas
             r.Height = (float)Math.Round(canvas.ToScreen(unitrect.Height));
             return r;
         }
+
+
         public static RectangleF ToUnit(ICanvas canvas, Rectangle screenrect)
         {
             UnitPoint point = canvas.ToUnit(screenrect.Location);
@@ -128,12 +156,21 @@ namespace Canvas
             RectangleF unitrect = new RectangleF(point.Point, size);
             return unitrect;
         }
+
+
         public static RectangleF ToScreenNormalized(ICanvas canvas, RectangleF unitrect)
         {
             RectangleF r = ToScreen(canvas, unitrect);
             r.Y = r.Y - r.Height;
             return r;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="screenrect"></param>
+        /// <returns></returns>
         public static RectangleF ToUnitNormalized(ICanvas canvas, Rectangle screenrect)
         {
             UnitPoint point = canvas.ToUnit(screenrect.Location);
@@ -142,10 +179,14 @@ namespace Canvas
             unitrect.Y = unitrect.Y - unitrect.Height; // 
             return unitrect;
         }
+
+
         public static Rectangle ConvertRect(RectangleF r)
         {
             return new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
         }
+
+
         public static RectangleF GetRect(UnitPoint p1, UnitPoint p2, double width)
         {
             double x = Math.Min(p1.X, p2.X);
@@ -156,10 +197,14 @@ namespace Canvas
             rect.Inflate((float)width, (float)width);
             return rect;
         }
+
+
         public static RectangleF GetRect(double x, double y, double w, double h)
         {
             return new RectangleF((float)x, (float)y, (float)w, (float)h);
         }
+
+
         public static Point ConvertPoint(PointF p)
         {
             return new Point((int)p.X, (int)p.Y);
@@ -184,10 +229,24 @@ namespace Canvas
             return true;
         }
 
+        /// <summary>
+        /// 距离
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns></returns>
         public static double Distance(UnitPoint p1, UnitPoint p2)
         {
             return Distance(p1, p2, true);
         }
+        
+        /// <summary>
+        /// 距离
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="abs"></param>
+        /// <returns></returns>
         public static double Distance(UnitPoint p1, UnitPoint p2, bool abs)
         {
             double dx = p1.X - p2.X;
@@ -203,21 +262,41 @@ namespace Canvas
                 return dx;
             return Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
         }
+
+        /// <summary>
+        /// 弧度转度
+        /// </summary>
+        /// <param name="radians"></param>
+        /// <returns></returns>
         public static double RadiansToDegrees(double radians)
         {
             return radians * (180 / Math.PI);
         }
+
+        /// <summary>
+        /// 度转弧度
+        /// </summary>
+        /// <param name="degrees"></param>
+        /// <returns></returns>
         public static double DegressToRadians(double degrees)
         {
             return degrees * (Math.PI / 180);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
         public static RectangleF CircleBoundingRect(UnitPoint center, float radius)
         {
             RectangleF r = new RectangleF(center.Point, new SizeF(0, 0));
             r.Inflate(radius, radius);
             return r;
         }
+
+
         public static bool CircleHitPoint(UnitPoint center, float radius, UnitPoint hitpoint)
         {
             // check bounding rect, this is faster than creating a new rectangle and call r.Contains
@@ -233,6 +312,8 @@ namespace Canvas
 
             return true;
         }
+
+
         public static bool CircleIntersectWithLine(UnitPoint center, float radius, UnitPoint lp1, UnitPoint lp2)
         {
             // check if both points are inside the circle, in that case the line does not intersect the circle
@@ -247,6 +328,8 @@ namespace Canvas
                 return true;
             return false;
         }
+
+
         public static bool IsPointInCircle(UnitPoint center, float radius, UnitPoint testpoint, float halflinewidth)
         {
             double dist = Distance(center, testpoint);
@@ -254,6 +337,15 @@ namespace Canvas
                 return true;
             return false;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="testpoint"></param>
+        /// <param name="roundToAngleD"></param>
+        /// <returns></returns>
         public static UnitPoint NearestPointOnCircle(UnitPoint center, float radius, UnitPoint testpoint, double roundToAngleD)
         {
             double A = LineAngleR(center, testpoint, DegressToRadians(roundToAngleD));
@@ -262,6 +354,15 @@ namespace Canvas
             double dist = Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
             return new UnitPoint((float)(center.X + dx), (float)(center.Y + dy));
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="testpoint"></param>
+        /// <param name="reverse"></param>
+        /// <returns></returns>
         public static UnitPoint TangentPointOnCircle(UnitPoint center, float radius, UnitPoint testpoint, bool reverse)
         {
             // c = center, p = testpoint, r = radius
@@ -286,6 +387,14 @@ namespace Canvas
                 A = A1 - A3;
             return LineEndpoint(center, A, radius);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="angleR"></param>
+        /// <returns></returns>
         public static UnitPoint PointOncircle(UnitPoint center, double radius, double angleR)
         {
             double y = center.Y + Math.Sin(angleR) * radius;
@@ -308,6 +417,15 @@ namespace Canvas
             boundingrect.Inflate(halflinewidth, halflinewidth);
             return boundingrect;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="linepoint1"></param>
+        /// <param name="linepoint2"></param>
+        /// <param name="testpoint"></param>
+        /// <param name="halflinewidth"></param>
+        /// <returns></returns>
         public static bool IsPointInLine(UnitPoint linepoint1, UnitPoint linepoint2, UnitPoint testpoint, float halflinewidth)
         {
             UnitPoint p1 = linepoint1;
@@ -375,10 +493,21 @@ namespace Canvas
             // now if height is smaller than half linewidth, the hitpoint is within the line
             return h <= halflinewidth;
         }
-        private static bool LinesIntersect(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4, ref double x, ref double y,
-            bool returnpoint,
-            bool extendA,
-            bool extendB)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp1"></param>
+        /// <param name="lp2"></param>
+        /// <param name="lp3"></param>
+        /// <param name="lp4"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="returnpoint"></param>
+        /// <param name="extendA"></param>
+        /// <param name="extendB"></param>
+        /// <returns></returns>
+        private static bool LinesIntersect(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4, ref double x, ref double y,bool returnpoint,bool extendA,bool extendB)
         {
             // http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
             // line a is given by P1 and P2, point of intersect for line a (Pa) and b (Pb)
@@ -438,12 +567,15 @@ namespace Canvas
             }
             return false;
         }
+        
+        
         public static bool LinesIntersect(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4)
         {
             double x = 0;
             double y = 0;
             return LinesIntersect(lp1, lp2, lp3, lp4, ref x, ref y, false, false, false);
         }
+
         public static UnitPoint LinesIntersectPoint(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4)
         {
             double x = 0;
@@ -452,6 +584,8 @@ namespace Canvas
                 return new UnitPoint(x, y);
             return UnitPoint.Empty;
         }
+
+
         public static UnitPoint FindApparentIntersectPoint(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4)
         {
             double x = 0;
@@ -460,6 +594,8 @@ namespace Canvas
                 return new UnitPoint(x, y);
             return UnitPoint.Empty;
         }
+
+
         public static UnitPoint FindApparentIntersectPoint(UnitPoint lp1, UnitPoint lp2, UnitPoint lp3, UnitPoint lp4, bool extendA, bool extendB)
         {
             double x = 0;
@@ -468,6 +604,7 @@ namespace Canvas
                 return new UnitPoint(x, y);
             return UnitPoint.Empty;
         }
+
 
         /// <summary>
         /// 
@@ -508,6 +645,8 @@ namespace Canvas
 
             return false;
         }
+        
+        
         public static UnitPoint LineMidpoint(UnitPoint lp1, UnitPoint lp2)
         {
             UnitPoint mid = new UnitPoint();
@@ -515,6 +654,8 @@ namespace Canvas
             mid.Y = (lp1.Y + lp2.Y) / 2;
             return mid;
         }
+
+
         public static double LineAngleR(UnitPoint lp1, UnitPoint lp2, double roundToAngleR)
         {
             if (lp1.X == lp2.X)
@@ -553,6 +694,15 @@ namespace Canvas
         {
             return NearestPointOnLine(lp1, lp2, tp, false);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp1"></param>
+        /// <param name="lp2"></param>
+        /// <param name="tp"></param>
+        /// <param name="beyondSegment"></param>
+        /// <returns></returns>
         public static UnitPoint NearestPointOnLine(UnitPoint lp1, UnitPoint lp2, UnitPoint tp, bool beyondSegment)
         {
             if (lp1.X == lp2.X)
@@ -598,10 +748,14 @@ namespace Canvas
             y = lp1.Y - y;
             return new UnitPoint((float)x, (float)y);
         }
+
+
         public static double LineSlope(UnitPoint p1, UnitPoint p2)
         {
             return (p2.Y - p1.Y) / (p2.X - p1.X);
         }
+
+
         public static UnitPoint CenterPointFrom3Points(UnitPoint p1, UnitPoint p2, UnitPoint p3)
         {
             // http://local.wasp.uwa.edu.au/~pbourke/geometry/circlefrom3/
@@ -640,15 +794,21 @@ namespace Canvas
     {
         PointF m_point1;
         PointF m_point2;
+
+
         public SelectionRectangle(PointF mousedownpoint)
         {
             m_point1 = mousedownpoint;
             m_point2 = PointF.Empty;
         }
+
+
         public void Reset()
         {
             m_point2 = PointF.Empty;
         }
+
+
         public void SetMousePoint(Graphics dc, PointF mousepoint)
         {
             if (m_point2 != PointF.Empty)
@@ -656,6 +816,8 @@ namespace Canvas
             m_point2 = mousepoint;
             XorGdi.DrawRectangle(dc, PenStyles.PS_DOT, 1, GetColor(), m_point1, m_point2);
         }
+
+
         public Rectangle ScreenRect()
         {
             float x = Math.Min(m_point1.X, m_point2.X);
@@ -668,6 +830,8 @@ namespace Canvas
                 return Rectangle.Empty;
             return new Rectangle((int)x, (int)y, (int)w, (int)h);
         }
+
+
         public RectangleF Selection(ICanvas canvas)
         {
             Rectangle screenRect = ScreenRect();
@@ -675,10 +839,14 @@ namespace Canvas
                 return RectangleF.Empty;
             return ScreenUtils.ToUnitNormalized(canvas, screenRect);
         }
+
+
         public bool AnyPoint()
         {
             return (m_point1.X > m_point2.X);
         }
+
+
         private Color GetColor()
         {
             if (AnyPoint())
@@ -699,43 +867,72 @@ namespace Canvas
         UnitPoint m_originPoint = UnitPoint.Empty;
         UnitPoint m_lastPoint = UnitPoint.Empty;
         CanvasCtrl m_canvas;
+
+        /// <summary>
+        /// 原点
+        /// </summary>
         public UnitPoint OriginPoint
         {
             get { return m_originPoint; }
         }
+
+        /// <summary>
+        /// 最后一点
+        /// </summary>
         public UnitPoint LastPoint
         {
             get { return m_lastPoint; }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public IEnumerable<IDrawObject> Copies
         {
             get { return m_copies; }
         }
+
+
         public MoveHelper(CanvasCtrl canvas)
         {
             m_canvas = canvas;
         }
+
         public bool IsEmpty
         {
             get { return m_copies.Count == 0; }
         }
+
+
         public bool HandleMouseMoveForMove(UnitPoint mouseunitpoint)
         {
             if (m_originals.Count == 0)
+            {
                 return false;
+            }
+
             double x = mouseunitpoint.X - m_lastPoint.X;
             double y = mouseunitpoint.Y - m_lastPoint.Y;
             UnitPoint offset = new UnitPoint(x, y);
             m_lastPoint = mouseunitpoint;
+
             foreach (IDrawObject obj in m_copies)
+            {
                 obj.Move(offset);
+            }
+
             m_canvas.DoInvalidate(true);
+
             return true;
         }
+
+
         public void HandleCancelMove()
         {
             foreach (IDrawObject obj in m_originals)
+            {
                 m_canvas.Model.AddSelectedObject(obj);
+            }
             m_originals.Clear();
             m_copies.Clear();
             m_canvas.DoInvalidate(true);

@@ -12,7 +12,16 @@ namespace Canvas
     /// </summary>
 	public interface ICanvasOwner
 	{
+        /// <summary>
+        /// 设置位置信息
+        /// </summary>
+        /// <param name="unitpos"></param>
 		void SetPositionInfo(UnitPoint unitpos);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="snap"></param>
 		void SetSnapInfo(ISnapPoint snap);
 	}
 
@@ -21,6 +30,9 @@ namespace Canvas
     /// </summary>
 	public interface ICanvas
 	{
+        /// <summary>
+        /// 数据模型
+        /// </summary>
 		IModel DataModel { get; }
 		UnitPoint ScreenTopLeftToUnitPoint();
 		UnitPoint ScreenBottomRightToUnitPoint();
@@ -35,12 +47,21 @@ namespace Canvas
         /// 当前对象
         /// </summary>
 		IDrawObject CurrentObject { get; }
-
+        /// <summary>
+        /// 
+        /// </summary>
 		Rectangle ClientRectangle { get; }
-
+        /// <summary>
+        /// 绘图对象
+        /// </summary>
 		Graphics Graphics { get; }
+        /// <summary>
+        /// 创建画笔
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="unitWidth"></param>
+        /// <returns></returns>
 		Pen CreatePen(Color color, float unitWidth);
-
         /// <summary>
         /// 绘制线
         /// </summary>
@@ -49,7 +70,15 @@ namespace Canvas
         /// <param name="p1"></param>
         /// <param name="p2"></param>
 		void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2);
-        
+        /// <summary>
+        /// 画弧线
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pen"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="beginangle"></param>
+        /// <param name="angle"></param>
 		void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float beginangle, float angle);
 	}
 
@@ -59,11 +88,31 @@ namespace Canvas
     /// </summary>
     public interface IModel
     {
+        /// <summary>
+        /// 缩放值
+        /// </summary>
         float Zoom { get; set; }
+        /// <summary>
+        /// 背景画布
+        /// </summary>
         ICanvasLayer BackgroundLayer { get; }
+        /// <summary>
+        /// 表格画布
+        /// </summary>
         ICanvasLayer GridLayer { get; }
+        /// <summary>
+        /// 
+        /// </summary>
         ICanvasLayer[] Layers { get; }
+        /// <summary>
+        /// 活动画布
+        /// </summary>
         ICanvasLayer ActiveLayer { get; set; }
+        /// <summary>
+        /// 获取画布
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         ICanvasLayer GetLayer(string id);
         /// <summary>
         /// 创建绘制对象
@@ -100,38 +149,56 @@ namespace Canvas
     }
     #endregion
 
-    #region 图层接口
+    #region 画布层接口
     /// <summary>
-    /// 图层接口
+    /// 画布层接口
     /// </summary>
     public interface ICanvasLayer
     {
         string Id { get; }
-        void Draw(ICanvas canvas, RectangleF unitrect);
-        ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj);
-        IEnumerable<IDrawObject> Objects { get; }
-        bool Enabled { get; set; }
-        bool Visible { get; }
-    } 
-    #endregion
 
-    /// <summary>
-    /// 捕捉点接口
-    /// </summary>
-    public interface ISnapPoint
-	{
-		IDrawObject	Owner			{ get; }
-		UnitPoint SnapPoint		{ get; }
-        /// <summary>
-        /// 外接矩形
-        /// </summary>
-		RectangleF BoundingRect	{ get; }
         /// <summary>
         /// 绘制
         /// </summary>
         /// <param name="canvas"></param>
-		void Draw(ICanvas canvas);
-	}
+        /// <param name="unitrect"></param>
+        void Draw(ICanvas canvas, RectangleF unitrect);
+        ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj);
+        IEnumerable<IDrawObject> Objects { get; }
+        /// <summary>
+        /// 启用
+        /// </summary>
+        bool Enabled { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool Visible { get; }
+    } 
+    #endregion
+
+    #region 捕捉点接口
+    /// <summary>
+    /// 捕捉点接口
+    /// </summary>
+    public interface ISnapPoint
+    {
+        /// <summary>
+        /// 绘制对象所有者
+        /// </summary>
+        IDrawObject Owner { get; }
+        UnitPoint SnapPoint { get; }
+        /// <summary>
+        /// 外接矩形
+        /// </summary>
+        RectangleF BoundingRect { get; }
+        /// <summary>
+        /// 绘制
+        /// </summary>
+        /// <param name="canvas"></param>
+        void Draw(ICanvas canvas);
+    } 
+    #endregion
 
     /// <summary>
     /// 
@@ -194,20 +261,35 @@ namespace Canvas
         /// <param name="snappoint"></param>
         /// <returns></returns>
         eDrawObjectMouseDown OnMouseDown(ICanvas canvas, UnitPoint point, ISnapPoint snappoint);
+        /// <summary>
+        /// 鼠标按下弹起
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
         void OnMouseUp(ICanvas canvas, UnitPoint point, ISnapPoint snappoint);
+        /// <summary>
+        /// 键盘按下
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="e"></param>
         void OnKeyDown(ICanvas canvas, KeyEventArgs e);
         UnitPoint RepeatStartingPoint { get; }
         INodePoint NodePoint(ICanvas canvas, UnitPoint point);
         ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj, Type[] runningsnaptypes, Type usersnaptype);
+        /// <summary>
+        /// 移动
+        /// </summary>
+        /// <param name="offset"></param>
         void Move(UnitPoint offset);
 
         string GetInfoAsString();
     } 
     #endregion
 
-    #region 工具编辑接口
+    #region 工具条编辑接口
     /// <summary>
-    /// 工具编辑接口
+    /// 工具条编辑接口
     /// </summary>
     public interface IEditTool
     {

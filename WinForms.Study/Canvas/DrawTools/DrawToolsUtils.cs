@@ -8,9 +8,17 @@ using System.Xml;
 
 namespace Canvas.DrawTools
 {
+    /// <summary>
+    /// 绘制工具
+    /// </summary>
 	public class DrawUtils
 	{
 		static Pen m_selectedPen = null;
+
+        /// <summary>
+        /// 选择画笔
+        /// </summary>
+
 		static public Pen SelectedPen
 		{
 			get
@@ -23,6 +31,12 @@ namespace Canvas.DrawTools
 				return m_selectedPen;
 			}
 		}
+
+        /// <summary>
+        /// 绘制节点
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="nodepoint"></param>
 		static public void DrawNode(ICanvas canvas, UnitPoint nodepoint)
 		{
 			RectangleF r = new RectangleF(canvas.ToScreen(nodepoint), new SizeF(0, 0));
@@ -35,6 +49,12 @@ namespace Canvas.DrawTools
 			r.Inflate(1, 1);
 			canvas.Graphics.DrawRectangle(Pens.Black, ScreenUtils.ConvertRect(r));
 		}
+
+        /// <summary>
+        /// 画三角形节点
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="nodepoint"></param>
 		static public void DrawTriangleNode(ICanvas canvas, UnitPoint nodepoint)
 		{
 			PointF screenpoint = canvas.ToScreen(nodepoint);
@@ -55,6 +75,10 @@ namespace Canvas.DrawTools
 	{
 		IDrawObject GetDrawObject();
 	}
+
+    /// <summary>
+    /// 绘制对象基类
+    /// </summary>
 	abstract class DrawObjectBase
 	{
 		float			m_width;
@@ -68,11 +92,15 @@ namespace Canvas.DrawTools
 			useLayerWidth	= 0x00000004,
 			useLayerColor	= 0x00000008,
 		}
+
+
 		int m_flag = (int)(eFlags.useLayerWidth | eFlags.useLayerColor);
 		bool GetFlag(eFlags flag)
 		{
 			return ((int)m_flag & (int)flag) > 0;
 		}
+
+
 		void SetFlag(eFlags flag, bool enable)
 		{
 			if (enable)
@@ -87,12 +115,14 @@ namespace Canvas.DrawTools
 			get { return GetFlag(eFlags.useLayerWidth); }
 			set { SetFlag(eFlags.useLayerWidth, value); }
 		}
+
 		[XmlSerializable]
 		public bool UseLayerColor
 		{
 			get { return GetFlag(eFlags.useLayerColor); }
 			set { SetFlag(eFlags.useLayerColor, value); }
 		}
+
 		[XmlSerializable]
 		public float Width
 		{
@@ -104,6 +134,10 @@ namespace Canvas.DrawTools
 				return m_width; 
 			}
 		}
+
+        /// <summary>
+        /// 
+        /// </summary>
 		[XmlSerializable]
 		public Color Color
 		{
@@ -115,6 +149,8 @@ namespace Canvas.DrawTools
 				return m_color; 
 			}
 		}
+
+
 		public DrawingLayer Layer
 		{
 			get { return m_layer; }
@@ -122,11 +158,15 @@ namespace Canvas.DrawTools
 		}
 
 		abstract public void InitializeFromModel(UnitPoint point, DrawingLayer layer, ISnapPoint snap);
+
+
 		public virtual bool Selected
 		{
 			get { return GetFlag(eFlags.selected); }
 			set { SetFlag(eFlags.selected, value); }
 		}
+
+
 		public virtual bool Highlighted
 		{
 			get { return GetFlag(eFlags.highlighted); }
