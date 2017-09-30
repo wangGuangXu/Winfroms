@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace Canvas
 {
-    #region MyRegion
+    #region 画布包装
     /// <summary>
-    /// 
+    /// 画布包装
     /// </summary>
     public struct CanvasWrapper : ICanvas
     {
@@ -24,6 +24,7 @@ namespace Canvas
             m_graphics = null;
             m_rect = new Rectangle();
         }
+
 
         public CanvasWrapper(CanvasCtrl canvas, Graphics graphics, Rectangle clientrect)
         {
@@ -160,6 +161,30 @@ namespace Canvas
         } 
         #endregion
 
+
+        public CanvasCtrl(ICanvasOwner owner, IModel datamodel)
+        {
+            m_canvaswrapper = new CanvasWrapper(this);
+            m_owner = owner;
+            m_model = datamodel;
+
+            InitializeComponent();
+
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
+            m_commandType = eCommandType.select;
+            m_cursors.AddCursor(eCommandType.select, Cursors.Arrow);
+            m_cursors.AddCursor(eCommandType.draw, Cursors.Cross);
+            m_cursors.AddCursor(eCommandType.pan, "hmove.cur");
+            m_cursors.AddCursor(eCommandType.move, Cursors.SizeAll);
+            m_cursors.AddCursor(eCommandType.edit, Cursors.Cross);
+            UpdateCursor();
+
+            m_moveHelper = new MoveHelper(this);
+            m_nodeMoveHelper = new NodeMoveHelper(m_canvaswrapper);
+        }
+
         ICanvasOwner m_owner;
         CursorCollection m_cursors = new CursorCollection();
         IModel m_model;
@@ -187,6 +212,8 @@ namespace Canvas
             get { return m_runningSnapTypes; }
             set { m_runningSnapTypes = value; }
         }
+
+
         public bool RunningSnapsEnabled
         {
             get { return m_runningSnaps; }
@@ -212,49 +239,39 @@ namespace Canvas
             set { m_model = value; }
         }
 
-        public CanvasCtrl(ICanvasOwner owner, IModel datamodel)
-        {
-            m_canvaswrapper = new CanvasWrapper(this);
-            m_owner = owner;
-            m_model = datamodel;
-
-            InitializeComponent();
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-
-            m_commandType = eCommandType.select;
-            m_cursors.AddCursor(eCommandType.select, Cursors.Arrow);
-            m_cursors.AddCursor(eCommandType.draw, Cursors.Cross);
-            m_cursors.AddCursor(eCommandType.pan, "hmove.cur");
-            m_cursors.AddCursor(eCommandType.move, Cursors.SizeAll);
-            m_cursors.AddCursor(eCommandType.edit, Cursors.Cross);
-            UpdateCursor();
-
-            m_moveHelper = new MoveHelper(this);
-            m_nodeMoveHelper = new NodeMoveHelper(m_canvaswrapper);
-        }
-
 
         public UnitPoint GetMousePoint()
         {
             Point point = this.PointToClient(Control.MousePosition);
             return ToUnit(point);
         }
+
+
         public void SetCenter(UnitPoint unitPoint)
         {
             PointF point = ToScreen(unitPoint);
             m_lastCenterPoint = unitPoint;
             SetCenterScreen(point, false);
         }
+
+
         public void SetCenter()
         {
             Point point = this.PointToClient(Control.MousePosition);
             SetCenterScreen(point, true);
         }
+
+
         public UnitPoint GetCenter()
         {
             return ToUnit(new PointF(this.ClientRectangle.Width / 2, this.ClientRectangle.Height / 2));
         }
+
+        /// <summary>
+        /// 设置屏幕中心
+        /// </summary>
+        /// <param name="screenPoint"></param>
+        /// <param name="setCursor"></param>
         protected void SetCenterScreen(PointF screenPoint, bool setCursor)
         {
             float centerX = ClientRectangle.Width / 2;
@@ -264,7 +281,10 @@ namespace Canvas
             m_panOffset.Y += centerY - screenPoint.Y;
 
             if (setCursor)
+            {
                 Cursor.Position = this.PointToScreen(new Point((int)centerX, (int)centerY));
+            }
+
             DoInvalidate(true);
         }
 
@@ -276,20 +296,25 @@ namespace Canvas
         {
             CommonTools.Tracing.StartTrack(Program.TracePaint);
             ClearPens();
+
             e.Graphics.SmoothingMode = m_smoothingMode;
+
             CanvasWrapper dc = new CanvasWrapper(this, e.Graphics, ClientRectangle);
             Rectangle cliprectangle = e.ClipRectangle;
+
             if (m_staticImage == null)
             {
                 cliprectangle = ClientRectangle;
                 m_staticImage = new Bitmap(ClientRectangle.Width, ClientRectangle.Height);
                 m_staticDirty = true;
             }
+
             RectangleF r = ScreenUtils.ToUnitNormalized(dc, cliprectangle);
             if (float.IsNaN(r.Width) || float.IsInfinity(r.Width))
             {
                 r = ScreenUtils.ToUnitNormalized(dc, cliprectangle);
             }
+
             if (m_staticDirty)
             {
                 m_staticDirty = false;
@@ -322,6 +347,7 @@ namespace Canvas
 
                 dcStatic.Dispose();
             }
+
             e.Graphics.DrawImage(m_staticImage, cliprectangle, cliprectangle, GraphicsUnit.Pixel);
 
             foreach (IDrawObject drawobject in m_model.SelectedObjects)
@@ -357,14 +383,15 @@ namespace Canvas
 
             dc.Dispose();
             ClearPens();
+
             CommonTools.Tracing.EndTrack(Program.TracePaint, "OnPaint complete");
         }
 
 
         void RepaintStatic(Rectangle r)
         {
-            if (m_staticImage == null)
-                return;
+            if (m_staticImage == null) return;
+
             Graphics dc = Graphics.FromHwnd(Handle);
             if (r.X < 0) r.X = 0;
             if (r.X > m_staticImage.Width) r.X = 0;
@@ -372,16 +399,24 @@ namespace Canvas
             if (r.Y > m_staticImage.Height) r.Y = 0;
 
             if (r.Width > m_staticImage.Width || r.Width < 0)
+            {
                 r.Width = m_staticImage.Width;
+            }
+
             if (r.Height > m_staticImage.Height || r.Height < 0)
+            {
                 r.Height = m_staticImage.Height;
+            }
+
             dc.DrawImage(m_staticImage, r, r, GraphicsUnit.Pixel);
             dc.Dispose();
         }
+
+
         void RepaintSnappoint(ISnapPoint snappoint)
         {
-            if (snappoint == null)
-                return;
+            if (snappoint == null) return;
+
             CanvasWrapper dc = new CanvasWrapper(this, Graphics.FromHwnd(Handle), ClientRectangle);
             snappoint.Draw(dc);
             dc.Graphics.Dispose();
@@ -389,8 +424,8 @@ namespace Canvas
         }
         void RepaintObject(IDrawObject obj)
         {
-            if (obj == null)
-                return;
+            if (obj == null) return;
+
             CanvasWrapper dc = new CanvasWrapper(this, Graphics.FromHwnd(Handle), ClientRectangle);
             RectangleF invalidaterect = ScreenUtils.ConvertRect(ScreenUtils.ToScreenNormalized(dc, obj.GetBoundingRect(dc)));
             obj.Draw(dc, invalidaterect);
@@ -445,7 +480,10 @@ namespace Canvas
             bool anyoldsel = false;
             int selcount = 0;
             if (selected != null)
+            {
                 selcount = selected.Count;
+            }
+
             foreach (IDrawObject obj in m_model.SelectedObjects)
             {
                 anyoldsel = true;
