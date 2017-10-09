@@ -194,10 +194,7 @@ namespace Canvas
         /// <returns></returns>
         public ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj)
         {
-            if (Enabled == false)
-            {
-                return null;
-            }
+            if (Enabled == false) return null;
 
             UnitPoint snappoint = new UnitPoint();
             UnitPoint mousepoint = point;

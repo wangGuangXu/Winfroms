@@ -15,10 +15,12 @@ namespace Canvas
         protected UnitPoint m_snappoint;
         protected RectangleF m_boundingRect;
         protected IDrawObject m_owner;
+
         public IDrawObject Owner
         {
             get { return m_owner; }
         }
+
         public SnapPointBase(ICanvas canvas, IDrawObject owner, UnitPoint snappoint)
         {
             m_owner = owner;
@@ -29,6 +31,7 @@ namespace Canvas
             m_boundingRect.Width = size;
             m_boundingRect.Height = size;
         }
+
         #region ISnapPoint Members
         public virtual UnitPoint SnapPoint
         {
@@ -52,7 +55,9 @@ namespace Canvas
             screenrect.Width--;
             screenrect.Height--;
             if (fillBrush != null)
+            {
                 canvas.Graphics.FillRectangle(fillBrush, screenrect);
+            }
         }
     }
     #endregion
@@ -115,10 +120,15 @@ namespace Canvas
     /// </summary>
     class IntersectSnapPoint : SnapPointBase
 	{
-		public IntersectSnapPoint(ICanvas canvas, IDrawObject owner, UnitPoint snappoint)
-			: base(canvas, owner, snappoint)
+		public IntersectSnapPoint(ICanvas canvas, IDrawObject owner, UnitPoint snappoint): base(canvas, owner, snappoint)
 		{
+
 		}
+
+        /// <summary>
+        /// 绘制相交点
+        /// </summary>
+        /// <param name="canvas"></param>
 		public override void Draw(ICanvas canvas)
 		{
 			DrawPoint(canvas, Pens.White, Brushes.YellowGreen);
@@ -134,6 +144,7 @@ namespace Canvas
 			: base(canvas, owner, snappoint)
 		{
 		}
+
 		#region ISnapPoint Members
 		public override void Draw(ICanvas canvas)
 		{
@@ -151,6 +162,7 @@ namespace Canvas
 			: base(canvas, owner, snappoint)
 		{
 		}
+
 		public override void Draw(ICanvas canvas)
 		{
 			DrawPoint(canvas, Pens.White, Brushes.YellowGreen);
@@ -166,6 +178,8 @@ namespace Canvas
 			: base(canvas, owner, snappoint)
 		{
 		}
+
+
 		public override void Draw(ICanvas canvas)
 		{
 			DrawPoint(canvas, Pens.White, Brushes.YellowGreen);
@@ -181,6 +195,8 @@ namespace Canvas
 			: base(canvas, owner, snappoint)
 		{
 		}
+
+
 		public override void Draw(ICanvas canvas)
 		{
 			DrawPoint(canvas, Pens.White, Brushes.YellowGreen);

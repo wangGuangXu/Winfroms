@@ -16,7 +16,6 @@ namespace Canvas
         /// </summary>
         /// <param name="unitpos"></param>
 		void SetPositionInfo(UnitPoint unitpos);
-
         /// <summary>
         /// 
         /// </summary>
@@ -62,12 +61,10 @@ namespace Canvas
         /// <param name="screenpoint"></param>
         /// <returns></returns>
 		UnitPoint ToUnit(PointF screenpoint);
-
         /// <summary>
         /// 无效
         /// </summary>
 		void Invalidate();
-
         /// <summary>
         /// 当前对象
         /// </summary>
