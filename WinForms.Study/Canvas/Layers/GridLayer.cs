@@ -201,29 +201,34 @@ namespace Canvas
 
             UnitPoint snappoint = new UnitPoint();
             UnitPoint mousepoint = point;
+
             float gridX = Spacing.Width;
             float gridY = Spacing.Height;
             snappoint.X = (float)(Math.Round(mousepoint.X / gridX)) * gridX;
             snappoint.Y = (float)(Math.Round(mousepoint.Y / gridY)) * gridY;
             double threshold = canvas.ToUnit(/*ThresholdPixel*/6);
-            if ((snappoint.X < point.X - threshold) || (snappoint.X > point.X + threshold))
-                return null;
-            if ((snappoint.Y < point.Y - threshold) || (snappoint.Y > point.Y + threshold))
-                return null;
+            if ((snappoint.X < point.X - threshold) || (snappoint.X > point.X + threshold)) return null;
+
+            if ((snappoint.Y < point.Y - threshold) || (snappoint.Y > point.Y + threshold)) return null;
+
             return new GridSnapPoint(canvas, snappoint);
         }
 		#endregion
 
 		#region ISerialize
+
 		public void GetObjectData(XmlWriter wr)
 		{
 			wr.WriteStartElement("gridlayer");
 			XmlUtil.WriteProperties(this, wr);
 			wr.WriteEndElement();
 		}
+
 		public void AfterSerializedIn()
 		{
+
 		}
+
 		#endregion
 	}
 }

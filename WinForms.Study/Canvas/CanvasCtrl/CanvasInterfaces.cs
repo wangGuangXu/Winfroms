@@ -6,7 +6,6 @@ using System.Windows.Forms;
 
 namespace Canvas
 {
-
     /// <summary>
     /// 画布所有者接口
     /// </summary>
@@ -34,13 +33,39 @@ namespace Canvas
         /// 数据模型
         /// </summary>
 		IModel DataModel { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 		UnitPoint ScreenTopLeftToUnitPoint();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
 		UnitPoint ScreenBottomRightToUnitPoint();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitpoint"></param>
+        /// <returns></returns>
 		PointF ToScreen(UnitPoint unitpoint);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitvalue"></param>
+        /// <returns></returns>
 		float ToScreen(double unitvalue);
 		double ToUnit(float screenvalue);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="screenpoint"></param>
+        /// <returns></returns>
 		UnitPoint ToUnit(PointF screenpoint);
 
+        /// <summary>
+        /// 无效
+        /// </summary>
 		void Invalidate();
 
         /// <summary>
@@ -155,23 +180,34 @@ namespace Canvas
     /// </summary>
     public interface ICanvasLayer
     {
+        /// <summary>
+        /// 画布Id
+        /// </summary>
         string Id { get; }
-
         /// <summary>
         /// 绘制
         /// </summary>
         /// <param name="canvas"></param>
         /// <param name="unitrect"></param>
         void Draw(ICanvas canvas, RectangleF unitrect);
+        /// <summary>
+        /// 捕捉点
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="otherobj"></param>
+        /// <returns></returns>
         ISnapPoint SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj);
+        /// <summary>
+        /// 绘制对象
+        /// </summary>
         IEnumerable<IDrawObject> Objects { get; }
         /// <summary>
         /// 启用
         /// </summary>
         bool Enabled { get; set; }
-
         /// <summary>
-        /// 
+        /// 是否显示
         /// </summary>
         bool Visible { get; }
     } 
@@ -187,6 +223,9 @@ namespace Canvas
         /// 绘制对象所有者
         /// </summary>
         IDrawObject Owner { get; }
+        /// <summary>
+        /// 捕捉点
+        /// </summary>
         UnitPoint SnapPoint { get; }
         /// <summary>
         /// 外接矩形
@@ -296,14 +335,50 @@ namespace Canvas
         IEditTool Clone();
 
         bool SupportSelection { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mousepoint"></param>
+        /// <param name="list"></param>
         void SetHitObjects(UnitPoint mousepoint, List<IDrawObject> list);
-
+        /// <summary>
+        /// 鼠标移动
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
         void OnMouseMove(ICanvas canvas, UnitPoint point);
+        /// <summary>
+        /// 鼠标按下
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
+        /// <returns></returns>
         eDrawObjectMouseDown OnMouseDown(ICanvas canvas, UnitPoint point, ISnapPoint snappoint);
+        /// <summary>
+        /// 鼠标弹起
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="point"></param>
+        /// <param name="snappoint"></param>
         void OnMouseUp(ICanvas canvas, UnitPoint point, ISnapPoint snappoint);
+        /// <summary>
+        /// 键盘按下
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="e"></param>
         void OnKeyDown(ICanvas canvas, KeyEventArgs e);
+        /// <summary>
+        /// 完成
+        /// </summary>
         void Finished();
+        /// <summary>
+        /// 
+        /// </summary>
         void Undo();
+        /// <summary>
+        /// 
+        /// </summary>
         void Redo();
     } 
     #endregion

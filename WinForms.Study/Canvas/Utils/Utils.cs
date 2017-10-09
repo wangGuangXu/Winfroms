@@ -15,6 +15,7 @@ namespace Canvas
     public struct UnitPoint
     {
         public static UnitPoint Empty;
+
         public static bool operator !=(UnitPoint left, UnitPoint right)
         {
             return !(left == right);
@@ -38,6 +39,7 @@ namespace Canvas
 
         double m_x;
         double m_y;
+
         static UnitPoint()
         {
             Empty = new UnitPoint();
@@ -56,6 +58,7 @@ namespace Canvas
             m_x = p.X;
             m_y = p.Y;
         }
+
 
         public bool IsEmpty
         {
@@ -118,7 +121,6 @@ namespace Canvas
     /// </summary>
     public class ScreenUtils
     {
-
         /// <summary>
         /// 
         /// </summary>
@@ -148,7 +150,12 @@ namespace Canvas
             return r;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="screenrect"></param>
+        /// <returns></returns>
         public static RectangleF ToUnit(ICanvas canvas, Rectangle screenrect)
         {
             UnitPoint point = canvas.ToUnit(screenrect.Location);
@@ -193,6 +200,7 @@ namespace Canvas
             double y = Math.Min(p1.Y, p2.Y);
             double w = Math.Abs(p1.X - p2.X);
             double h = Math.Abs(p1.Y - p2.Y);
+
             RectangleF rect = ScreenUtils.GetRect(x, y, w, h);
             rect.Inflate((float)width, (float)width);
             return rect;
@@ -220,12 +228,12 @@ namespace Canvas
     {
         public static bool PointInPoint(UnitPoint p, UnitPoint tp, float tpThresHold)
         {
-            if (p.IsEmpty || tp.IsEmpty)
-                return false;
-            if ((p.X < tp.X - tpThresHold) || (p.X > tp.X + tpThresHold))
-                return false;
-            if ((p.Y < tp.Y - tpThresHold) || (p.Y > tp.Y + tpThresHold))
-                return false;
+            if (p.IsEmpty || tp.IsEmpty) return false;
+
+            if ((p.X < tp.X - tpThresHold) || (p.X > tp.X + tpThresHold)) return false;
+
+            if ((p.Y < tp.Y - tpThresHold) || (p.Y > tp.Y + tpThresHold)) return false;
+
             return true;
         }
 
@@ -251,15 +259,17 @@ namespace Canvas
         {
             double dx = p1.X - p2.X;
             double dy = p1.Y - p2.Y;
+
             if (abs)
             {
                 dx = Math.Abs(dx);
                 dy = Math.Abs(dy);
             }
-            if (dx == 0)
-                return dy;
-            if (dy == 0)
-                return dx;
+
+            if (dx == 0) return dy;
+
+            if (dy == 0) return dx;
+
             return Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
         }
 
@@ -302,13 +312,11 @@ namespace Canvas
             // check bounding rect, this is faster than creating a new rectangle and call r.Contains
             double leftPoint = center.X - radius;
             double rightPoint = center.X + radius;
-            if (hitpoint.X < leftPoint || hitpoint.X > rightPoint)
-                return false;
+            if (hitpoint.X < leftPoint || hitpoint.X > rightPoint) return false;
 
             double bottomPoint = center.Y - radius;
             double topPoint = center.Y + radius;
-            if (hitpoint.Y < bottomPoint || hitpoint.Y > topPoint)
-                return false;
+            if (hitpoint.Y < bottomPoint || hitpoint.Y > topPoint) return false;
 
             return true;
         }
@@ -324,8 +332,8 @@ namespace Canvas
             // then the line does intersect the circle
             UnitPoint np = NearestPointOnLine(lp1, lp2, center);
             double dist = Distance(center, np);
-            if (dist <= radius)
-                return true;
+            if (dist <= radius) return true;
+
             return false;
         }
 
@@ -401,12 +409,16 @@ namespace Canvas
             double x = center.X + Math.Cos(angleR) * radius;
             return new UnitPoint((float)x, (float)y);
         }
+
+
         public static UnitPoint LineEndpoint(UnitPoint lp1, double angleR, double length)
         {
             double x = Math.Cos(angleR) * length;
             double y = Math.Sin(angleR) * length;
             return new UnitPoint(lp1.X + (float)x, lp1.Y + (float)y);
         }
+
+
         public static RectangleF LineBoundingRect(UnitPoint linepoint1, UnitPoint linepoint2, float halflinewidth)
         {
             double x = Math.Min(linepoint1.X, linepoint2.X);
@@ -615,24 +627,20 @@ namespace Canvas
         /// <returns></returns>
         public static bool LineIntersectWithRect(UnitPoint lp1, UnitPoint lp2, RectangleF r)
         {
-            if (r.Contains(lp1.Point))
-                return true;
+            if (r.Contains(lp1.Point)) return true;
 
-            if (r.Contains(lp2.Point))
-                return true;
+            if (r.Contains(lp2.Point)) return true;
 
             // the rectangle bottom is top in world units and top is bottom!, confused?
             // check left
             UnitPoint p3 = new UnitPoint(r.Left, r.Top);
             UnitPoint p4 = new UnitPoint(r.Left, r.Bottom);
-            if (LinesIntersect(lp1, lp2, p3, p4))
-                return true;
+            if (LinesIntersect(lp1, lp2, p3, p4)) return true;
 
             // check bottom
             p4.Y = r.Top;
             p4.X = r.Right;
-            if (LinesIntersect(lp1, lp2, p3, p4))
-                return true;
+            if (LinesIntersect(lp1, lp2, p3, p4)) return true;
 
             // check right
             p3.X = r.Right;
@@ -640,8 +648,7 @@ namespace Canvas
             p4.X = r.Right;
             p4.Y = r.Bottom;
 
-            if (LinesIntersect(lp1, lp2, p3, p4))
-                return true;
+            if (LinesIntersect(lp1, lp2, p3, p4)) return true;
 
             return false;
         }
@@ -682,14 +689,19 @@ namespace Canvas
             }
             return A;
         }
+
         public static UnitPoint OrthoPointD(UnitPoint lp1, UnitPoint lp2, double roundToAngleR)
         {
             return OrthoPointR(lp1, lp2, DegressToRadians(roundToAngleR));
         }
+
+
         public static UnitPoint OrthoPointR(UnitPoint lp1, UnitPoint lp2, double roundToAngleR)
         {
             return NearestPointOnLine(lp1, lp2, lp2, roundToAngleR);
         }
+
+
         public static UnitPoint NearestPointOnLine(UnitPoint lp1, UnitPoint lp2, UnitPoint tp)
         {
             return NearestPointOnLine(lp1, lp2, tp, false);
@@ -716,6 +728,7 @@ namespace Canvas
                 // else the line is on both sides and pick tp.x as y point
                 return new UnitPoint(lp1.X, tp.Y);
             }
+
             if (lp1.Y == lp2.Y)
             {
                 // if both points are to the right, then choose the points closest to tp.x
@@ -729,6 +742,8 @@ namespace Canvas
             }
             return NearestPointOnLine(lp1, lp2, tp, 0);
         }
+
+
         private static UnitPoint NearestPointOnLine(UnitPoint lp1, UnitPoint lp2, UnitPoint testpoint, double roundToAngleR)
         {
             if (lp1.X == testpoint.X)
@@ -737,6 +752,7 @@ namespace Canvas
                 lp1 = lp2;
                 lp2 = tmp;
             }
+
             double A1 = LineAngleR(lp1, testpoint, 0);
             double A2 = LineAngleR(lp1, lp2, roundToAngleR);
             double A = A1 - A2;
@@ -746,6 +762,7 @@ namespace Canvas
             double y = Math.Sin(A2) * h2;
             x = lp1.X - x;
             y = lp1.Y - y;
+
             return new UnitPoint((float)x, (float)y);
         }
 
@@ -812,7 +829,9 @@ namespace Canvas
         public void SetMousePoint(Graphics dc, PointF mousepoint)
         {
             if (m_point2 != PointF.Empty)
+            {
                 XorGdi.DrawRectangle(dc, PenStyles.PS_DOT, 1, GetColor(), m_point1, m_point2);
+            }
             m_point2 = mousepoint;
             XorGdi.DrawRectangle(dc, PenStyles.PS_DOT, 1, GetColor(), m_point1, m_point2);
         }
@@ -824,10 +843,17 @@ namespace Canvas
             float y = Math.Min(m_point1.Y, m_point2.Y);
             float w = Math.Abs(m_point1.X - m_point2.X);
             float h = Math.Abs(m_point1.Y - m_point2.Y);
+
             if (m_point2 == PointF.Empty)
+            {
                 return Rectangle.Empty;
+            }
+
             if (w < 4 || h < 4) // if no selection was made return empty rectangle (giving a 4 pixel threshold)
+            {
                 return Rectangle.Empty;
+            }
+
             return new Rectangle((int)x, (int)y, (int)w, (int)h);
         }
 
@@ -836,7 +862,9 @@ namespace Canvas
         {
             Rectangle screenRect = ScreenRect();
             if (screenRect.IsEmpty)
+            {
                 return RectangleF.Empty;
+            }
             return ScreenUtils.ToUnitNormalized(canvas, screenRect);
         }
 
@@ -850,7 +878,9 @@ namespace Canvas
         private Color GetColor()
         {
             if (AnyPoint())
+            {
                 return Color.Blue;
+            }
             return Color.Green;
         }
     }
@@ -885,7 +915,7 @@ namespace Canvas
         }
 
         /// <summary>
-        /// 
+        /// 副本
         /// </summary>
         public IEnumerable<IDrawObject> Copies
         {
@@ -937,11 +967,15 @@ namespace Canvas
             m_copies.Clear();
             m_canvas.DoInvalidate(true);
         }
+
+
         public void HandleMouseDownForMove(UnitPoint mouseunitpoint, ISnapPoint snappoint)
         {
             UnitPoint p = mouseunitpoint;
             if (snappoint != null)
+            {
                 p = snappoint.SnapPoint;
+            }
 
             if (m_originals.Count == 0) // first step of move
             {
@@ -970,7 +1004,9 @@ namespace Canvas
                     // do move
                     m_canvas.Model.MoveObjects(offset, m_originals);
                     foreach (IDrawObject obj in m_originals)
+                    {
                         m_canvas.Model.AddSelectedObject(obj);
+                    }
                 }
                 m_originals.Clear();
                 m_copies.Clear();
@@ -978,13 +1014,20 @@ namespace Canvas
             }
             m_canvas.DoInvalidate(true);
         }
+
+
         public void DrawObjects(ICanvas canvas, RectangleF r)
         {
             if (m_copies.Count == 0)
+            {
                 return;
+            }
             canvas.Graphics.DrawLine(Pens.Wheat, canvas.ToScreen(OriginPoint), canvas.ToScreen(LastPoint));
+
             foreach (IDrawObject obj in Copies)
+            {
                 obj.Draw(canvas, r);
+            }
         }
     }
     #endregion
@@ -999,36 +1042,53 @@ namespace Canvas
         UnitPoint m_originPoint = UnitPoint.Empty;
         UnitPoint m_lastPoint = UnitPoint.Empty;
         CanvasWrapper m_canvas;
+
         public bool IsEmpty
         {
             get { return m_nodes.Count == 0; }
         }
+
+
         public NodeMoveHelper(CanvasWrapper canvas)
         {
             m_canvas = canvas;
         }
+
+
         public RectangleF HandleMouseMoveForNode(UnitPoint mouseunitpoint)
         {
             RectangleF r = RectangleF.Empty;
             if (m_nodes.Count == 0)
+            {
                 return r;
+            }
+
             r = new RectangleF(m_originPoint.Point, new Size(0, 0));
             r = RectangleF.Union(r, new RectangleF(mouseunitpoint.Point, new SizeF(0, 0)));
             if (m_lastPoint != UnitPoint.Empty)
+            {
                 r = RectangleF.Union(r, new RectangleF(m_lastPoint.Point, new SizeF(0, 0)));
+            }
 
             m_lastPoint = mouseunitpoint;
             foreach (INodePoint p in m_nodes)
             {
                 if (r == RectangleF.Empty)
+                {
                     r = p.GetClone().GetBoundingRect(m_canvas);
+                }
                 else
+                {
                     r = RectangleF.Union(r, p.GetClone().GetBoundingRect(m_canvas));
+                }
                 p.SetPosition(mouseunitpoint);
                 //m_canvas.RepaintObject(p.GetClone());
             }
+
             return r;
         }
+
+
         public bool HandleMouseDown(UnitPoint mouseunitpoint, ref bool handled)
         {
             handled = false;
@@ -1040,12 +1100,16 @@ namespace Canvas
                     {
                         INodePoint p = obj.NodePoint(m_canvas, mouseunitpoint);
                         if (p != null)
+                        {
                             m_nodes.Add(p);
+                        }
                     }
                 }
                 handled = m_nodes.Count > 0;
                 if (handled)
+                {
                     m_originPoint = mouseunitpoint;
+                }
                 return handled;
             }
             // update selected nodes
@@ -1055,40 +1119,62 @@ namespace Canvas
             m_canvas.CanvasCtrl.DoInvalidate(true);
             return handled;
         }
+
+
         public void HandleCancelMove()
         {
             foreach (INodePoint p in m_nodes)
+            {
                 p.Cancel();
-
+            }
             m_nodes.Clear();
         }
+
+
         public void DrawOriginalObjects(ICanvas canvas, RectangleF r)
         {
             foreach (INodePoint node in m_nodes)
+            {
                 node.GetOriginal().Draw(canvas, r);
+            }
         }
+
+
         public void DrawObjects(ICanvas canvas, RectangleF r)
         {
-            if (m_nodes.Count == 0)
-                return;
+            if (m_nodes.Count == 0) return;
+
             //canvas.Graphics.DrawLine(Pens.Wheat, canvas.ToScreen(m_originPoint), canvas.ToScreen(m_lastPoint));
             foreach (INodePoint node in m_nodes)
+            {
                 node.GetClone().Draw(canvas, r);
+            }
         }
+
+        /// <summary>
+        /// 键盘按下
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="keyevent"></param>
         public void OnKeyDown(ICanvas canvas, KeyEventArgs keyevent)
         {
             foreach (INodePoint nodepoint in m_nodes)
             {
                 nodepoint.OnKeyDown(canvas, keyevent);
                 if (keyevent.Handled)
+                {
                     return;
+                }
 
                 IDrawObject drawobject = nodepoint.GetClone();
                 if (drawobject == null)
+                {
                     continue;
+                }
                 drawobject.OnKeyDown(canvas, keyevent);
             }
         }
+
     }
     #endregion
 
@@ -1103,9 +1189,14 @@ namespace Canvas
             foreach (IDrawObject obj in list)
             {
                 if (object.ReferenceEquals(caller, obj))
+                {
                     continue;
+                }
+
                 if (obj.GetType() == type)
+                {
                     return obj;
+                }
             }
             return null;
         }

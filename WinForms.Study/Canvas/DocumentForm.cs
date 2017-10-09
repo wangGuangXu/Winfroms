@@ -273,7 +273,7 @@ namespace Canvas
             strip.Items.Add(m_menuItems.GetItem("Meet2Lines").CreateButton());
             strip.Items.Add(m_menuItems.GetItem("ShrinkExtend").CreateButton());
             m_toolHint = string.Empty;
-        } 
+        }
         #endregion
 
         ToolStripStatusLabel m_mousePosLabel = new ToolStripStatusLabel();
@@ -310,6 +310,7 @@ namespace Canvas
 
             m_layerCombo.DropDownStyle = ComboBoxStyle.DropDownList;
             int index = 1;
+
             foreach (DrawingLayer layer in m_data.Layers)
             {
                 string name = string.Format("({0}) - {1}", index, layer.Name);
@@ -326,6 +327,7 @@ namespace Canvas
 
                 index++;
             }
+
             strip.Items.Add(m_layerCombo);
         } 
         #endregion

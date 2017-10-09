@@ -37,12 +37,19 @@ namespace Canvas
 		}
 
 		#region ICanvasLayer Members
+        /// <summary>
+        /// »æÖÆ
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="unitrect"></param>
 		public void Draw(ICanvas canvas, RectangleF unitrect)
 		{
 			RectangleF r = ScreenUtils.ToScreenNormalized(canvas, unitrect);
 			canvas.Graphics.FillRectangle(m_backgroundBrush, r);
+
 			StringFormat f = new StringFormat();
 			f.Alignment = StringAlignment.Center;
+
 			PointF centerpoint = new PointF(r.Width / 2, r.Height / 2);
 			canvas.Graphics.TranslateTransform(centerpoint.X, centerpoint.Y);
 			canvas.Graphics.RotateTransform(-15);
@@ -54,28 +61,34 @@ namespace Canvas
 		{
 			return PointF.Empty;
 		}
+
 		public string Id
 		{
 			get { return "background"; }
 		}
+
 		ISnapPoint ICanvasLayer.SnapPoint(ICanvas canvas, UnitPoint point, List<IDrawObject> otherobj)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
+
 		public IEnumerable<IDrawObject> Objects
 		{
 			get { return null; }
 		}
+
 		public bool Enabled
 		{
 			get { return false; }
 			set {;}
 		}
+
 		public bool Visible
 		{
 			get { return true; }
 			set { ;}
 		}
+
 		#endregion
 
 		#region ISerialize

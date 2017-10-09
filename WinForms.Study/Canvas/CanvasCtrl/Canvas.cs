@@ -55,11 +55,19 @@ namespace Canvas
             get { return m_canvas.Model; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public UnitPoint ScreenTopLeftToUnitPoint()
         {
             return m_canvas.ScreenTopLeftToUnitPoint();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public UnitPoint ScreenBottomRightToUnitPoint()
         {
             return m_canvas.ScreenBottomRightToUnitPoint();
@@ -101,16 +109,35 @@ namespace Canvas
             return m_canvas.CreatePen(color, unitWidth);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pen"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
         public void DrawLine(ICanvas canvas, Pen pen, UnitPoint p1, UnitPoint p2)
         {
             m_canvas.DrawLine(canvas, pen, p1, p2);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pen"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="beginangle"></param>
+        /// <param name="angle"></param>
         public void DrawArc(ICanvas canvas, Pen pen, UnitPoint center, float radius, float beginangle, float angle)
         {
             m_canvas.DrawArc(canvas, pen, center, radius, beginangle, angle);
         }
 
+        /// <summary>
+        /// ÎÞÐ§
+        /// </summary>
         public void Invalidate()
         {
             m_canvas.DoInvalidate(false);
